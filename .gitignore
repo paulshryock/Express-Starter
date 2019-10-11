@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Temp files
+build/
+dist/
+
+# OS files
+.DS_Store
