@@ -1,9 +1,29 @@
 var express = require('express');
 var router = express.Router();
 
+const articles = [
+  {
+    title: 'Article 1',
+    id: 1
+  },
+  {
+    title: 'Article 2',
+    id: 2
+  },
+  {
+    title: 'Article 3',
+    id: 3
+  }
+]
+
 // GET: Get articles
 router.get('/', function(req, res, next) {
-  res.send({ title: 'hello' });
+  res.send(articles);
+});
+
+// GET: Get an article
+router.get('/:id', function(req, res, next) {
+  res.send(articles.filter(article => article.id == req.params.id));
 });
 
 // POST: Create an article

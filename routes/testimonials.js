@@ -1,9 +1,29 @@
 var express = require('express');
 var router = express.Router();
 
+const testimonials = [
+  {
+    title: 'Testimonial 1',
+    id: 1
+  },
+  {
+    title: 'Testimonial 2',
+    id: 2
+  },
+  {
+    title: 'Testimonial 3',
+    id: 3
+  }
+]
+
 // GET: Get testimonials
 router.get('/', function(req, res, next) {
-  res.send('Get testimonials');
+  res.send(testimonials);
+});
+
+// GET: Get a testimonial
+router.get('/:id', function(req, res, next) {
+  res.send(testimonials.filter(testimonial => testimonial.id == req.params.id));
 });
 
 // POST: Create a testimonial
