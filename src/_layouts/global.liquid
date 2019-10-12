@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  {% include meta/utf %}
+  {% include meta/viewport %}
+  {% include meta/ie %}
+  {% include meta/page %}
+  {% include globals/styles %}
+</head>
+<body class="site {% if contentType %}{{ contentType }} {{ contentType }}-{{ page.fileSlug }}{% endif %}">
+  {% include components/skip-link %}
+  {% include components/header %}
+  {% include components/navigation %}
+  <main id="content" class="site-main">
+    {{ content }}
+  </main><!-- .site-main -->
+  {% include components/footer %}
+  {% include globals/scripts %}
+</body>
+</html>

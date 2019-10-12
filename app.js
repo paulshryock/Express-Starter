@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var { Liquid } = require('liquidjs');
+var engine = new Liquid();
 
 var indexRouter = require('./routes/index');
 var articlesRouter = require('./routes/articles');
@@ -12,14 +14,15 @@ var testimonialsRouter = require('./routes/testimonials');
 var app = express();
 
 // view engine setup
+app.engine('liquid', engine.express()); 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'liquid');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.use('/', indexRouter);
 app.use('/articles', articlesRouter);
