@@ -25,9 +25,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.use('/', indexRouter);
-app.use('/articles', articlesRouter);
-app.use('/projects', projectsRouter);
-app.use('/testimonials', testimonialsRouter);
+app.use('/api/articles', articlesRouter);
+app.use('/api/projects', projectsRouter);
+app.use('/api/testimonials', testimonialsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
