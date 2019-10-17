@@ -2,6 +2,7 @@
  * Import dependencies
  */
 var express = require('express');
+var helmet = require('helmet');
 var app = express();
 var { Liquid } = require('liquidjs');
 var engine = new Liquid();
@@ -28,11 +29,12 @@ app.set('view engine', 'liquid');
 /**
  * Middleware
  */
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(logger('dev')); // Log requests to the console
+app.use(express.json()); // Return JSON
+app.use(express.urlencoded({ extended: false })); // Allow query strings
+app.use(cookieParser()); // Parse cookies
+app.use(express.static(path.join(__dirname, 'build'))); // Server static content
+app.use(helmet()); // Set HTTP headers
 
 /**
  * Routes
