@@ -37,37 +37,22 @@ router.get('/:id', function(req, res, next) {
   res.send(testimonial)
 });
 
+
 /**
  * Create a testimonial
  */
 router.post('/', function (req, res) {
-  // Check if testimonial already exists
-  const testimonialExists = testimonials.find(p => p.id === parseInt(req.body.id))
-
-  if (testimonialExists) {
-    res.status(400).send('"id" already exists')
-    return
-  }
-
   // Validate testimonial
-  const schema = Joi.object({
-    id: Joi.number()
-      .required(),
-
-    title: Joi.string()
-      .required()
-  })
-
-  const { error, value } = schema.validate(req.body)
-
+  const { error } = validate(req.body)
   if (error) {
     res.status(400).send(error.details[0].message)
     return
   }
 
-  // Define testimonial
+  // Create testimonial
   const testimonial = {
-    id: req.body.id,
+    // TODO: Set id in database
+    id: testimonials.length + 1,
     title: req.body.title
   }
 
@@ -82,9 +67,28 @@ router.post('/', function (req, res) {
 /**
  * Update a testimonial
  */
-// router.put('/testimonials', function (req, res) {
-//   res.send('Update a testimonial');
-// });
+router.put('/:id', function (req, res) {
+  // Check if testimonial exists
+  const testimonial = testimonials.find(a => a.id === parseInt(req.params.id));
+  if (!testimonial) res.status(404).send('"id" was not found')
+
+  // Validate testimonial
+  const { error } = validateArticle(req.body)
+  if (error) {
+    res.status(400).send(error.details[0].message)
+    return
+  }
+
+  // Update testimonial
+  testimonial.title = req.body.title
+
+  // Update testimonial in the database
+  // TODO: Replace this with real database code
+  testimonials[testimonial.id - 1] = testimonial
+
+  // Return updated testimonial to client
+  res.send(testimonial)
+});
 
 /**
  * Delete a testimonial
@@ -92,5 +96,13 @@ router.post('/', function (req, res) {
 // router.delete('/testimonials', function (req, res) {
 //   res.send('Delete a testimonial');
 // });
+
+function validate(testimonial) {
+  const schema = Joi.object({
+    title: Joi.string().required()
+  })
+
+  return schema.validate(testimonial)
+}
 
 module.exports = router;

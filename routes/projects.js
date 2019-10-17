@@ -41,33 +41,17 @@ router.get('/:id', function(req, res, next) {
  * Create a project
  */
 router.post('/', function (req, res) {
-  // Check if project already exists
-  const projectExists = projects.find(p => p.id === parseInt(req.body.id))
-
-  if (projectExists) {
-    res.status(400).send('"id" already exists')
-    return
-  }
-
   // Validate project
-  const schema = Joi.object({
-    id: Joi.number()
-      .required(),
-
-    title: Joi.string()
-      .required()
-  })
-
-  const { error, value } = schema.validate(req.body)
-
+  const { error } = validate(req.body)
   if (error) {
     res.status(400).send(error.details[0].message)
     return
   }
 
-  // Define project
+  // Create project
   const project = {
-    id: req.body.id,
+    // TODO: Set id in database
+    id: projects.length + 1,
     title: req.body.title
   }
 
@@ -82,9 +66,28 @@ router.post('/', function (req, res) {
 /**
  * Update a project
  */
-// router.put('/projects', function (req, res) {
-//   res.send('Update a project');
-// });
+router.put('/:id', function (req, res) {
+  // Check if project exists
+  const project = projects.find(a => a.id === parseInt(req.params.id));
+  if (!project) res.status(404).send('"id" was not found')
+
+  // Validate project
+  const { error } = validateArticle(req.body)
+  if (error) {
+    res.status(400).send(error.details[0].message)
+    return
+  }
+
+  // Update project
+  project.title = req.body.title
+
+  // Update project in the database
+  // TODO: Replace this with real database code
+  projects[project.id - 1] = project
+
+  // Return updated project to client
+  res.send(project)
+});
 
 /**
  * Delete a project
@@ -92,5 +95,13 @@ router.post('/', function (req, res) {
 // router.delete('/projects', function (req, res) {
 //   res.send('Delete a project');
 // });
+
+function validate(project) {
+  const schema = Joi.object({
+    title: Joi.string().required()
+  })
+
+  return schema.validate(project)
+}
 
 module.exports = router;

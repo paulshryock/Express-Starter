@@ -30,6 +30,7 @@ router.get('/', function(req, res, next) {
  * Get an article
  */
 router.get('/:id', function(req, res, next) {
+  // Check if article exists
   const article = articles.find(a => a.id === parseInt(req.params.id));
   if (!article) res.status(404).send('"id" was not found')
   // Return article to the client
@@ -40,33 +41,17 @@ router.get('/:id', function(req, res, next) {
  * Create an article
  */
 router.post('/', function (req, res) {
-  // Check if article already exists
-  const articleExists = articles.find(a => a.id === parseInt(req.body.id))
-
-  if (articleExists) {
-    res.status(400).send('"id" already exists')
-    return
-  }
-
   // Validate article
-  const schema = Joi.object({
-    id: Joi.number()
-      .required(),
-
-    title: Joi.string()
-      .required()
-  })
-
-  const { error, value } = schema.validate(req.body)
-
+  const { error } = validate(req.body)
   if (error) {
     res.status(400).send(error.details[0].message)
     return
   }
 
-  // Define article
+  // Create article
   const article = {
-    id: req.body.id,
+    // TODO: Set id in database
+    id: articles.length + 1,
     title: req.body.title
   }
 
@@ -81,9 +66,28 @@ router.post('/', function (req, res) {
 /**
  * Update an article
  */
-// router.put('/:id', function (req, res) {
-//   res.send('Update an article');
-// });
+router.put('/:id', function (req, res) {
+  // Check if article exists
+  const article = articles.find(a => a.id === parseInt(req.params.id));
+  if (!article) res.status(404).send('"id" was not found')
+
+  // Validate article
+  const { error } = validate(req.body)
+  if (error) {
+    res.status(400).send(error.details[0].message)
+    return
+  }
+
+  // Update article
+  article.title = req.body.title
+
+  // Update article in the database
+  // TODO: Replace this with real database code
+  articles[article.id - 1] = article
+
+  // Return updated article to client
+  res.send(article)
+});
 
 /**
  * Delete an article
@@ -91,5 +95,13 @@ router.post('/', function (req, res) {
 // router.delete('/:id', function (req, res) {
 //   res.send('Delete an article');
 // });
+
+function validate(article) {
+  const schema = Joi.object({
+    title: Joi.string().required()
+  })
+
+  return schema.validate(article)
+}
 
 module.exports = router;
