@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^16.1.7",
+    "config": "^3.2.3",
     "cookie-parser": "~1.4.4",
     "debug": "~4.1.1",
     "express": "~4.17.1",
