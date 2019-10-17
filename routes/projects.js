@@ -6,15 +6,15 @@ const Joi = require('@hapi/joi')
 const projects = [
   {
     id: 1,
-    title: 'Project 1'
+    title: 'Hello World'
   },
   {
     id: 2,
-    title: 'Project 2'
+    title: 'All Around the World'
   },
   {
     id: 3,
-    title: 'Project 3'
+    title: 'The World is a Vampire'
   }
 ]
 
@@ -22,6 +22,10 @@ const projects = [
  * Get projects
  */
 router.get('/', function(req, res, next) {
+  // Sort projects
+  const sortBy = req.query.sortBy
+  if (sortBy) projects.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
+
   // Return projects to the client
   res.send(projects);
 });
@@ -30,8 +34,9 @@ router.get('/', function(req, res, next) {
  * Get a project
  */
 router.get('/:id', function(req, res, next) {
+  // Check if project exists
   const project = projects.find(p => p.id === parseInt(req.params.id));
-  if (!project) res.status(404).send('"id" was not found')
+  if (!project) return res.status(404).send('"id" was not found')
 
   // Return project to the client
   res.send(project)
@@ -41,12 +46,11 @@ router.get('/:id', function(req, res, next) {
  * Create a project
  */
 router.post('/', function (req, res) {
+  // Auth
+
   // Validate project
   const { error } = validate(req.body)
-  if (error) {
-    res.status(400).send(error.details[0].message)
-    return
-  }
+  if (error) return res.status(400).send(error.details[0].message)
 
   // Create project
   const project = {
@@ -67,16 +71,15 @@ router.post('/', function (req, res) {
  * Update a project
  */
 router.put('/:id', function (req, res) {
+  // Auth
+
   // Check if project exists
   const project = projects.find(a => a.id === parseInt(req.params.id));
-  if (!project) res.status(404).send('"id" was not found')
+  if (!project) return res.status(404).send('"id" was not found')
 
   // Validate project
   const { error } = validateArticle(req.body)
-  if (error) {
-    res.status(400).send(error.details[0].message)
-    return
-  }
+  if (error) return res.status(400).send(error.details[0].message)
 
   // Update project
   project.title = req.body.title
@@ -92,9 +95,21 @@ router.put('/:id', function (req, res) {
 /**
  * Delete a project
  */
-// router.delete('/projects', function (req, res) {
-//   res.send('Delete a project');
-// });
+router.delete('/:id', function (req, res) {
+  // Auth
+
+  // Check if project exists
+  const project = projects.find(a => a.id === parseInt(req.params.id));
+  if (!project) return res.status(404).send('"id" was not found')
+
+  // Delete project from the database
+  // TODO: Replace this with real database code
+  const index = projects.indexOf(project)
+  projects.splice(index, 1)
+
+  // Return deleted project to client
+  res.send(project)
+});
 
 function validate(project) {
   const schema = Joi.object({

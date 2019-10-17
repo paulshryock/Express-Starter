@@ -6,15 +6,15 @@ const Joi = require('@hapi/joi')
 const articles = [
   {
     id: 1,
-    title: 'Article 1'
+    title: 'Hello World'
   },
   {
     id: 2,
-    title: 'Article 2'
+    title: 'All Around the World'
   },
   {
     id: 3,
-    title: 'Article 3'
+    title: 'The World is a Vampire'
   }
 ]
 
@@ -22,6 +22,10 @@ const articles = [
  * Get articles
  */
 router.get('/', function(req, res, next) {
+  // Sort articles
+  const sortBy = req.query.sortBy
+  if (sortBy) articles.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
+
   // Return articles to the client
   res.send(articles);
 });
@@ -32,7 +36,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   // Check if article exists
   const article = articles.find(a => a.id === parseInt(req.params.id));
-  if (!article) res.status(404).send('"id" was not found')
+  if (!article) return res.status(404).send('"id" was not found')
   // Return article to the client
   res.send(article)
 });
@@ -41,12 +45,11 @@ router.get('/:id', function(req, res, next) {
  * Create an article
  */
 router.post('/', function (req, res) {
+  // Auth
+
   // Validate article
   const { error } = validate(req.body)
-  if (error) {
-    res.status(400).send(error.details[0].message)
-    return
-  }
+  if (error) return res.status(400).send(error.details[0].message)
 
   // Create article
   const article = {
@@ -67,9 +70,11 @@ router.post('/', function (req, res) {
  * Update an article
  */
 router.put('/:id', function (req, res) {
+  // Auth
+
   // Check if article exists
   const article = articles.find(a => a.id === parseInt(req.params.id));
-  if (!article) res.status(404).send('"id" was not found')
+  if (!article) return res.status(404).send('"id" was not found')
 
   // Validate article
   const { error } = validate(req.body)
@@ -92,9 +97,21 @@ router.put('/:id', function (req, res) {
 /**
  * Delete an article
  */
-// router.delete('/:id', function (req, res) {
-//   res.send('Delete an article');
-// });
+router.delete('/:id', function (req, res) {
+  // Auth
+
+  // Check if article exists
+  const article = articles.find(a => a.id === parseInt(req.params.id));
+  if (!article) return res.status(404).send('"id" was not found')
+
+  // Delete article from the database
+  // TODO: Replace this with real database code
+  const index = articles.indexOf(article)
+  articles.splice(index, 1)
+
+  // Return deleted article to client
+  res.send(article)
+});
 
 function validate(article) {
   const schema = Joi.object({

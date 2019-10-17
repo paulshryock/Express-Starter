@@ -6,15 +6,15 @@ const Joi = require('@hapi/joi')
 const testimonials = [
   {
     id: 1,
-    title: 'Testimonial 1'
+    title: 'Hello World'
   },
   {
     id: 2,
-    title: 'Testimonial 2'
+    title: 'All Around the World'
   },
   {
     id: 3,
-    title: 'Testimonial 3'
+    title: 'The World is a Vampire'
   }
 ]
 
@@ -22,6 +22,10 @@ const testimonials = [
  * Get testimonials
  */
 router.get('/', function(req, res, next) {
+  // Sort testimonials
+  const sortBy = req.query.sortBy
+  if (sortBy) testimonials.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
+
   // Return testimonials to the client
   res.send(testimonials);
 });
@@ -30,8 +34,9 @@ router.get('/', function(req, res, next) {
  * Get a testimonial
  */
 router.get('/:id', function(req, res, next) {
+  // Check if testimonial exists
   const testimonial = testimonials.find(t => t.id === parseInt(req.params.id));
-  if (!testimonial) res.status(404).send('"id" was not found')
+  if (!testimonial) return res.status(404).send('"id" was not found')
 
   // Return testimonial to the client
   res.send(testimonial)
@@ -42,12 +47,11 @@ router.get('/:id', function(req, res, next) {
  * Create a testimonial
  */
 router.post('/', function (req, res) {
+  // Auth
+
   // Validate testimonial
   const { error } = validate(req.body)
-  if (error) {
-    res.status(400).send(error.details[0].message)
-    return
-  }
+  if (error) return res.status(400).send(error.details[0].message)
 
   // Create testimonial
   const testimonial = {
@@ -68,16 +72,15 @@ router.post('/', function (req, res) {
  * Update a testimonial
  */
 router.put('/:id', function (req, res) {
+  // Auth
+
   // Check if testimonial exists
   const testimonial = testimonials.find(a => a.id === parseInt(req.params.id));
-  if (!testimonial) res.status(404).send('"id" was not found')
+  if (!testimonial) return res.status(404).send('"id" was not found')
 
   // Validate testimonial
   const { error } = validateArticle(req.body)
-  if (error) {
-    res.status(400).send(error.details[0].message)
-    return
-  }
+  if (error) return res.status(400).send(error.details[0].message)
 
   // Update testimonial
   testimonial.title = req.body.title
@@ -93,9 +96,21 @@ router.put('/:id', function (req, res) {
 /**
  * Delete a testimonial
  */
-// router.delete('/testimonials', function (req, res) {
-//   res.send('Delete a testimonial');
-// });
+router.delete('/:id', function (req, res) {
+  // Auth
+
+  // Check if testimonial exists
+  const testimonial = testimonials.find(a => a.id === parseInt(req.params.id));
+  if (!testimonial) return res.status(404).send('"id" was not found')
+
+  // Delete testimonial from the database
+  // TODO: Replace this with real database code
+  const index = testimonials.indexOf(testimonial)
+  testimonials.splice(index, 1)
+
+  // Return deleted testimonial to client
+  res.send(testimonial)
+});
 
 function validate(testimonial) {
   const schema = Joi.object({
