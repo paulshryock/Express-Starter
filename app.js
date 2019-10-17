@@ -29,7 +29,9 @@ app.set('view engine', 'liquid');
 /**
  * Middleware
  */
-app.use(logger('dev')); // Log requests to the console
+if (app.get('env') === 'development') {
+  app.use(logger('dev')); // Log requests to the console
+}
 app.use(express.json()); // Return JSON
 app.use(express.urlencoded({ extended: false })); // Allow query strings
 app.use(cookieParser()); // Parse cookies
