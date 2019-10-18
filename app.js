@@ -10,6 +10,7 @@ const path = require('path')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const createError = require('http-errors')
+const debug = require('debug')('app:startup')
 
 /**
  * Import routes
