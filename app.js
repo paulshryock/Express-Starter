@@ -2,8 +2,9 @@
  * Import dependencies
  */
 const express = require('express')
-const helmet = require('helmet')
 const app = express()
+const config = require('config')
+const helmet = require('helmet')
 const { Liquid } = require('liquidjs')
 const engine = new Liquid()
 const path = require('path')
@@ -11,6 +12,14 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const createError = require('http-errors')
 const debug = require('debug')('app:startup')
+const mongoose = require('mongoose')
+
+/**
+ * Database
+ */
+mongoose.connect('mongodb://localhost/express_starter', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => { debug('Connected to MongoDB...') })
+  .catch((err) => { debug('Could not connect to MongoDB...', err) })
 
 /**
  * Import routes

@@ -1,5 +1,9 @@
 {
   "app": {
     "title": "Express Starter"
+  },
+  "db": {
+    "host": "mongodb://localhost",
+    "name": "express_starter"
   }
 }
