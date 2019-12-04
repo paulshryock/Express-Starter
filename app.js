@@ -17,9 +17,9 @@ const mongoose = require('mongoose')
 /**
  * Database
  */
-mongoose.connect('mongodb://localhost/express_starter', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => { debug('Connected to MongoDB...') })
-  .catch((err) => { debug('Could not connect to MongoDB...', err) })
+// mongoose.connect('mongodb://localhost/express_starter', { useNewUrlParser: true, useUnifiedTopology: true })
+  // .then(() => { debug('Connected to MongoDB...') })
+  // .catch((err) => { debug('Could not connect to MongoDB...', err) })
 
 /**
  * Import routes
