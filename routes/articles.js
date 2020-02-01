@@ -1,124 +1,204 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const Joi = require('@hapi/joi')
+const mongoose = require('mongoose')
 
-// TODO: Replace this with real database code
-const articles = [
-  {
-    id: 1,
-    title: 'Hello World'
+/**
+ * Define Article model
+ */
+const Article = mongoose.model('Article', new mongoose.Schema({
+  title: { type: String, required: true, trim: true },
+  author: { type: String, required: true, trim: true },
+  status: { type: String, required: true, trim: true, lowercase: true },
+  tags: [{ type: String, trim: true, lowercase: true }],
+  date: { type: Date, default: Date.now }
+}))
+
+const validate = {
+  /**
+   * Validate an article to create
+   */
+  create: function (article) {
+    const schema = Joi.object({
+      title: Joi.string()
+        .trim()
+        .required(),
+      author: Joi.string()
+        .trim()
+        .required(),
+      status: Joi.string()
+        .alphanum()
+        .trim()
+        .lowercase()
+        .required()
+        .valid('draft', 'approved', 'scheduled', 'published'),
+      tags: Joi.array()
+        .items(Joi.string()
+          .alphanum()
+          .trim()
+          .lowercase()
+        ),
+      date: Joi.date()
+    })
+
+    return schema.validate(article)
   },
-  {
-    id: 2,
-    title: 'All Around the World'
-  },
-  {
-    id: 3,
-    title: 'The World is a Vampire'
+  /**
+   * Validate an article to update
+   */
+  update: function (article) {
+    const schema = Joi.object({
+      title: Joi.string()
+        .trim(),
+      author: Joi.string()
+        .trim(),
+      status: Joi.string()
+        .alphanum()
+        .trim()
+        .lowercase()
+        .valid('draft', 'approved', 'scheduled', 'published'),
+      tags: Joi.array()
+        .items(Joi.string()
+          .alphanum()
+          .trim()
+          .lowercase()
+        ),
+      date: Joi.date()
+    }).or('title', 'author', 'status', 'tags', 'date')
+
+    return schema.validate(article)
   }
-]
+}
 
 /**
  * Get articles
  */
-router.get('/', function(req, res, next) {
-  // Sort articles
+router.get('/', async (req, res, next) => {
+  // TODO: Auth (if private)
+
+  // Get articles
+  const articles = await Article.find()
+
+  // If no articles exist, return 404 error to the client
+  if (Array.isArray(articles) && !articles.length) res.status(404).send('no articles found')
+
+  // Optionally sort articles by query paramater
   const sortBy = req.query.sortBy
   if (sortBy) articles.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
 
   // Return articles to the client
-  res.send(articles);
-});
+  res.send(articles)
+})
 
 /**
  * Get an article
  */
-router.get('/:id', function(req, res, next) {
-  // Check if article exists
-  const article = articles.find(a => a.id === parseInt(req.params.id));
-  if (!article) return res.status(404).send('"id" was not found')
-  // Return article to the client
-  res.send(article)
-});
+router.get('/:id', async (req, res, next) => {
+  // TODO: Auth (if private)
+
+  try {
+    // Get article
+    const article = await Article.find({
+      _id: req.params.id
+    })
+
+    // Return article to the client
+    res.send(article)
+  }
+
+  catch (ex) {
+    // If article does not exist, 404 error
+    return res.status(404).send('"id" was not found')
+  }
+})
 
 /**
  * Create an article
  */
-router.post('/', function (req, res) {
-  // Auth
+router.post('/', async (req, res) => {
+  // TODO: Auth
 
   // Validate article
-  const { error } = validate(req.body)
+  const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create article
-  const article = {
-    // TODO: Set id in database
-    id: articles.length + 1,
-    title: req.body.title
+  let article = new Article({
+    title: req.body.title,
+    author: req.body.author,
+    status: req.body.status,
+    tags: req.body.tags,
+    date: req.body.date
+  })
+
+  try {
+    // Add article to the database
+    article = await article.save()
+
+    // Return article to the client
+    res.send(article)
   }
 
-  // Add article to the database
-  // TODO: Replace this with real database code
-  articles.push(article)
-
-  // Return article to the client
-  res.send(article)
-});
+  catch (ex) {
+    // Return exception error messages to the client
+    for (const field in ex.errors) {
+      res.send( ex.errors[field].message )
+    }
+  }
+})
 
 /**
  * Update an article
  */
-router.put('/:id', function (req, res) {
-  // Auth
-
-  // Check if article exists
-  const article = articles.find(a => a.id === parseInt(req.params.id));
-  if (!article) return res.status(404).send('"id" was not found')
+router.put('/:id', async (req, res) => {
+  // TODO: Auth
 
   // Validate article
-  const { error } = validate(req.body)
+  const { error } = validate.update(req.body)
   if (error) {
     res.status(400).send(error.details[0].message)
     return
   }
 
-  // Update article
-  article.title = req.body.title
+  try {
+    // Update article in database with request body keys if they exist
+    const requestBody = {}
+    if (req.body.title) requestBody.title = req.body.title
+    if (req.body.author) requestBody.author = req.body.author
+    if (req.body.status) requestBody.status = req.body.status
+    if (req.body.tags) requestBody.tags = req.body.tags
+    if (req.body.date) requestBody.date = req.body.date
 
-  // Update article in the database
-  // TODO: Replace this with real database code
-  articles[article.id - 1] = article
+    const article = await Article.findByIdAndUpdate(req.params.id, requestBody, { new: true })
 
-  // Return updated article to client
-  res.send(article)
-});
+    // Return updated article to client
+    res.send(article)
+  }
+
+  catch (ex) {
+    // If article does not exist, return 404 error to the client
+    return res.status(404).send('"id" was not found')
+  }
+})
 
 /**
  * Delete an article
  */
-router.delete('/:id', function (req, res) {
-  // Auth
+router.delete('/:id', async (req, res) => {
+  // TODO: Auth
 
-  // Check if article exists
-  const article = articles.find(a => a.id === parseInt(req.params.id));
-  if (!article) return res.status(404).send('"id" was not found')
+  try {
+    // Remove article from database, if it exists
+    const article = await Article.findByIdAndRemove(req.params.id)
 
-  // Delete article from the database
-  // TODO: Replace this with real database code
-  const index = articles.indexOf(article)
-  articles.splice(index, 1)
+    // Return deleted article to client
+    res.send(article)
+  }
 
-  // Return deleted article to client
-  res.send(article)
-});
+  catch (ex) {
+    // If article does not exist, return 404 error to the client
+    return res.status(404).send('"id" was not found')
+  }
+})
 
-function validate(article) {
-  const schema = Joi.object({
-    title: Joi.string().required()
-  })
-
-  return schema.validate(article)
-}
-
-module.exports = router;
+module.exports = router

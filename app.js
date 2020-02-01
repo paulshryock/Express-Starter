@@ -17,13 +17,6 @@ const debug = require('debug')('app:startup')
 const mongoose = require('mongoose')
 
 /**
- * Database
- */
-// mongoose.connect('mongodb://localhost/express_starter', { useNewUrlParser: true, useUnifiedTopology: true })
-  // .then(() => { debug('Connected to MongoDB...') })
-  // .catch((err) => { debug('Could not connect to MongoDB...', err) })
-
-/**
  * Import routes
  */
 const indexRouter = require('./routes/index')
@@ -32,14 +25,21 @@ const projectsRouter = require('./routes/projects')
 const testimonialsRouter = require('./routes/testimonials')
 
 /**
- * View engine
+ * Connect to Database
+ */
+mongoose.connect(config.db.host + '/' + config.db.name, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => { debug('Connected to MongoDB...') })
+  .catch((err) => { debug('Could not connect to MongoDB...', err) })
+
+/**
+ * Setup view engine
  */
 app.engine('liquid', engine.express()) 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'liquid')
 
 /**
- * Middleware
+ * Use middleware
  */
 if (app.get('env') === 'development') {
   app.use(logger('dev')) // Log requests to the console
@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'build'))) // Serve static content
 app.use(helmet()) // Set HTTP headers
 
 /**
- * Routes
+ * Setup routes
  */
 app.use('/', indexRouter)
 app.use('/api/articles', articlesRouter)
