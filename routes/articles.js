@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const Joi = require('@hapi/joi')
 const mongoose = require('mongoose')
 
@@ -14,33 +14,60 @@ const Article = mongoose.model('Article', new mongoose.Schema({
   date: { type: Date, default: Date.now }
 }))
 
-/**
- * Validate an article
- */
-function validate(article) {
-  const schema = Joi.object({
-    title: Joi.string()
-      .trim()
-      .required(),
-    author: Joi.string()
-      .trim()
-      .required(),
-    status: Joi.string()
-      .alphanum()
-      .trim()
-      .lowercase()
-      .required()
-      .valid('draft', 'approved', 'scheduled', 'published'),
-    tags: Joi.array()
-      .items(Joi.string()
+const validate = {
+  /**
+   * Validate an article to create
+   */
+  create: function (article) {
+    const schema = Joi.object({
+      title: Joi.string()
+        .trim()
+        .required(),
+      author: Joi.string()
+        .trim()
+        .required(),
+      status: Joi.string()
         .alphanum()
         .trim()
         .lowercase()
-      ),
-    date: Joi.date()
-  })
+        .required()
+        .valid('draft', 'approved', 'scheduled', 'published'),
+      tags: Joi.array()
+        .items(Joi.string()
+          .alphanum()
+          .trim()
+          .lowercase()
+        ),
+      date: Joi.date()
+    })
 
-  return schema.validate(article)
+    return schema.validate(article)
+  },
+  /**
+   * Validate an article to update
+   */
+  update: function (article) {
+    const schema = Joi.object({
+      title: Joi.string()
+        .trim(),
+      author: Joi.string()
+        .trim(),
+      status: Joi.string()
+        .alphanum()
+        .trim()
+        .lowercase()
+        .valid('draft', 'approved', 'scheduled', 'published'),
+      tags: Joi.array()
+        .items(Joi.string()
+          .alphanum()
+          .trim()
+          .lowercase()
+        ),
+      date: Joi.date()
+    }).or('title', 'author', 'status', 'tags', 'date')
+
+    return schema.validate(article)
+  }
 }
 
 /**
@@ -52,15 +79,16 @@ router.get('/', async (req, res, next) => {
   // Get articles
   const articles = await Article.find()
 
-  // If no articles exist, return an error, or something else?
+  // If no articles exist, return 404 error to the client
+  if (Array.isArray(articles) && !articles.length) res.status(404).send('no articles found')
 
   // Optionally sort articles by query paramater
   const sortBy = req.query.sortBy
   if (sortBy) articles.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
 
   // Return articles to the client
-  res.send(articles);
-});
+  res.send(articles)
+})
 
 /**
  * Get an article
@@ -68,14 +96,21 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   // TODO: Auth (if private)
 
-  // TODO: Fix, this is broken
-  // TODO: Check if article exists and handle any errors
-  const article = await Article.find(a => a._id === parseInt(req.params.id))
-  if (!articleExists) return res.status(404).send('"id" was not found')
+  try {
+    // Get article
+    const article = await Article.find({
+      _id: req.params.id
+    })
 
-  // Return article to the client
-  res.send(article)
-});
+    // Return article to the client
+    res.send(article)
+  }
+
+  catch (ex) {
+    // If article does not exist, 404 error
+    return res.status(404).send('"id" was not found')
+  }
+})
 
 /**
  * Create an article
@@ -84,7 +119,7 @@ router.post('/', async (req, res) => {
   // TODO: Auth
 
   // Validate article
-  const { error } = validate(req.body)
+  const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create article
@@ -110,7 +145,7 @@ router.post('/', async (req, res) => {
       res.send( ex.errors[field].message )
     }
   }
-});
+})
 
 /**
  * Update an article
@@ -119,27 +154,32 @@ router.put('/:id', async (req, res) => {
   // TODO: Auth
 
   // Validate article
-  const { error } = validate(req.body)
+  const { error } = validate.update(req.body)
   if (error) {
     res.status(400).send(error.details[0].message)
     return
   }
 
-  // Update article in database, if it exists
-  const article = await Article.findByIdAndUpdate(req.params.id, {
-    title: req.body.title,
-    author: req.body.author,
-    status: req.body.status,
-    tags: req.body.tags,
-    date: req.body.date
-  }, { new: true })
+  try {
+    // Update article in database with request body keys if they exist
+    const requestBody = {}
+    if (req.body.title) requestBody.title = req.body.title
+    if (req.body.author) requestBody.author = req.body.author
+    if (req.body.status) requestBody.status = req.body.status
+    if (req.body.tags) requestBody.tags = req.body.tags
+    if (req.body.date) requestBody.date = req.body.date
 
-  // If article does not exist, 404 error
-  if (!article) return res.status(404).send('"id" was not found')
+    const article = await Article.findByIdAndUpdate(req.params.id, requestBody, { new: true })
 
-  // Return updated article to client
-  res.send(article)
-});
+    // Return updated article to client
+    res.send(article)
+  }
+
+  catch (ex) {
+    // If article does not exist, return 404 error to the client
+    return res.status(404).send('"id" was not found')
+  }
+})
 
 /**
  * Delete an article
@@ -147,14 +187,18 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   // TODO: Auth
 
-  // Remove article from database, if it exists
-  const article = await Article.findByIdAndRemove(req.params.id)
+  try {
+    // Remove article from database, if it exists
+    const article = await Article.findByIdAndRemove(req.params.id)
 
-  // If article does not exist, return 404 error to the client
-  if (!article) return res.status(404).send('"id" was not found')
+    // Return deleted article to client
+    res.send(article)
+  }
 
-  // Return deleted article to client
-  res.send(article)
-});
+  catch (ex) {
+    // If article does not exist, return 404 error to the client
+    return res.status(404).send('"id" was not found')
+  }
+})
 
-module.exports = router;
+module.exports = router
