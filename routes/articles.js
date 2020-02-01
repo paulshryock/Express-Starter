@@ -1,27 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('@hapi/joi')
+const mongoose = require('mongoose')
 
-// TODO: Replace this with real database code
-const articles = [
-  {
-    id: 1,
-    title: 'Hello World'
-  },
-  {
-    id: 2,
-    title: 'All Around the World'
-  },
-  {
-    id: 3,
-    title: 'The World is a Vampire'
+const Article = new mongoose.model('Article', new mongoose.Schema({
+  title: {
+    type: String,
+    required: true
   }
-]
+}))
 
 /**
  * Get articles
  */
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
+  // Get articles
+  const articles = await Article.find()
+
   // Sort articles
   const sortBy = req.query.sortBy
   if (sortBy) articles.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
@@ -33,9 +28,9 @@ router.get('/', function(req, res, next) {
 /**
  * Get an article
  */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
   // Check if article exists
-  const article = articles.find(a => a.id === parseInt(req.params.id));
+  const article = await Article.find(a => a.id === parseInt(req.params.id));
   if (!article) return res.status(404).send('"id" was not found')
   // Return article to the client
   res.send(article)
@@ -44,7 +39,7 @@ router.get('/:id', function(req, res, next) {
 /**
  * Create an article
  */
-router.post('/', function (req, res) {
+router.post('/', async function (req, res) {
   // Auth
 
   // Validate article
@@ -52,15 +47,10 @@ router.post('/', function (req, res) {
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create article
-  const article = {
-    // TODO: Set id in database
-    id: articles.length + 1,
-    title: req.body.title
-  }
+  let article = new Article({ title: req.body.title })
 
   // Add article to the database
-  // TODO: Replace this with real database code
-  articles.push(article)
+  article = await article.save()
 
   // Return article to the client
   res.send(article)
@@ -69,8 +59,10 @@ router.post('/', function (req, res) {
 /**
  * Update an article
  */
-router.put('/:id', function (req, res) {
+router.put('/:id', async function (req, res) {
   // Auth
+
+  const article = await Article.findByIdAndUpdate(req.params.id, { title: req.body.title }, { new: true })
 
   // Check if article exists
   const article = articles.find(a => a.id === parseInt(req.params.id));
