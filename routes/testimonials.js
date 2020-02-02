@@ -1,123 +1,146 @@
-const express = require('express');
-const router = express.Router();
-const Joi = require('@hapi/joi')
-
-// TODO: Replace this with real database code
-const testimonials = [
-  {
-    id: 1,
-    title: 'Hello World'
-  },
-  {
-    id: 2,
-    title: 'All Around the World'
-  },
-  {
-    id: 3,
-    title: 'The World is a Vampire'
-  }
-]
+const express = require('express')
+const router = express.Router()
+const { Testimonial, validate } = require('../models/testimonial')
+const debug = require('debug')('express-starter:testimonials')
 
 /**
  * Get testimonials
  */
-router.get('/', function(req, res, next) {
-  // Sort testimonials
-  const sortBy = req.query.sortBy
-  if (sortBy) testimonials.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
+router.get('/', async (req, res, next) => {
+  // TODO: Auth (if private)
 
-  // Return testimonials to the client
-  res.send(testimonials);
-});
+  try {
+    // Get testimonials
+    const testimonials = await Testimonial.find()
+
+    // If no testimonials exist, return 404 error to the client
+    if (Array.isArray(testimonials) && !testimonials.length) {
+      return res.status(404).send('no testimonials found')
+    }
+
+    // Optionally sort testimonials by query paramater
+    const sortBy = req.query.sortBy
+    if (sortBy) testimonials.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
+
+    // Return testimonials to the client
+    res.send(testimonials)
+  }
+
+  catch (ex) {
+    // If there's an exception, debug it
+    debug(ex)
+  }
+})
 
 /**
  * Get a testimonial
  */
-router.get('/:id', function(req, res, next) {
-  // Check if testimonial exists
-  const testimonial = testimonials.find(t => t.id === parseInt(req.params.id));
-  if (!testimonial) return res.status(404).send('"id" was not found')
+router.get('/:id', async (req, res, next) => {
+  // TODO: Auth (if private)
 
-  // Return testimonial to the client
-  res.send(testimonial)
-});
+  try {
+    // Get testimonial
+    const testimonial = await Testimonial.find({
+      _id: req.params.id
+    })
 
+    // Return testimonial to the client
+    res.send(testimonial)
+  }
+
+  catch (ex) {
+    // If testimonial does not exist, 404 error
+    return res.status(404).send('"id" was not found')
+  }
+})
 
 /**
  * Create a testimonial
  */
-router.post('/', function (req, res) {
-  // Auth
+router.post('/', async (req, res) => {
+  // TODO: Auth
 
   // Validate testimonial
-  const { error } = validate(req.body)
+  const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create testimonial
-  const testimonial = {
-    // TODO: Set id in database
-    id: testimonials.length + 1,
-    title: req.body.title
+  let testimonial = new Testimonial({
+    name: {
+      first: req.body.name.first,
+      last: req.body.name.last
+    },
+    quote: req.body.quote,
+    date: req.body.date
+  })
+
+  try {
+    // Add testimonial to the database
+    testimonial = await testimonial.save()
+
+    // Return testimonial to the client
+    res.send(testimonial)
   }
 
-  // Add testimonial to the database
-  // TODO: Replace this with real database code
-  testimonials.push(testimonial)
-
-  // Return testimonial to the client
-  res.send(testimonial)
-});
+  catch (ex) {
+    // Return exception error messages to the client
+    for (const field in ex.errors) {
+      res.send( ex.errors[field].message )
+    }
+    return
+  }
+})
 
 /**
  * Update a testimonial
  */
-router.put('/:id', function (req, res) {
-  // Auth
-
-  // Check if testimonial exists
-  const testimonial = testimonials.find(a => a.id === parseInt(req.params.id));
-  if (!testimonial) return res.status(404).send('"id" was not found')
+router.put('/:id', async (req, res) => {
+  // TODO: Auth
 
   // Validate testimonial
-  const { error } = validateArticle(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
+  const { error } = validate.update(req.body)
+  if (error) {
+    return res.status(400).send(error.details[0].message)
+  }
 
-  // Update testimonial
-  testimonial.title = req.body.title
+  try {
+    // Update testimonial in database with request body keys if they exist
+    const requestBody = {}
+    if (req.body.name.first) requestBody.name.first = req.body.name.first
+    if (req.body.name.last) requestBody.name.last = req.body.name.last
+    if (req.body.quote) requestBody.quote = req.body.quote
+    if (req.body.date) requestBody.date = req.body.date
 
-  // Update testimonial in the database
-  // TODO: Replace this with real database code
-  testimonials[testimonial.id - 1] = testimonial
+    const testimonial = await Testimonial.findByIdAndUpdate(req.params.id, requestBody, { new: true })
 
-  // Return updated testimonial to client
-  res.send(testimonial)
-});
+    // Return updated testimonial to client
+    res.send(testimonial)
+  }
+
+  catch (ex) {
+    // If testimonial does not exist, return 404 error to the client
+    return res.status(404).send('"id" was not found')
+  }
+})
 
 /**
  * Delete a testimonial
  */
-router.delete('/:id', function (req, res) {
-  // Auth
+router.delete('/:id', async (req, res) => {
+  // TODO: Auth
 
-  // Check if testimonial exists
-  const testimonial = testimonials.find(a => a.id === parseInt(req.params.id));
-  if (!testimonial) return res.status(404).send('"id" was not found')
+  try {
+    // Remove testimonial from database, if it exists
+    const testimonial = await Testimonial.findByIdAndRemove(req.params.id)
 
-  // Delete testimonial from the database
-  // TODO: Replace this with real database code
-  const index = testimonials.indexOf(testimonial)
-  testimonials.splice(index, 1)
+    // Return deleted testimonial to client
+    res.send(testimonial)
+  }
 
-  // Return deleted testimonial to client
-  res.send(testimonial)
-});
+  catch (ex) {
+    // If testimonial does not exist, return 404 error to the client
+    return res.status(404).send('"id" was not found')
+  }
+})
 
-function validate(testimonial) {
-  const schema = Joi.object({
-    title: Joi.string().required()
-  })
-
-  return schema.validate(testimonial)
-}
-
-module.exports = router;
+module.exports = router
