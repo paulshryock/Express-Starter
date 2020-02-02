@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('@hapi/joi')
 const mongoose = require('mongoose')
+const debug = require('debug')('express-starter:projects')
 
 /**
  * Define Project model
@@ -63,107 +64,136 @@ const validate = {
 router.get('/', async (req, res, next) => {
   // TODO: Auth (if private)
 
-  // Get projects
-  const projects = await Project.find()
+  try {
+    // Get projects
+    const projects = await Project.find()
 
-  // If no projects exist, return 404 error to the client
-  if (Array.isArray(projects) && !projects.length) res.status(404).send('no projects found')
+    // If no projects exist, return 404 error to the client
+    if (Array.isArray(projects) && !projects.length) {
+      return res.status(404).send('no projects found')
+    }
 
-  // Optionally sort projects by query paramater
-  const sortBy = req.query.sortBy
-  if (sortBy) projects.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
+    // Optionally sort projects by query paramater
+    const sortBy = req.query.sortBy
+    if (sortBy) projects.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
 
-  // Return projects to the client
-  res.send(projects)
+    // Return projects to the client
+    res.send(projects)
+  }
+
+  catch (ex) {
+    // If there's an exception, debug it
+    debug(ex)
+  }
 })
 
 /**
  * Get a project
  */
-router.get('/:id', function(req, res, next) {
-  // Check if project exists
-  const project = projects.find(p => p.id === parseInt(req.params.id));
-  if (!project) return res.status(404).send('"id" was not found')
+router.get('/:id', async (req, res, next) => {
+  // TODO: Auth (if private)
 
-  // Return project to the client
-  res.send(project)
-});
+  try {
+    // Get project
+    const project = await Project.find({
+      _id: req.params.id
+    })
+
+    // Return project to the client
+    res.send(project)
+  }
+
+  catch (ex) {
+    // If project does not exist, 404 error
+    return res.status(404).send('"id" was not found')
+  }
+})
 
 /**
  * Create a project
  */
-router.post('/', function (req, res) {
-  // Auth
+router.post('/', async (req, res) => {
+  // TODO: Auth
 
   // Validate project
-  const { error } = validate(req.body)
+  const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create project
-  const project = {
-    // TODO: Set id in database
-    id: projects.length + 1,
-    title: req.body.title
+  let project = new Project({
+    title: req.body.title,
+    client: req.body.client,
+    status: req.body.status,
+    date: req.body.date
+  })
+
+  try {
+    // Add project to the database
+    project = await project.save()
+
+    // Return project to the client
+    res.send(project)
   }
 
-  // Add project to the database
-  // TODO: Replace this with real database code
-  projects.push(project)
-
-  // Return project to the client
-  res.send(project)
-});
+  catch (ex) {
+    // Return exception error messages to the client
+    for (const field in ex.errors) {
+      res.send( ex.errors[field].message )
+    }
+  }
+})
 
 /**
  * Update a project
  */
-router.put('/:id', function (req, res) {
-  // Auth
-
-  // Check if project exists
-  const project = projects.find(a => a.id === parseInt(req.params.id));
-  if (!project) return res.status(404).send('"id" was not found')
+router.put('/:id', async (req, res) => {
+  // TODO: Auth
 
   // Validate project
-  const { error } = validateArticle(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
+  const { error } = validate.update(req.body)
+  if (error) {
+    res.status(400).send(error.details[0].message)
+    return
+  }
 
-  // Update project
-  project.title = req.body.title
+  try {
+    // Update project in database with request body keys if they exist
+    const requestBody = {}
+    if (req.body.title) requestBody.title = req.body.title
+    if (req.body.client) requestBody.client = req.body.client
+    if (req.body.status) requestBody.status = req.body.status
+    if (req.body.date) requestBody.date = req.body.date
 
-  // Update project in the database
-  // TODO: Replace this with real database code
-  projects[project.id - 1] = project
+    const project = await Project.findByIdAndUpdate(req.params.id, requestBody, { new: true })
 
-  // Return updated project to client
-  res.send(project)
-});
+    // Return updated project to client
+    res.send(project)
+  }
+
+  catch (ex) {
+    // If project does not exist, return 404 error to the client
+    return res.status(404).send('"id" was not found')
+  }
+})
 
 /**
  * Delete a project
  */
-router.delete('/:id', function (req, res) {
-  // Auth
+router.delete('/:id', async (req, res) => {
+  // TODO: Auth
 
-  // Check if project exists
-  const project = projects.find(a => a.id === parseInt(req.params.id));
-  if (!project) return res.status(404).send('"id" was not found')
+  try {
+    // Remove project from database, if it exists
+    const project = await Project.findByIdAndRemove(req.params.id)
 
-  // Delete project from the database
-  // TODO: Replace this with real database code
-  const index = projects.indexOf(project)
-  projects.splice(index, 1)
+    // Return deleted project to client
+    res.send(project)
+  }
 
-  // Return deleted project to client
-  res.send(project)
-});
+  catch (ex) {
+    // If project does not exist, return 404 error to the client
+    return res.status(404).send('"id" was not found')
+  }
+})
 
-function validate(project) {
-  const schema = Joi.object({
-    title: Joi.string().required()
-  })
-
-  return schema.validate(project)
-}
-
-module.exports = router;
+module.exports = router

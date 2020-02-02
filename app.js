@@ -10,11 +10,11 @@ const helmet = require('helmet')
 const { Liquid } = require('liquidjs')
 const engine = new Liquid()
 const path = require('path')
-const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const createError = require('http-errors')
-const debug = require('debug')('app:startup')
 const mongoose = require('mongoose')
+const logger = require('morgan')
+const debug = require('debug')('express-starter:startup')
 
 /**
  * Import routes
