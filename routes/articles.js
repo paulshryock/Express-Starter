@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Joi = require('@hapi/joi')
 const mongoose = require('mongoose')
+const debug = require('debug')('express-starter:articles')
 
 /**
  * Define Article model
@@ -76,18 +77,27 @@ const validate = {
 router.get('/', async (req, res, next) => {
   // TODO: Auth (if private)
 
-  // Get articles
-  const articles = await Article.find()
+  try {
+    // Get articles
+    const articles = await Article.find()
 
-  // If no articles exist, return 404 error to the client
-  if (Array.isArray(articles) && !articles.length) res.status(404).send('no articles found')
+    // If no articles exist, return 404 error to the client
+    if (Array.isArray(articles) && !articles.length) {
+      return res.status(404).send('no articles found')
+    }
 
-  // Optionally sort articles by query paramater
-  const sortBy = req.query.sortBy
-  if (sortBy) articles.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
+    // Optionally sort articles by query paramater
+    const sortBy = req.query.sortBy
+    if (sortBy) articles.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
 
-  // Return articles to the client
-  res.send(articles)
+    // Return articles to the client
+    res.send(articles)
+  }
+
+  catch (ex) {
+    // If there's an exception, debug it
+    debug(ex)
+  }
 })
 
 /**
@@ -144,6 +154,7 @@ router.post('/', async (req, res) => {
     for (const field in ex.errors) {
       res.send( ex.errors[field].message )
     }
+    return
   }
 })
 
@@ -156,8 +167,7 @@ router.put('/:id', async (req, res) => {
   // Validate article
   const { error } = validate.update(req.body)
   if (error) {
-    res.status(400).send(error.details[0].message)
-    return
+    return res.status(400).send(error.details[0].message)
   }
 
   try {

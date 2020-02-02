@@ -140,6 +140,7 @@ router.post('/', async (req, res) => {
     for (const field in ex.errors) {
       res.send( ex.errors[field].message )
     }
+    return
   }
 })
 
@@ -152,8 +153,7 @@ router.put('/:id', async (req, res) => {
   // Validate project
   const { error } = validate.update(req.body)
   if (error) {
-    res.status(400).send(error.details[0].message)
-    return
+    return res.status(400).send(error.details[0].message)
   }
 
   try {
