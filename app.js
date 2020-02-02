@@ -23,6 +23,7 @@ const indexRouter = require('./routes/index')
 const articlesRouter = require('./routes/articles')
 const projectsRouter = require('./routes/projects')
 const testimonialsRouter = require('./routes/testimonials')
+const agentsRouter = require('./routes/agents')
 
 /**
  * Connect to Database
@@ -57,6 +58,7 @@ app.use('/', indexRouter)
 app.use('/api/articles', articlesRouter)
 app.use('/api/projects', projectsRouter)
 app.use('/api/testimonials', testimonialsRouter)
+app.use('/api/agents', agentsRouter)
 
 /**
  * Catch 404 and forward to error handler
