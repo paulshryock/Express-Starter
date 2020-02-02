@@ -1,34 +1,81 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('@hapi/joi')
+const mongoose = require('mongoose')
 
-// TODO: Replace this with real database code
-const projects = [
-  {
-    id: 1,
-    title: 'Hello World'
+/**
+ * Define Project model
+ */
+const Project = mongoose.model('Project', new mongoose.Schema({
+  title: { type: String, required: true, trim: true },
+  client: { type: String, required: true, trim: true },
+  status: { type: String, required: true, trim: true, lowercase: true },
+  date: { type: Date, default: Date.now }
+}))
+
+const validate = {
+  /**
+   * Validate a project to create
+   */
+  create: function (project) {
+    const schema = Joi.object({
+      title: Joi.string()
+        .trim()
+        .required(),
+      client: Joi.string()
+        .trim()
+        .required(),
+      status: Joi.string()
+        .alphanum()
+        .trim()
+        .lowercase()
+        .required()
+        .valid('draft', 'approved', 'scheduled', 'published'),
+      date: Joi.date()
+    })
+
+    return schema.validate(project)
   },
-  {
-    id: 2,
-    title: 'All Around the World'
-  },
-  {
-    id: 3,
-    title: 'The World is a Vampire'
+  /**
+   * Validate a project to update
+   */
+  update: function (project) {
+    const schema = Joi.object({
+      title: Joi.string()
+        .trim(),
+      client: Joi.string()
+        .trim(),
+      status: Joi.string()
+        .alphanum()
+        .trim()
+        .lowercase()
+        .valid('draft', 'approved', 'scheduled', 'published'),
+      date: Joi.date()
+    }).or('title', 'client', 'status', 'date')
+
+    return schema.validate(project)
   }
-]
+}
 
 /**
  * Get projects
  */
-router.get('/', function(req, res, next) {
-  // Sort projects
+router.get('/', async (req, res, next) => {
+  // TODO: Auth (if private)
+
+  // Get projects
+  const projects = await Project.find()
+
+  // If no projects exist, return 404 error to the client
+  if (Array.isArray(projects) && !projects.length) res.status(404).send('no projects found')
+
+  // Optionally sort projects by query paramater
   const sortBy = req.query.sortBy
   if (sortBy) projects.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
 
   // Return projects to the client
-  res.send(projects);
-});
+  res.send(projects)
+})
 
 /**
  * Get a project
