@@ -19,11 +19,12 @@ const debug = require('debug')('express-starter:startup')
 /**
  * Import routes
  */
-const indexRouter = require('./routes/index')
-const articlesRouter = require('./routes/articles')
-const projectsRouter = require('./routes/projects')
-const testimonialsRouter = require('./routes/testimonials')
-const agentsRouter = require('./routes/agents')
+const index = require('./routes/index')
+const articles = require('./routes/articles')
+const projects = require('./routes/projects')
+const testimonials = require('./routes/testimonials')
+const agents = require('./routes/agents')
+const users = require('./routes/users')
 
 /**
  * Connect to Database
@@ -54,11 +55,12 @@ app.use(helmet()) // Set HTTP headers
 /**
  * Setup routes
  */
-app.use('/', indexRouter)
-app.use('/api/articles', articlesRouter)
-app.use('/api/projects', projectsRouter)
-app.use('/api/testimonials', testimonialsRouter)
-app.use('/api/agents', agentsRouter)
+app.use('/', index)
+app.use('/api/articles', articles)
+app.use('/api/projects', projects)
+app.use('/api/testimonials', testimonials)
+app.use('/api/agents', agents)
+app.use('/api/users', users)
 
 /**
  * Catch 404 and forward to error handler
