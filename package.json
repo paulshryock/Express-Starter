@@ -16,6 +16,7 @@
     "express": "~4.17.1",
     "helmet": "^3.21.1",
     "http-errors": "~1.7.3",
+    "joi-password-complexity": "^4.0.0",
     "liquidjs": "^9.1.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.7.7",

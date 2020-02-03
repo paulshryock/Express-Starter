@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi')
+const passwordComplexity = require('joi-password-complexity')
 const mongoose = require('mongoose')
 
 /**
@@ -16,7 +17,7 @@ const validate = {
   create: function (user) {
     const schema = Joi.object({
       email: Joi.string().trim().min(5).max(255).required().email(),
-      password: Joi.string().min(5).max(255).required(),
+      password: Joi.string().min(12).max(255).required(),
     })
 
     return schema.validate(user)
@@ -26,11 +27,28 @@ const validate = {
    */
   update: function (user) {
     const schema = Joi.object({
-      email: Joi.string().trim().min(5).max(255).required().email(),
-      password: Joi.string().min(5).max(255).required(),
+      email: Joi.string().trim().min(5).max(255).email(),
+      password: Joi.string().min(5).max(255),
     }).or('email', 'password')
 
     return schema.validate(user)
+  },
+  /**
+   * Validate a user's password
+   */
+  password: function (user) {
+
+    const complexityOptions = {
+      min: 12,
+      max: 255,
+      lowerCase: 1,
+      upperCase: 1,
+      numeric: 1,
+      symbol: 1,
+      requirementCount: 4
+    }
+
+    return passwordComplexity(complexityOptions).validate(user.password)
   }
 }
 

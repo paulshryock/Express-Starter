@@ -61,26 +61,32 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res) => {
   // TODO: Auth
 
-  // Validate user
-  const { error } = validate.create(req.body)
-  if (error) return res.status(400).send(error.details[0].message)
+  {
+    // Validate user
+    const { error } = validate.create(req.body)
+    if (error) return res.status(400).send(error.details[0].message)
+  }
+  
+  {
+    // Validate password
+    const { error } = validate.password(req.body)
+    if (error) return res.status(400).send(error.details[0].message)
+  }
 
   // Verify user does not already exist
   let user = await User.findOne({ email: req.body.email })
   if (user) return res.status(400).send('User already registered')
 
   // Create user
-  user = new User({
-    email: req.body.email,
-    password: req.body.password
-  })
+  // TODO: Hash password before storing
+  user = new User(_.pick(req.body, ['email', 'password']))
 
   try {
     // Add user to the database
     user = await user.save()
 
-    // Return user to the client
-    res.send(user)
+    // Return created user to the client
+    res.send(_.pick(user, ['_id', 'email']))
   }
 
   catch (ex) {
@@ -107,19 +113,14 @@ router.put('/:id', async (req, res) => {
   try {
     // Update user in database with request body keys if they exist
     const requestBody = {}
-    if (req.body.name.first) requestBody.name.first = req.body.name.first
-    if (req.body.name.last) requestBody.name.last = req.body.name.last
     if (req.body.email) requestBody.email = req.body.email
-    if (req.body.brand) requestBody.brand = req.body.brand
-    if (req.body.state) requestBody.state = req.body.state
-    if (req.body.company) requestBody.company = req.body.company
-    if (req.body.date) requestBody.date = req.body.date
-    if (req.body.event) requestBody.event = req.body.event
+    // TODO: Hash password before storing
+    if (req.body.password) requestBody.password = req.body.password
 
     const user = await User.findByIdAndUpdate(req.params.id, requestBody, { new: true })
 
-    // Return updated user to client
-    res.send(user)
+    // Return updated user to the client
+    res.send(_.pick(user, ['_id', 'email']))
   }
 
   catch (ex) {
@@ -136,10 +137,11 @@ router.delete('/:id', async (req, res) => {
 
   try {
     // Remove user from database, if it exists
+    // TODO: This is returning an empty object with 200 status; should 404 instead
     const user = await User.findByIdAndRemove(req.params.id)
 
-    // Return deleted user to client
-    res.send(user)
+    // Return deleted user to the client
+    res.send(_.pick(user, ['_id', 'email']))
   }
 
   catch (ex) {

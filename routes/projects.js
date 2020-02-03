@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Project, validate } = require('../models/project')
 const debug = require('debug')('express-starter:projects')
+const _ = require('lodash')
 
 /**
  * Get projects
@@ -65,12 +66,8 @@ router.post('/', async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create project
-  let project = new Project({
-    title: req.body.title,
-    client: req.body.client,
-    status: req.body.status,
-    date: req.body.date
-  })
+  let project = new Project(_.pick(req.body, ['title', 'client', 'status', 'date']))
+
 
   try {
     // Add project to the database

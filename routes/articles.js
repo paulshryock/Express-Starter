@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { Article, validate } = require('../models/article')
 const debug = require('debug')('express-starter:articles')
+const _ = require('lodash')
 
 /**
  * Get articles
@@ -65,13 +66,7 @@ router.post('/', async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create article
-  let article = new Article({
-    title: req.body.title,
-    author: req.body.author,
-    status: req.body.status,
-    tags: req.body.tags,
-    date: req.body.date
-  })
+  let article = new Article(_.pick(req.body, ['title', 'author', 'status', 'tags', 'date']))
 
   try {
     // Add article to the database
