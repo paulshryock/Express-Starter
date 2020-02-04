@@ -61,7 +61,7 @@ router.get('/:id', async (req, res, next) => {
  */
 router.post('/', async (req, res) => {
   // TODO: Auth
-
+  
   {
     // Validate user
     const { error } = validate.create(req.body)
@@ -89,8 +89,11 @@ router.post('/', async (req, res) => {
     // Add user to the database
     user = await user.save()
 
+    // Generate auth token
+    const token = user.generateAuthToken()
+
     // Return created user to the client
-    res.send(_.pick(user, ['_id', 'email']))
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email']))
   }
 
   catch (ex) {

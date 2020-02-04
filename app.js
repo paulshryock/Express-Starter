@@ -15,6 +15,7 @@ const createError = require('http-errors')
 const mongoose = require('mongoose')
 const logger = require('morgan')
 const debug = require('debug')('express-starter:startup')
+require('dotenv').config()
 
 /**
  * Import routes
@@ -25,6 +26,14 @@ const projects = require('./routes/projects')
 const testimonials = require('./routes/testimonials')
 const agents = require('./routes/agents')
 const users = require('./routes/users')
+const auth = require('./routes/auth')
+
+/**
+ * Error if missing jwtPrivateKey
+ */
+if(!config.get('jwtPrivateKey')) {
+  console.error('FATAL ERROR: jwtPrivateKey is not defined.')
+}
 
 /**
  * Connect to Database
@@ -61,6 +70,7 @@ app.use('/api/projects', projects)
 app.use('/api/testimonials', testimonials)
 app.use('/api/agents', agents)
 app.use('/api/users', users)
+app.use('/api/auth', auth)
 
 /**
  * Catch 404 and forward to error handler
