@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^16.1.7",
+    "bcrypt": "^3.0.7",
     "config": "^3.2.3",
     "cookie-parser": "~1.4.4",
     "debug": "~4.1.1",
@@ -17,6 +18,7 @@
     "helmet": "^3.21.1",
     "http-errors": "~1.7.3",
     "joi-password-complexity": "^4.0.0",
+    "jsonwebtoken": "^8.5.1",
     "liquidjs": "^9.1.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.7.7",
