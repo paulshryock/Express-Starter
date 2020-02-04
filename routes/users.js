@@ -3,6 +3,7 @@ const router = express.Router()
 const { User, validate } = require('../models/user')
 const debug = require('debug')('express-starter:users')
 const _ = require('lodash')
+const bcrypt = require('bcrypt')
 
 /**
  * Get users
@@ -78,8 +79,11 @@ router.post('/', async (req, res) => {
   if (user) return res.status(400).send('User already registered')
 
   // Create user
-  // TODO: Hash password before storing
   user = new User(_.pick(req.body, ['email', 'password']))
+
+  // Hash password
+  const salt = await bcrypt.genSalt(10)
+  user.password = await bcrypt.hash(user.password, salt)
 
   try {
     // Add user to the database
@@ -114,8 +118,12 @@ router.put('/:id', async (req, res) => {
     // Update user in database with request body keys if they exist
     const requestBody = {}
     if (req.body.email) requestBody.email = req.body.email
-    // TODO: Hash password before storing
-    if (req.body.password) requestBody.password = req.body.password
+    if (req.body.password) {
+      requestBody.password = req.body.password
+      // Hash password
+      const salt = await bcrypt.genSalt(10)
+      requestBody.password = await bcrypt.hash(requestBody.password, salt)
+    }
 
     const user = await User.findByIdAndUpdate(req.params.id, requestBody, { new: true })
 
@@ -137,7 +145,6 @@ router.delete('/:id', async (req, res) => {
 
   try {
     // Remove user from database, if it exists
-    // TODO: This is returning an empty object with 200 status; should 404 instead
     const user = await User.findByIdAndRemove(req.params.id)
 
     // Return deleted user to the client
