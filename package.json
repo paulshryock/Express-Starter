@@ -23,6 +23,7 @@
     "liquidjs": "^9.1.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.7.7",
+    "mongoose-unique-validator": "^2.0.3",
     "morgan": "~1.9.1",
     "nodemon": "^1.19.4"
   },

@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth')
 const express = require('express')
 const router = express.Router()
 const { Agent, validate } = require('../models/agent')
@@ -6,9 +7,7 @@ const debug = require('debug')('express-starter:agents')
 /**
  * Get agents
  */
-router.get('/', async (req, res, next) => {
-  // TODO: Auth (if private)
-
+router.get('/', auth, async (req, res, next) => {
   try {
     // Get agents
     const agents = await Agent.find()
@@ -35,9 +34,7 @@ router.get('/', async (req, res, next) => {
 /**
  * Get an agent
  */
-router.get('/:id', async (req, res, next) => {
-  // TODO: Auth (if private)
-
+router.get('/:id', auth, async (req, res, next) => {
   try {
     // Get agent
     const agent = await Agent.find({
@@ -57,9 +54,7 @@ router.get('/:id', async (req, res, next) => {
 /**
  * Create an agent
  */
-router.post('/', async (req, res) => {
-  // TODO: Auth
-
+router.post('/', auth, async (req, res) => {
   // Validate agent
   const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
@@ -98,9 +93,7 @@ router.post('/', async (req, res) => {
 /**
  * Update an agent
  */
-router.put('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.put('/:id', auth, async (req, res) => {
   // Validate agent
   const { error } = validate.update(req.body)
   if (error) {
@@ -110,8 +103,14 @@ router.put('/:id', async (req, res) => {
   try {
     // Update agent in database with request body keys if they exist
     const requestBody = {}
-    if (req.body.name.first) requestBody.name.first = req.body.name.first
-    if (req.body.name.last) requestBody.name.last = req.body.name.last
+    if (req.body.name) {
+      requestBody.name = {
+        first: '',
+        last: ''
+      }
+      if (req.body.name.first) requestBody.name.first = req.body.name.first
+      if (req.body.name.last) requestBody.name.last = req.body.name.last
+    }
     if (req.body.email) requestBody.email = req.body.email
     if (req.body.brand) requestBody.brand = req.body.brand
     if (req.body.state) requestBody.state = req.body.state
@@ -127,6 +126,7 @@ router.put('/:id', async (req, res) => {
 
   catch (ex) {
     // If agent does not exist, return 404 error to the client
+    console.error(ex)
     return res.status(404).send('"id" was not found')
   }
 })
@@ -134,9 +134,7 @@ router.put('/:id', async (req, res) => {
 /**
  * Delete an agent
  */
-router.delete('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.delete('/:id', auth, async (req, res) => {
   try {
     // Remove agent from database, if it exists
     const agent = await Agent.findByIdAndRemove(req.params.id)

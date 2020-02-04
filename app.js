@@ -14,7 +14,10 @@ const cookieParser = require('cookie-parser')
 const createError = require('http-errors')
 const mongoose = require('mongoose')
 const logger = require('morgan')
-const debug = require('debug')('express-starter:startup')
+const debug = {
+  startup: require('debug')('express-starter:startup'),
+  database: require('debug')('express-starter:database')
+}
 require('dotenv').config()
 
 /**
@@ -38,9 +41,13 @@ if(!config.get('jwtPrivateKey')) {
 /**
  * Connect to Database
  */
-mongoose.connect(config.db.host + '/' + config.db.name, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => { debug('Connected to MongoDB...') })
-  .catch((err) => { debug('Could not connect to MongoDB...', err) })
+mongoose.connect(config.db.host + '/' + config.db.name, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+  .then(() => { debug.database('Connected to MongoDB...') })
+  .catch((err) => { debug.database('Could not connect to MongoDB...', err) })
+
+mongoose.connection.on('error', err => {
+  debug.database('Database error...', err)
+})
 
 /**
  * Setup view engine
