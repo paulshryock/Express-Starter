@@ -10,7 +10,7 @@ const config = require('config')
  * Define User model schema
  */
 const userSchema = new mongoose.Schema({
-  email: { type: String, trim: true, required: true, minLength: 5, maxLength: 255, unique: true },
+  email: { type: String, trim: true, required: true, minLength: 5, maxLength: 255, unique: true, uniqueCaseInsensitive: true },
   password: { type: String, required: true , minLength: 12, maxLength: 1024}
 })
 

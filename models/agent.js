@@ -11,7 +11,7 @@ const agentSchema = new mongoose.Schema({
     first: { type: String, trim: true, required: true },
     last: { type: String, trim: true, required: true }
   },
-  email: { type: String, trim: true, required: true, unique: true },
+  email: { type: String, trim: true, required: true, unique: true, uniqueCaseInsensitive: true },
   brand: { type: String, trim: true },
   state: { type: String, trim: true },
   company: { type: String, trim: true },
