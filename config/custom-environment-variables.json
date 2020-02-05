@@ -1,0 +1,7 @@
+{
+  "db": {
+    "host": "appname_dbHost",
+    "name": "appname_dbName"
+  },
+  "jwtPrivateKey": "appname_jwtPrivateKey"
+}

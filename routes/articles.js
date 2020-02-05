@@ -1,101 +1,41 @@
+const auth = require('../middleware/auth')
 const express = require('express')
 const router = express.Router()
-const Joi = require('@hapi/joi')
-const mongoose = require('mongoose')
-
-/**
- * Define Article model
- */
-const Article = mongoose.model('Article', new mongoose.Schema({
-  title: { type: String, required: true, trim: true },
-  author: { type: String, required: true, trim: true },
-  status: { type: String, required: true, trim: true, lowercase: true },
-  tags: [{ type: String, trim: true, lowercase: true }],
-  date: { type: Date, default: Date.now }
-}))
-
-const validate = {
-  /**
-   * Validate an article to create
-   */
-  create: function (article) {
-    const schema = Joi.object({
-      title: Joi.string()
-        .trim()
-        .required(),
-      author: Joi.string()
-        .trim()
-        .required(),
-      status: Joi.string()
-        .alphanum()
-        .trim()
-        .lowercase()
-        .required()
-        .valid('draft', 'approved', 'scheduled', 'published'),
-      tags: Joi.array()
-        .items(Joi.string()
-          .alphanum()
-          .trim()
-          .lowercase()
-        ),
-      date: Joi.date()
-    })
-
-    return schema.validate(article)
-  },
-  /**
-   * Validate an article to update
-   */
-  update: function (article) {
-    const schema = Joi.object({
-      title: Joi.string()
-        .trim(),
-      author: Joi.string()
-        .trim(),
-      status: Joi.string()
-        .alphanum()
-        .trim()
-        .lowercase()
-        .valid('draft', 'approved', 'scheduled', 'published'),
-      tags: Joi.array()
-        .items(Joi.string()
-          .alphanum()
-          .trim()
-          .lowercase()
-        ),
-      date: Joi.date()
-    }).or('title', 'author', 'status', 'tags', 'date')
-
-    return schema.validate(article)
-  }
-}
+const { Article, validate } = require('../models/article')
+const debug = require('debug')('express-starter:articles')
+const _ = require('lodash')
 
 /**
  * Get articles
  */
 router.get('/', async (req, res, next) => {
-  // TODO: Auth (if private)
+  try {
+    // Get articles
+    const articles = await Article.find()
 
-  // Get articles
-  const articles = await Article.find()
+    // If no articles exist, return 404 error to the client
+    if (Array.isArray(articles) && !articles.length) {
+      return res.status(404).send('no articles found')
+    }
 
-  // If no articles exist, return 404 error to the client
-  if (Array.isArray(articles) && !articles.length) res.status(404).send('no articles found')
+    // Optionally sort articles by query paramater
+    const sortBy = req.query.sortBy
+    if (sortBy) articles.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
 
-  // Optionally sort articles by query paramater
-  const sortBy = req.query.sortBy
-  if (sortBy) articles.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
+    // Return articles to the client
+    res.send(articles)
+  }
 
-  // Return articles to the client
-  res.send(articles)
+  catch (ex) {
+    // If there's an exception, debug it
+    debug(ex)
+  }
 })
 
 /**
  * Get an article
  */
 router.get('/:id', async (req, res, next) => {
-  // TODO: Auth (if private)
-
   try {
     // Get article
     const article = await Article.find({
@@ -115,21 +55,13 @@ router.get('/:id', async (req, res, next) => {
 /**
  * Create an article
  */
-router.post('/', async (req, res) => {
-  // TODO: Auth
-
+router.post('/', auth, async (req, res) => {
   // Validate article
   const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create article
-  let article = new Article({
-    title: req.body.title,
-    author: req.body.author,
-    status: req.body.status,
-    tags: req.body.tags,
-    date: req.body.date
-  })
+  let article = new Article(_.pick(req.body, ['title', 'author', 'status', 'tags', 'date']))
 
   try {
     // Add article to the database
@@ -144,20 +76,18 @@ router.post('/', async (req, res) => {
     for (const field in ex.errors) {
       res.send( ex.errors[field].message )
     }
+    return
   }
 })
 
 /**
  * Update an article
  */
-router.put('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.put('/:id', auth, async (req, res) => {
   // Validate article
   const { error } = validate.update(req.body)
   if (error) {
-    res.status(400).send(error.details[0].message)
-    return
+    return res.status(400).send(error.details[0].message)
   }
 
   try {
@@ -184,8 +114,7 @@ router.put('/:id', async (req, res) => {
 /**
  * Delete an article
  */
-router.delete('/:id', async (req, res) => {
-  // TODO: Auth
+router.delete('/:id', auth, async (req, res) => {
 
   try {
     // Remove article from database, if it exists

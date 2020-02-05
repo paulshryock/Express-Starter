@@ -10,26 +10,44 @@ const helmet = require('helmet')
 const { Liquid } = require('liquidjs')
 const engine = new Liquid()
 const path = require('path')
-const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const createError = require('http-errors')
-const debug = require('debug')('app:startup')
 const mongoose = require('mongoose')
+const logger = require('morgan')
+const debug = {
+  startup: require('debug')('express-starter:startup'),
+  database: require('debug')('express-starter:database')
+}
+require('dotenv').config()
 
 /**
  * Import routes
  */
-const indexRouter = require('./routes/index')
-const articlesRouter = require('./routes/articles')
-const projectsRouter = require('./routes/projects')
-const testimonialsRouter = require('./routes/testimonials')
+const index = require('./routes/index')
+const articles = require('./routes/articles')
+const projects = require('./routes/projects')
+const testimonials = require('./routes/testimonials')
+const agents = require('./routes/agents')
+const users = require('./routes/users')
+const auth = require('./routes/auth')
+
+/**
+ * Error if missing jwtPrivateKey
+ */
+if(!config.get('jwtPrivateKey')) {
+  console.error('FATAL ERROR: jwtPrivateKey is not defined.')
+}
 
 /**
  * Connect to Database
  */
-mongoose.connect(config.db.host + '/' + config.db.name, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => { debug('Connected to MongoDB...') })
-  .catch((err) => { debug('Could not connect to MongoDB...', err) })
+mongoose.connect(config.db.host + '/' + config.db.name, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+  .then(() => { debug.database('Connected to MongoDB...') })
+  .catch((err) => { debug.database('Could not connect to MongoDB...', err) })
+
+mongoose.connection.on('error', err => {
+  debug.database('Database error...', err)
+})
 
 /**
  * Setup view engine
@@ -53,10 +71,13 @@ app.use(helmet()) // Set HTTP headers
 /**
  * Setup routes
  */
-app.use('/', indexRouter)
-app.use('/api/articles', articlesRouter)
-app.use('/api/projects', projectsRouter)
-app.use('/api/testimonials', testimonialsRouter)
+app.use('/', index)
+app.use('/api/articles', articles)
+app.use('/api/projects', projects)
+app.use('/api/testimonials', testimonials)
+app.use('/api/agents', agents)
+app.use('/api/users', users)
+app.use('/api/auth', auth)
 
 /**
  * Catch 404 and forward to error handler
