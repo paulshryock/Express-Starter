@@ -36,7 +36,7 @@ const validate = {
     const schema = Joi.object({
       email: Joi.string().trim().min(5).max(255).required().email(),
       password: Joi.string().min(12).max(255).required(),
-      role: Joi.string().required().valid('admin', 'user')
+      role: Joi.string().valid('admin', 'user').required()
     })
 
     return schema.validate(user)

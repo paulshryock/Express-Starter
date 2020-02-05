@@ -88,7 +88,7 @@ router.post('/', [auth, admin], async (req, res) => {
   if (user) return res.status(400).send('User already registered')
 
   // Create user
-  user = new User(_.pick(req.body, ['email', 'password']))
+  user = new User(_.pick(req.body, ['email', 'password', 'role']))
 
   // Hash password
   const salt = await bcrypt.genSalt(10)
@@ -102,13 +102,14 @@ router.post('/', [auth, admin], async (req, res) => {
     const token = user.generateAuthToken()
 
     // Return created user to the client
-    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email']))
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'role']))
   }
 
   catch (ex) {
+    console.error(ex)
     // Return exception error messages to the client
     for (const field in ex.errors) {
-      res.send( ex.errors[field].message )
+      res.send( ex.errors[field].name + ': ' + ex.errors[field].message )
     }
     return
   }
