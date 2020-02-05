@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "env": {
+    "NODE_ENV": "@node_env",
+    "appname_dbHost": "@appname_dbHost",
+    "appname_dbName": "@appname_dbName",
+    "appname_jwtPrivateKey": "@appname_jwtPrivateKey"
+  },
+  "github": {
+    "silent": true
+  }
+}
