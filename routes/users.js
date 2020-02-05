@@ -7,6 +7,17 @@ const _ = require('lodash')
 const bcrypt = require('bcrypt')
 
 /**
+ * Get current user
+ */
+router.get('/me', auth, async (req, res) => {
+  // Get current user
+  const user = await User.findById(req.user._id).select('-password')
+  
+  // Return user to the client
+  res.send(user)
+})
+
+/**
  * Get users
  */
 router.get('/', auth, async (req, res, next) => {

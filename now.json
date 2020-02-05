@@ -11,9 +11,9 @@
   ],
   "env": {
     "NODE_ENV": "@node_env",
-    "appname_dbHost": "@appname_dbHost",
-    "appname_dbName": "@appname_dbName",
-    "appname_jwtPrivateKey": "@appname_jwtPrivateKey"
+    "appname_dbHost": "@appname_dbhost",
+    "appname_dbName": "@appname_dbname",
+    "appname_jwtPrivateKey": "@appname_jwtprivatekey"
   },
   "github": {
     "silent": true
