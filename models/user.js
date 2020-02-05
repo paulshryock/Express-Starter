@@ -73,23 +73,13 @@ const validate = {
   /**
    * Validate a user's email and password for authentication
    */
-  auth: function (req) {
-    const complexityOptions = {
-      min: 12,
-      max: 255,
-      lowerCase: 1,
-      upperCase: 1,
-      numeric: 1,
-      symbol: 1,
-      requirementCount: 4
-    }
-
+  auth: function (user) {
     const schema = Joi.object({
       email: Joi.string().trim().min(5).max(255).required().email(),
-      password: passwordComplexity(complexityOptions).validate(req.password)
+      password: Joi.string().min(12).max(255).required()
     })
 
-    return schema.validate(req)
+    return schema.validate(user)
   }
 }
 
