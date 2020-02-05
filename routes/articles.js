@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth')
 const express = require('express')
 const router = express.Router()
 const { Article, validate } = require('../models/article')
@@ -8,8 +9,6 @@ const _ = require('lodash')
  * Get articles
  */
 router.get('/', async (req, res, next) => {
-  // TODO: Auth (if private)
-
   try {
     // Get articles
     const articles = await Article.find()
@@ -37,8 +36,6 @@ router.get('/', async (req, res, next) => {
  * Get an article
  */
 router.get('/:id', async (req, res, next) => {
-  // TODO: Auth (if private)
-
   try {
     // Get article
     const article = await Article.find({
@@ -58,9 +55,7 @@ router.get('/:id', async (req, res, next) => {
 /**
  * Create an article
  */
-router.post('/', async (req, res) => {
-  // TODO: Auth
-
+router.post('/', auth, async (req, res) => {
   // Validate article
   const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
@@ -88,9 +83,7 @@ router.post('/', async (req, res) => {
 /**
  * Update an article
  */
-router.put('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.put('/:id', auth, async (req, res) => {
   // Validate article
   const { error } = validate.update(req.body)
   if (error) {
@@ -121,8 +114,7 @@ router.put('/:id', async (req, res) => {
 /**
  * Delete an article
  */
-router.delete('/:id', async (req, res) => {
-  // TODO: Auth
+router.delete('/:id', auth, async (req, res) => {
 
   try {
     // Remove article from database, if it exists

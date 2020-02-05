@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth')
 const express = require('express')
 const router = express.Router()
 const { User, validate } = require('../models/user')
@@ -8,9 +9,7 @@ const bcrypt = require('bcrypt')
 /**
  * Get users
  */
-router.get('/', async (req, res, next) => {
-  // TODO: Auth
-
+router.get('/', auth, async (req, res, next) => {
   try {
     // Get users
     const users = await User.find()
@@ -37,9 +36,7 @@ router.get('/', async (req, res, next) => {
 /**
  * Get a user
  */
-router.get('/:id', async (req, res, next) => {
-  // TODO: Auth
-
+router.get('/:id', auth, async (req, res, next) => {
   try {
     // Get user
     const user = await User.find({
@@ -59,9 +56,7 @@ router.get('/:id', async (req, res, next) => {
 /**
  * Create a user
  */
-router.post('/', async (req, res) => {
-  // TODO: Auth
-  
+router.post('/', auth, async (req, res) => {
   {
     // Validate user
     const { error } = validate.create(req.body)
@@ -108,9 +103,7 @@ router.post('/', async (req, res) => {
 /**
  * Update a user
  */
-router.put('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.put('/:id', auth, async (req, res) => {
   // Validate user
   const { error } = validate.update(req.body)
   if (error) {
@@ -143,9 +136,7 @@ router.put('/:id', async (req, res) => {
 /**
  * Delete a user
  */
-router.delete('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.delete('/:id', auth, async (req, res) => {
   try {
     // Remove user from database, if it exists
     const user = await User.findByIdAndRemove(req.params.id)

@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth')
 const express = require('express');
 const router = express.Router();
 const { Project, validate } = require('../models/project')
@@ -8,8 +9,6 @@ const _ = require('lodash')
  * Get projects
  */
 router.get('/', async (req, res, next) => {
-  // TODO: Auth (if private)
-
   try {
     // Get projects
     const projects = await Project.find()
@@ -37,8 +36,6 @@ router.get('/', async (req, res, next) => {
  * Get a project
  */
 router.get('/:id', async (req, res, next) => {
-  // TODO: Auth (if private)
-
   try {
     // Get project
     const project = await Project.find({
@@ -58,16 +55,13 @@ router.get('/:id', async (req, res, next) => {
 /**
  * Create a project
  */
-router.post('/', async (req, res) => {
-  // TODO: Auth
-
+router.post('/', auth, async (req, res) => {
   // Validate project
   const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create project
   let project = new Project(_.pick(req.body, ['title', 'client', 'status', 'date']))
-
 
   try {
     // Add project to the database
@@ -89,9 +83,7 @@ router.post('/', async (req, res) => {
 /**
  * Update a project
  */
-router.put('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.put('/:id', auth, async (req, res) => {
   // Validate project
   const { error } = validate.update(req.body)
   if (error) {
@@ -121,9 +113,7 @@ router.put('/:id', async (req, res) => {
 /**
  * Delete a project
  */
-router.delete('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.delete('/:id', auth, async (req, res) => {
   try {
     // Remove project from database, if it exists
     const project = await Project.findByIdAndRemove(req.params.id)

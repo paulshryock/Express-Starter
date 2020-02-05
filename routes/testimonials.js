@@ -1,14 +1,14 @@
+const auth = require('../middleware/auth')
 const express = require('express')
 const router = express.Router()
 const { Testimonial, validate } = require('../models/testimonial')
 const debug = require('debug')('express-starter:testimonials')
+const _ = require('lodash')
 
 /**
  * Get testimonials
  */
 router.get('/', async (req, res, next) => {
-  // TODO: Auth (if private)
-
   try {
     // Get testimonials
     const testimonials = await Testimonial.find()
@@ -36,8 +36,6 @@ router.get('/', async (req, res, next) => {
  * Get a testimonial
  */
 router.get('/:id', async (req, res, next) => {
-  // TODO: Auth (if private)
-
   try {
     // Get testimonial
     const testimonial = await Testimonial.find({
@@ -57,22 +55,13 @@ router.get('/:id', async (req, res, next) => {
 /**
  * Create a testimonial
  */
-router.post('/', async (req, res) => {
-  // TODO: Auth
-
+router.post('/', auth, async (req, res) => {
   // Validate testimonial
   const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create testimonial
-  let testimonial = new Testimonial({
-    name: {
-      first: req.body.name.first,
-      last: req.body.name.last
-    },
-    quote: req.body.quote,
-    date: req.body.date
-  })
+  let testimonial = new Testimonial(_.pick(req.body, ['name', 'quote', 'date']))
 
   try {
     // Add testimonial to the database
@@ -94,9 +83,7 @@ router.post('/', async (req, res) => {
 /**
  * Update a testimonial
  */
-router.put('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.put('/:id', auth, async (req, res) => {
   // Validate testimonial
   const { error } = validate.update(req.body)
   if (error) {
@@ -106,8 +93,14 @@ router.put('/:id', async (req, res) => {
   try {
     // Update testimonial in database with request body keys if they exist
     const requestBody = {}
-    if (req.body.name.first) requestBody.name.first = req.body.name.first
-    if (req.body.name.last) requestBody.name.last = req.body.name.last
+    if (req.body.name) {
+      requestBody.name = {
+        first: '',
+        last: ''
+      }
+      if (req.body.name.first) requestBody.name.first = req.body.name.first
+      if (req.body.name.last) requestBody.name.last = req.body.name.last
+    }
     if (req.body.quote) requestBody.quote = req.body.quote
     if (req.body.date) requestBody.date = req.body.date
 
@@ -126,9 +119,7 @@ router.put('/:id', async (req, res) => {
 /**
  * Delete a testimonial
  */
-router.delete('/:id', async (req, res) => {
-  // TODO: Auth
-
+router.delete('/:id', auth, async (req, res) => {
   try {
     // Remove testimonial from database, if it exists
     const testimonial = await Testimonial.findByIdAndRemove(req.params.id)

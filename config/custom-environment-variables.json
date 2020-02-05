@@ -1,7 +1,7 @@
 {
   "db": {
-    "host": "expressstarter_dbHost",
-    "name": "expressstarter_dbName"
+    "host": "appname_dbHost",
+    "name": "appname_dbName"
   },
-  "jwtPrivateKey": "expressstarter_jwtPrivateKey"
+  "jwtPrivateKey": "appname_jwtPrivateKey"
 }

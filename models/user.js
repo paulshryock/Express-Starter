@@ -1,6 +1,8 @@
 const Joi = require('@hapi/joi')
 const passwordComplexity = require('joi-password-complexity')
 const mongoose = require('mongoose')
+mongoose.set('useCreateIndex', true)
+const uniqueValidator = require('mongoose-unique-validator')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
@@ -11,6 +13,8 @@ const userSchema = new mongoose.Schema({
   email: { type: String, trim: true, required: true, minLength: 5, maxLength: 255, unique: true },
   password: { type: String, required: true , minLength: 12, maxLength: 1024}
 })
+
+userSchema.plugin(uniqueValidator)
 
 userSchema.methods.generateAuthToken = function() {
   const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'))

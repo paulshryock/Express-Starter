@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const { Agent, validate } = require('../models/agent')
 const debug = require('debug')('express-starter:agents')
+const _ = require('lodash')
 
 /**
  * Get agents
@@ -60,18 +61,7 @@ router.post('/', auth, async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message)
 
   // Create agent
-  let agent = new Agent({
-    name: {
-      first: req.body.name.first,
-      last: req.body.name.last
-    },
-    email: req.body.email,
-    brand: req.body.brand,
-    state: req.body.state,
-    company: req.body.company,
-    date: req.body.date,
-    event: req.body.event
-  })
+  let agent = new Agent(_.pick(req.body, ['name', 'email', 'brand', 'state', 'company', 'date', 'event']))
 
   try {
     // Add agent to the database
@@ -118,7 +108,7 @@ router.put('/:id', auth, async (req, res) => {
     if (req.body.date) requestBody.date = req.body.date
     if (req.body.event) requestBody.event = req.body.event
 
-    const agent = await Agent.findByIdAndUpdate(req.params.id, requestBody, { new: true })
+    const agent = await Agent.findByIdAndUpdate(req.params.id, requestBody, { new: true, runValidators: true, context: 'query' })
 
     // Return updated agent to client
     res.send(agent)

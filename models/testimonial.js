@@ -9,12 +9,8 @@ const Testimonial = mongoose.model('Testimonial', new mongoose.Schema({
     first: { type: String, trim: true, required: true },
     last: { type: String, trim: true, required: true }
   },
-  email: { type: String, trim: true, required: true },
-  brand: { type: String, trim: true },
-  state: { type: String, trim: true },
-  company: { type: String, trim: true },
-  date: { type: Date, default: Date.now },
-  event: { type: String, trim: true }
+  quote: { type: String, trim: true, required: true },
+  date: { type: Date, default: Date.now }
 }))
 
 const validate = {
@@ -39,10 +35,10 @@ const validate = {
   update: function (testimonial) {
     const schema = Joi.object({
       name: Joi.object({
-        first: Joi.string().trim().required(),
-        last: Joi.string().trim().required()
+        first: Joi.string().trim(),
+        last: Joi.string().trim()
       }),
-      quote: Joi.string().trim().required(),
+      quote: Joi.string().trim(),
       date: Joi.date()
     }).or('name.first', 'name.last', 'quote', 'date')
 
