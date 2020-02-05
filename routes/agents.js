@@ -28,8 +28,8 @@ router.get('/', [auth, admin], async (req, res, next) => {
   }
 
   catch (ex) {
-    // If there's an exception, debug it
-    debug(ex)
+    // Catch exceptions
+    res.status(500).send(ex.errors[field].message)
   }
 })
 
