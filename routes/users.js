@@ -7,17 +7,6 @@ const _ = require('lodash')
 const bcrypt = require('bcrypt')
 
 /**
- * Get current user
- */
-router.get('/me', auth, async (req, res) => {
-  // Get current user
-  const user = await User.findById(req.user._id).select('-password')
-  
-  // Return user to the client
-  res.send(user)
-})
-
-/**
  * Get users
  */
 router.get('/', auth, async (req, res, next) => {
@@ -62,6 +51,17 @@ router.get('/:id', auth, async (req, res, next) => {
     // If user does not exist, 404 error
     return res.status(404).send('"id" was not found')
   }
+})
+
+/**
+ * Get current user
+ */
+router.get('/me', auth, async (req, res) => {
+  // Get current user
+  const user = await User.findById(req.user._id).select('-password')
+  
+  // Return user to the client
+  res.send(user)
 })
 
 /**
