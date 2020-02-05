@@ -1,4 +1,5 @@
 const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
 const express = require('express')
 const router = express.Router()
 const { User, validate } = require('../models/user')
@@ -9,7 +10,7 @@ const bcrypt = require('bcrypt')
 /**
  * Get users
  */
-router.get('/', auth, async (req, res, next) => {
+router.get('/', [auth, admin], async (req, res, next) => {
   try {
     // Get users
     const users = await User.find()
@@ -36,7 +37,7 @@ router.get('/', auth, async (req, res, next) => {
 /**
  * Get a user
  */
-router.get('/:id', auth, async (req, res, next) => {
+router.get('/:id', [auth, admin], async (req, res, next) => {
   try {
     // Get user
     const user = await User.find({
@@ -64,10 +65,12 @@ router.get('/me', auth, async (req, res) => {
   res.send(user)
 })
 
+// TODO: Add a route handler to update current user, which only needs auth, but not admin
+
 /**
  * Create a user
  */
-router.post('/', auth, async (req, res) => {
+router.post('/', [auth, admin], async (req, res) => {
   {
     // Validate user
     const { error } = validate.create(req.body)
@@ -114,7 +117,7 @@ router.post('/', auth, async (req, res) => {
 /**
  * Update a user
  */
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', [auth, admin], async (req, res) => {
   // Validate user
   const { error } = validate.update(req.body)
   if (error) {
@@ -147,7 +150,7 @@ router.put('/:id', auth, async (req, res) => {
 /**
  * Delete a user
  */
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
   try {
     // Remove user from database, if it exists
     const user = await User.findByIdAndRemove(req.params.id)

@@ -1,4 +1,5 @@
 const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
 const express = require('express');
 const router = express.Router();
 const { Project, validate } = require('../models/project')
@@ -55,7 +56,7 @@ router.get('/:id', async (req, res, next) => {
 /**
  * Create a project
  */
-router.post('/', auth, async (req, res) => {
+router.post('/', [auth, admin], async (req, res) => {
   // Validate project
   const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
@@ -83,7 +84,7 @@ router.post('/', auth, async (req, res) => {
 /**
  * Update a project
  */
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', [auth, admin], async (req, res) => {
   // Validate project
   const { error } = validate.update(req.body)
   if (error) {
@@ -113,7 +114,7 @@ router.put('/:id', auth, async (req, res) => {
 /**
  * Delete a project
  */
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
   try {
     // Remove project from database, if it exists
     const project = await Project.findByIdAndRemove(req.params.id)
