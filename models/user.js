@@ -47,7 +47,7 @@ const validate = {
   update: function (user) {
     const schema = Joi.object({
       email: Joi.string().trim().min(5).max(255).email(),
-      password: Joi.string().min(5).max(255),
+      password: Joi.string().min(5).max(255).valid(validate.password(user).value),
       role: Joi.string().valid('admin', 'user')
     }).or('email', 'password', 'role')
 
@@ -57,7 +57,6 @@ const validate = {
    * Validate a user's password with additional requirements
    */
   password: function (user) {
-
     const complexityOptions = {
       min: 12,
       max: 255,
@@ -76,7 +75,7 @@ const validate = {
   auth: function (user) {
     const schema = Joi.object({
       email: Joi.string().trim().min(5).max(255).required().email(),
-      password: Joi.string().min(12).max(255).required()
+      password: Joi.string().min(12).max(255).required().valid(validate.password(user).value)
     })
 
     return schema.validate(user)

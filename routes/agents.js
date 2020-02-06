@@ -11,7 +11,7 @@ const _ = require('lodash')
  */
 router.get('/', [auth, admin], async (req, res, next) => {
   try {
-    // Get agents
+    // Get agents from the database
     const agents = await Agent.find()
 
     // If no agents exist, return 404 error to the client
@@ -28,7 +28,7 @@ router.get('/', [auth, admin], async (req, res, next) => {
   }
 
   catch (ex) {
-    // Catch exceptions
+    // Catch exceptions and return a 500 error to the client
     res.status(500).send(ex.errors[field].message)
   }
 })

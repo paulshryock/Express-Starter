@@ -101,7 +101,7 @@ router.post('/', [auth, admin], async (req, res) => {
     // Generate auth token
     const token = user.generateAuthToken()
 
-    // Return created user to the client
+    // Return created user to the client, with auth token header
     res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'role']))
   }
 
