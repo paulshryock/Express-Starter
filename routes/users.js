@@ -35,6 +35,58 @@ router.get('/', [auth, admin], async (req, res, next) => {
 })
 
 /**
+ * Get current user
+ */
+router.get('/me', auth, async (req, res) => {
+  // Get current user
+  const user = await User.findById(req.user._id).select('-password')
+  
+  // Return user to the client
+  res.send(user)
+})
+
+/**
+ * Update current user
+ */
+router.put('/me', auth, async (req, res) => {
+  {
+    // Validate user
+    const { error } = validate.update(req.body)
+    if (error) return res.status(400).send(error.details[0].message)
+  }
+  
+  {
+    // Validate password
+    const { error } = validate.password(req.body)
+    if (error) return res.status(400).send(error.details[0].message)
+  }
+
+  try {
+
+    // Update user in database with request body keys if they exist
+    const requestBody = {}
+    if (req.body.email) requestBody.email = req.body.email
+    if (req.body.password) {
+      requestBody.password = req.body.password
+      // Hash password
+      const salt = await bcrypt.genSalt(10)
+      requestBody.password = await bcrypt.hash(requestBody.password, salt)
+    }
+    if (req.body.role) requestBody.role = req.body.role
+
+    const user = await User.findByIdAndUpdate(req.user._id, requestBody, { new: true })
+
+    // Return updated user to the client
+    res.send(_.pick(user, ['_id', 'email', 'role']))
+  }
+
+  catch (ex) {
+    // If user does not exist, return 404 error to the client
+    return res.status(404).send('"id" was not found')
+  }
+})
+
+/**
  * Get a user
  */
 router.get('/:id', [auth, admin], async (req, res, next) => {
@@ -53,19 +105,6 @@ router.get('/:id', [auth, admin], async (req, res, next) => {
     return res.status(404).send('"id" was not found')
   }
 })
-
-/**
- * Get current user
- */
-router.get('/me', auth, async (req, res) => {
-  // Get current user
-  const user = await User.findById(req.user._id).select('-password')
-  
-  // Return user to the client
-  res.send(user)
-})
-
-// TODO: Add a route handler to update current user, which only needs auth, but not admin
 
 /**
  * Create a user
@@ -135,11 +174,12 @@ router.put('/:id', [auth, admin], async (req, res) => {
       const salt = await bcrypt.genSalt(10)
       requestBody.password = await bcrypt.hash(requestBody.password, salt)
     }
+    if (req.body.role) requestBody.role = req.body.role
 
     const user = await User.findByIdAndUpdate(req.params.id, requestBody, { new: true })
 
     // Return updated user to the client
-    res.send(_.pick(user, ['_id', 'email']))
+    res.send(_.pick(user, ['_id', 'email', 'role']))
   }
 
   catch (ex) {

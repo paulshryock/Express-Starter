@@ -47,7 +47,7 @@ const validate = {
   update: function (user) {
     const schema = Joi.object({
       email: Joi.string().trim().min(5).max(255).email(),
-      password: Joi.string().min(5).max(255).valid(validate.password(user).value),
+      password: Joi.string().min(12).max(255),
       role: Joi.string().valid('admin', 'user')
     }).or('email', 'password', 'role')
 
