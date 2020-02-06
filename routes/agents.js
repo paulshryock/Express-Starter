@@ -1,4 +1,5 @@
 const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
 const express = require('express')
 const router = express.Router()
 const { Agent, validate } = require('../models/agent')
@@ -8,9 +9,9 @@ const _ = require('lodash')
 /**
  * Get agents
  */
-router.get('/', auth, async (req, res, next) => {
+router.get('/', [auth, admin], async (req, res, next) => {
   try {
-    // Get agents
+    // Get agents from the database
     const agents = await Agent.find()
 
     // If no agents exist, return 404 error to the client
@@ -27,15 +28,15 @@ router.get('/', auth, async (req, res, next) => {
   }
 
   catch (ex) {
-    // If there's an exception, debug it
-    debug(ex)
+    // Catch exceptions and return a 500 error to the client
+    res.status(500).send(ex.errors[field].message)
   }
 })
 
 /**
  * Get an agent
  */
-router.get('/:id', auth, async (req, res, next) => {
+router.get('/:id', [auth, admin], async (req, res, next) => {
   try {
     // Get agent
     const agent = await Agent.find({
@@ -55,7 +56,7 @@ router.get('/:id', auth, async (req, res, next) => {
 /**
  * Create an agent
  */
-router.post('/', auth, async (req, res) => {
+router.post('/', async (req, res) => {
   // Validate agent
   const { error } = validate.create(req.body)
   if (error) return res.status(400).send(error.details[0].message)
@@ -83,7 +84,7 @@ router.post('/', auth, async (req, res) => {
 /**
  * Update an agent
  */
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', [auth, admin], async (req, res) => {
   // Validate agent
   const { error } = validate.update(req.body)
   if (error) {
@@ -124,7 +125,7 @@ router.put('/:id', auth, async (req, res) => {
 /**
  * Delete an agent
  */
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
   try {
     // Remove agent from database, if it exists
     const agent = await Agent.findByIdAndRemove(req.params.id)

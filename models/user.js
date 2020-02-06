@@ -11,13 +11,14 @@ const config = require('config')
  */
 const userSchema = new mongoose.Schema({
   email: { type: String, trim: true, required: true, minLength: 5, maxLength: 255, unique: true, uniqueCaseInsensitive: true },
-  password: { type: String, required: true , minLength: 12, maxLength: 1024}
+  password: { type: String, required: true , minLength: 12, maxLength: 1024 },
+  role: { type: String, trim: true, required: true }
 })
 
 userSchema.plugin(uniqueValidator)
 
 userSchema.methods.generateAuthToken = function() {
-  const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'))
+  const token = jwt.sign({ _id: this._id, role: this.role }, config.get('jwtPrivateKey'))
 
   return token
 }
@@ -35,6 +36,7 @@ const validate = {
     const schema = Joi.object({
       email: Joi.string().trim().min(5).max(255).required().email(),
       password: Joi.string().min(12).max(255).required(),
+      role: Joi.string().valid('admin', 'user').required()
     })
 
     return schema.validate(user)
@@ -45,8 +47,9 @@ const validate = {
   update: function (user) {
     const schema = Joi.object({
       email: Joi.string().trim().min(5).max(255).email(),
-      password: Joi.string().min(5).max(255),
-    }).or('email', 'password')
+      password: Joi.string().min(5).max(255).valid(validate.password(user).value),
+      role: Joi.string().valid('admin', 'user')
+    }).or('email', 'password', 'role')
 
     return schema.validate(user)
   },
@@ -54,7 +57,6 @@ const validate = {
    * Validate a user's password with additional requirements
    */
   password: function (user) {
-
     const complexityOptions = {
       min: 12,
       max: 255,
@@ -70,23 +72,13 @@ const validate = {
   /**
    * Validate a user's email and password for authentication
    */
-  auth: function (req) {
-    const complexityOptions = {
-      min: 12,
-      max: 255,
-      lowerCase: 1,
-      upperCase: 1,
-      numeric: 1,
-      symbol: 1,
-      requirementCount: 4
-    }
-
+  auth: function (user) {
     const schema = Joi.object({
       email: Joi.string().trim().min(5).max(255).required().email(),
-      password: passwordComplexity(complexityOptions).validate(req.password)
+      password: Joi.string().min(12).max(255).required().valid(validate.password(user).value)
     })
 
-    return schema.validate(req)
+    return schema.validate(user)
   }
 }
 

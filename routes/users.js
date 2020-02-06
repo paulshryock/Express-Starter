@@ -1,4 +1,5 @@
 const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
 const express = require('express')
 const router = express.Router()
 const { User, validate } = require('../models/user')
@@ -7,20 +8,9 @@ const _ = require('lodash')
 const bcrypt = require('bcrypt')
 
 /**
- * Get current user
- */
-router.get('/me', auth, async (req, res) => {
-  // Get current user
-  const user = await User.findById(req.user._id).select('-password')
-  
-  // Return user to the client
-  res.send(user)
-})
-
-/**
  * Get users
  */
-router.get('/', auth, async (req, res, next) => {
+router.get('/', [auth, admin], async (req, res, next) => {
   try {
     // Get users
     const users = await User.find()
@@ -47,7 +37,7 @@ router.get('/', auth, async (req, res, next) => {
 /**
  * Get a user
  */
-router.get('/:id', auth, async (req, res, next) => {
+router.get('/:id', [auth, admin], async (req, res, next) => {
   try {
     // Get user
     const user = await User.find({
@@ -65,9 +55,22 @@ router.get('/:id', auth, async (req, res, next) => {
 })
 
 /**
+ * Get current user
+ */
+router.get('/me', auth, async (req, res) => {
+  // Get current user
+  const user = await User.findById(req.user._id).select('-password')
+  
+  // Return user to the client
+  res.send(user)
+})
+
+// TODO: Add a route handler to update current user, which only needs auth, but not admin
+
+/**
  * Create a user
  */
-router.post('/', auth, async (req, res) => {
+router.post('/', [auth, admin], async (req, res) => {
   {
     // Validate user
     const { error } = validate.create(req.body)
@@ -85,7 +88,7 @@ router.post('/', auth, async (req, res) => {
   if (user) return res.status(400).send('User already registered')
 
   // Create user
-  user = new User(_.pick(req.body, ['email', 'password']))
+  user = new User(_.pick(req.body, ['email', 'password', 'role']))
 
   // Hash password
   const salt = await bcrypt.genSalt(10)
@@ -98,14 +101,15 @@ router.post('/', auth, async (req, res) => {
     // Generate auth token
     const token = user.generateAuthToken()
 
-    // Return created user to the client
-    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email']))
+    // Return created user to the client, with auth token header
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'role']))
   }
 
   catch (ex) {
+    console.error(ex)
     // Return exception error messages to the client
     for (const field in ex.errors) {
-      res.send( ex.errors[field].message )
+      res.send( ex.errors[field].name + ': ' + ex.errors[field].message )
     }
     return
   }
@@ -114,7 +118,7 @@ router.post('/', auth, async (req, res) => {
 /**
  * Update a user
  */
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', [auth, admin], async (req, res) => {
   // Validate user
   const { error } = validate.update(req.body)
   if (error) {
@@ -147,7 +151,7 @@ router.put('/:id', auth, async (req, res) => {
 /**
  * Delete a user
  */
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
   try {
     // Remove user from database, if it exists
     const user = await User.findByIdAndRemove(req.params.id)
