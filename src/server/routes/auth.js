@@ -33,7 +33,17 @@ router.post('/', async (req, res) => {
 
   try {
     // Return auth token to the client
-    res.send(token)
+    res
+      // Set a cookie
+      .cookie('x-auth-token', token, {
+        maxAge: 60 * 60 * 1000, // 1 hour
+        httpOnly: true,
+        secure: true,
+        sameSite: true
+      })
+      // Send the response
+      // .send(token)
+      .send()
   }
 
   catch {

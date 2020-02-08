@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "build": "npm start",
-    "ssg": "npx eleventy",
-    "serve": "nodemon -r dotenv/config ./bin/www"
+    "start": "node -r dotenv/config ./src/server/bin/www",
+    "build": "npx eleventy",
+    "serve": "nodemon -r dotenv/config ./src/server/bin/www"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.7",
@@ -24,10 +23,10 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.7.7",
     "mongoose-unique-validator": "^2.0.3",
-    "morgan": "~1.9.1",
-    "nodemon": "^1.19.4"
+    "morgan": "~1.9.1"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^0.9.0"
+    "@11ty/eleventy": "^0.9.0",
+    "nodemon": "^1.19.4"
   }
 }

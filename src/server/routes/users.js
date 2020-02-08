@@ -141,7 +141,18 @@ router.post('/', [auth, admin], async (req, res) => {
     const token = user.generateAuthToken()
 
     // Return created user to the client, with auth token header
-    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'role']))
+    res
+      // Set a cookie
+      .cookie('x-auth-token', token, {
+        maxAge: 60 * 60 * 1000, // 1 hour
+        httpOnly: true,
+        secure: true,
+        sameSite: true
+      })
+      // Set a header
+      // .header('x-auth-token', token)
+      // Send the response
+      .send(_.pick(user, ['_id', 'email', 'role']))
   }
 
   catch (ex) {
