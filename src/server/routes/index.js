@@ -1,10 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var config = require('config');
+const router = require('express').Router()
+const handlers = require('../handlers/index')
 
-// Get home page
-router.get('/', function(req, res, next) {
-  res.render('index', { title: config.get('app.title') });
-});
+router.get('/', handlers.getIndex)
 
-module.exports = router;
+module.exports = router
