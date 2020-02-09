@@ -1,5 +1,7 @@
 # Express Starter
 
+[![JWT Compatible][jwt-compatible-icon]][jwt]
+
 Fork this repository to start a new project with Express.
 
 This is an open source project which uses the [The Hippocratic License][license].
@@ -30,6 +32,8 @@ Then find and replace the package name (`Express-Starter`) and author name (`Pau
 
 If you'd like to contribute, please read the [Code of Conduct][code-of-conduct] and [Contributing instructions][contributing], then fork the repository and use a feature branch. Pull requests are welcome.
 
+[jwt]: https://jwt.io/
+[jwt-compatible-icon]: http://jwt.io/img/badge-compatible.svg
 [license]: https://firstdonoharm.dev/
 [node-download]: https://nodejs.org/en/download/
 [pkg]: package.json
