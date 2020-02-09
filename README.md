@@ -2,7 +2,7 @@
 
 [![JWT Compatible][jwt-compatible-icon]][jwt]
 
-Fork this repository to start a new project with Express.
+Fork this repository to start a new server-side API with Express and Mongoose.
 
 This is an open source project which uses the [The Hippocratic License][license].
 
@@ -26,7 +26,11 @@ npm i
 npm start
 ```
 
-Then find and replace the package name (`Express-Starter`) and author name (`Paul Shryock`) in [`LICENSE`][license], [`package.json`][pkg], and `README.md`.
+Then find and replace the author name (`Paul Shryock`) and package name (`Express-Starter`) in [`LICENSE`][license] and [`package.json`][pkg], and remove this line from `README.md`.
+
+## Documentation
+
+[Project documentation][docs] files are in the `_docs` directory.
 
 ## Contributing
 
