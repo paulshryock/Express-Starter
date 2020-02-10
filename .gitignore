@@ -7,6 +7,7 @@ package-lock.json
 
 # Temp files
 _logs/
+public/
 build/
 dist/
 temp/

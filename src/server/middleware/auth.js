@@ -6,7 +6,13 @@ module.exports = function (req, res, next) {
   // response.cookies.nameOfCookie
 
   const token = req.header('x-auth-token')
-  if (!token) return res.status(401).send('Access denied. No token provided.')
+  if (!token) {
+    return res
+      .status(401)
+      .send('Access denied. No token provided.')
+      // TODO: Should we redirect to the login page?
+      // .redirect(401, '/login')
+  }
 
   try {
     const decoded = jwt.verify(token, config.get('jwtPrivateKey'))

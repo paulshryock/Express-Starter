@@ -37,7 +37,7 @@ module.exports = function (eleventyConfig) {
       includes: '_includes',
       input: 'src/client',
       layouts: '_layouts',
-      output: 'build/client'
+      output: 'public'
     }
   }
 }
