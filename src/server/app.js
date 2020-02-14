@@ -65,7 +65,7 @@ if (app.get('env') === 'development') {
 app.use(express.json()) // Return JSON
 app.use(express.urlencoded({ extended: false })) // Allow query strings
 app.use(cookieParser()) // Parse cookies
-app.use(express.static(path.join(__dirname, 'build'))) // Serve static content
+app.use(express.static(path.join(__dirname, 'build/client'))) // Serve static content
 app.use(helmet()) // Set HTTP headers
 
 /**
