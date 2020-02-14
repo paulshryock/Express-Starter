@@ -1,3 +1,4 @@
+const { log } = require('../modules/logger')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
@@ -9,20 +10,25 @@ module.exports = function (req, res, next) {
 
   const token = req.header('x-auth-token')
   if (!token) {
+    log.error('Access denied. No token provided.', { status: 401 })
     return res
       .status(401)
       .send('Access denied. No token provided.')
       // TODO: Should we redirect to the login page?
       // .redirect(401, '/login')
+      // Or let the client handle this?
   }
 
   try {
     const decoded = jwt.verify(token, config.get('jwtPrivateKey'))
     req.user = decoded
+    // TODO: Should we redirect somewhere, like the home page?
+    // Or let the client handle this?
     next()
   }
 
   catch (ex) {
-    res.status(400).send('Invalid token.')
+    log.error('Invalid token.', { status: 400 })
+    return res.status(400).send('Invalid token.')
   }
 }

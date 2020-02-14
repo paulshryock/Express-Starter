@@ -15,7 +15,8 @@ const createError = require('http-errors')
 const error = require('./middleware/error')
 require('express-async-errors')
 const mongoose = require('mongoose')
-const logger = require('morgan')
+const httpLogger = require('morgan')
+const { log } = require('./modules/logger')
 const debug = {
   startup: require('debug')('express-starter:startup'),
   database: require('debug')('express-starter:database')
@@ -62,7 +63,7 @@ app.set('view engine', 'liquid')
  * Use middleware
  */
 if (app.get('env') === 'development') {
-  app.use(logger('dev')) // Log requests to the console
+  app.use(httpLogger('dev')) // Log requests to the console
 }
 app.use(express.json()) // Return JSON
 app.use(express.urlencoded({ extended: false })) // Allow query strings

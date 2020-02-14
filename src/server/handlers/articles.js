@@ -1,5 +1,5 @@
+const { log } = require('../modules/logger')
 const { Article, validate } = require('../models/article')
-const debug = require('debug')('express-starter:articles')
 const _ = require('lodash')
 
 module.exports = {
@@ -24,22 +24,6 @@ module.exports = {
   },
 
   /**
-   * Get an article
-   */
-  getArticle: async (req, res) => {
-    // Get article
-    const article = await Article.findOne({
-      _id: req.params.id
-    })
-
-    // If article does not exist, 404 error
-    if (!article) res.status(404).send('"id" was not found')
-
-    // Return article to the client
-    res.send(article)
-  },
-
-  /**
    * Create an article
    */
   createArticle: async (req, res) => {
@@ -52,6 +36,24 @@ module.exports = {
 
     // Add article to the database
     article = await article.save()
+
+    log.info('Article created.', _.pick(article, ['_doc', 'level', 'message', 'timestamp']))
+
+    // Return article to the client
+    res.send(article)
+  },
+
+  /**
+   * Get an article
+   */
+  getArticle: async (req, res) => {
+    // Get article
+    const article = await Article.findOne({
+      _id: req.params.id
+    })
+
+    // If article does not exist, 404 error
+    if (!article) res.status(404).send('"id" was not found')
 
     // Return article to the client
     res.send(article)
@@ -81,6 +83,8 @@ module.exports = {
     // If article does not exist, return 404 error to the client
     if (!article) res.status(404).send('"id" was not found')
 
+    log.info('Article updated.', _.pick(article, ['_doc', 'level', 'message', 'timestamp']))
+
     // Return updated article to client
     res.send(article)
   },
@@ -94,6 +98,8 @@ module.exports = {
 
     // If article does not exist, return 404 error to the client
     if (!article) res.status(404).send('"id" was not found')
+
+    log.info('Article removed.', _.pick(article, ['_doc', 'level', 'message', 'timestamp']))
 
     // Return deleted article to client
     res.send(article)

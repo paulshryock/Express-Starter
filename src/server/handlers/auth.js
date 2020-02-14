@@ -1,5 +1,7 @@
+const { log } = require('../modules/logger')
 const { User, validate } = require('../models/user')
 const bcrypt = require('bcrypt')
+const _ = require('lodash')
 
 module.exports = {
   /**
@@ -20,34 +22,34 @@ module.exports = {
 
     // Verify user exists
     let user = await User.findOne({ email: req.body.email })
-    if (!user) return res.status(400).send('Invalid email or password')
+    if (!user) {
+      log.info('Failed login attempt: Invalid email.', { user: req.body.email })
+      return res.status(400).send('Invalid email or password')
+    }
 
     // Verify correct password
     const validPassword = await bcrypt.compare(req.body.password, user.password)
-    if (!validPassword) return res.status(400).send('Invalid email or password')
+    if (!validPassword) {
+      log.info('Failed login attempt: Invalid password.', { user: req.body.email })
+      return res.status(400).send('Invalid email or password')
+    }
+
+    log.info('User logged in.', { user: _.pick(user, ['_id', 'email', 'role']) })
 
     // Generate auth token
     const token = user.generateAuthToken()
 
-    try {
-      // Return auth token to the client
-      res
-        // Set a cookie
-        .cookie('x-auth-token', token, {
-          maxAge: 60 * 60 * 1000, // 1 hour
-          httpOnly: true,
-          secure: true,
-          sameSite: true
-        })
-        // Send the response
-        // .send(token)
-        .send('Login successful.')
-    }
-
-    catch {
-      // Return exception to the client
-      res.send(ex)
-      return
-    }
+    // Return auth token to the client
+    res
+      // Set a cookie
+      .cookie('x-auth-token', token, {
+        maxAge: 60 * 60 * 1000, // 1 hour
+        httpOnly: true,
+        secure: true,
+        sameSite: true
+      })
+      // Send the response
+      // .send(token)
+      .send('Login successful.')
   }
 }
