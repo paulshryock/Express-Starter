@@ -15,5 +15,6 @@ temp/
 # OS files
 .DS_Store
 
-# Local Netlify folder
+# Local server config folders
 .netlify
+.now
