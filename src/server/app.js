@@ -12,8 +12,11 @@ const engine = new Liquid()
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const createError = require('http-errors')
+const error = require('./middleware/error')
+require('express-async-errors')
 const mongoose = require('mongoose')
-const logger = require('morgan')
+const httpLogger = require('morgan')
+const { log } = require('./modules/logger')
 const debug = {
   startup: require('debug')('express-starter:startup'),
   database: require('debug')('express-starter:database')
@@ -35,7 +38,7 @@ const auth = require('./routes/auth')
  * Error if missing jwtPrivateKey
  */
 if(!config.get('jwtPrivateKey')) {
-  console.error('FATAL ERROR: jwtPrivateKey is not defined.')
+  log.error('FATAL ERROR: jwtPrivateKey is not defined.')
 }
 
 /**
@@ -46,6 +49,7 @@ mongoose.connect(config.db.host + '/' + config.db.name, { useNewUrlParser: true,
   .catch((err) => { debug.database('Could not connect to MongoDB...', err) })
 
 mongoose.connection.on('error', err => {
+  log.error('Database error...', err)
   debug.database('Database error...', err)
 })
 
@@ -60,12 +64,12 @@ app.set('view engine', 'liquid')
  * Use middleware
  */
 if (app.get('env') === 'development') {
-  app.use(logger('dev')) // Log requests to the console
+  app.use(httpLogger('dev')) // Log requests to the console
 }
 app.use(express.json()) // Return JSON
 app.use(express.urlencoded({ extended: false })) // Allow query strings
 app.use(cookieParser()) // Parse cookies
-app.use(express.static(path.join(__dirname, 'build'))) // Serve static content
+app.use(express.static(path.join(__dirname, '../../build/client'))) // Serve static content
 app.use(helmet()) // Set HTTP headers
 
 /**
@@ -85,6 +89,12 @@ app.use('/api/auth', auth)
 app.use(function(req, res, next) {
   next(createError(404))
 })
+
+/**
+ * Error middleware
+ * TODO: Remove if unnecessary
+ */
+app.use(error)
 
 /**
  * Error handler

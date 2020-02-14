@@ -1,5 +1,5 @@
+const { log } = require('../modules/logger')
 const { Project, validate } = require('../models/project')
-const debug = require('debug')('express-starter:projects')
 const _ = require('lodash')
 
 module.exports = {
@@ -7,47 +7,20 @@ module.exports = {
    * Get projects
    */
   getProjects: async (req, res, next) => {
-    try {
-      // Get projects
-      const projects = await Project.find()
+    // Get projects
+    const projects = await Project.find()
 
-      // If no projects exist, return 404 error to the client
-      if (Array.isArray(projects) && !projects.length) {
-        return res.status(404).send('no projects found')
-      }
-
-      // Optionally sort projects by query paramater
-      const sortBy = req.query.sortBy
-      if (sortBy) projects.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
-
-      // Return projects to the client
-      res.send(projects)
+    // If no projects exist, return 404 error to the client
+    if (Array.isArray(projects) && !projects.length) {
+      return res.status(404).send('no projects found')
     }
 
-    catch (ex) {
-      // If there's an exception, debug it
-      debug(ex)
-    }
-  },
+    // Optionally sort projects by query paramater
+    const sortBy = req.query.sortBy
+    if (sortBy) projects.sort((a, b) => (a[sortBy] > b[sortBy]) ? 1 : -1)
 
-  /**
-   * Get a project
-   */
-  getProject: async (req, res, next) => {
-    try {
-      // Get project
-      const project = await Project.find({
-        _id: req.params.id
-      })
-
-      // Return project to the client
-      res.send(project)
-    }
-
-    catch (ex) {
-      // If project does not exist, 404 error
-      return res.status(404).send('"id" was not found')
-    }
+    // Return projects to the client
+    res.send(projects)
   },
 
   /**
@@ -61,21 +34,29 @@ module.exports = {
     // Create project
     let project = new Project(_.pick(req.body, ['title', 'client', 'status', 'date']))
 
-    try {
-      // Add project to the database
-      project = await project.save()
+    // Add project to the database
+    project = await project.save()
 
-      // Return project to the client
-      res.send(project)
-    }
+    log.info('Project created.', _.pick(project, ['_doc', 'level', 'message', 'timestamp']))
 
-    catch (ex) {
-      // Return exception error messages to the client
-      for (const field in ex.errors) {
-        res.send( ex.errors[field].message )
-      }
-      return
-    }
+    // Return project to the client
+    res.send(project)
+  },
+
+  /**
+   * Get a project
+   */
+  getProject: async (req, res, next) => {
+    // Get project
+    const project = await Project.find({
+      _id: req.params.id
+    })
+
+    // If project does not exist, 404 error
+    if (!project) res.status(404).send('"id" was not found')
+
+    // Return project to the client
+    res.send(project)
   },
 
   /**
@@ -88,41 +69,37 @@ module.exports = {
       return res.status(400).send(error.details[0].message)
     }
 
-    try {
-      // Update project in database with request body keys if they exist
-      const requestBody = {}
-      if (req.body.title) requestBody.title = req.body.title
-      if (req.body.client) requestBody.client = req.body.client
-      if (req.body.status) requestBody.status = req.body.status
-      if (req.body.date) requestBody.date = req.body.date
+    // Update project in database with request body keys if they exist
+    const requestBody = {}
+    if (req.body.title) requestBody.title = req.body.title
+    if (req.body.client) requestBody.client = req.body.client
+    if (req.body.status) requestBody.status = req.body.status
+    if (req.body.date) requestBody.date = req.body.date
 
-      const project = await Project.findByIdAndUpdate(req.params.id, requestBody, { new: true })
+    const project = await Project.findByIdAndUpdate(req.params.id, requestBody, { new: true })
 
-      // Return updated project to client
-      res.send(project)
-    }
+    // If project does not exist, return 404 error to the client
+    if (!project) return res.status(404).send('"id" was not found')
 
-    catch (ex) {
-      // If project does not exist, return 404 error to the client
-      return res.status(404).send('"id" was not found')
-    }
+    log.info('Project updated.', _.pick(project, ['_doc', 'level', 'message', 'timestamp']))
+
+    // Return updated project to client
+    res.send(project)
   },
 
   /**
    * Delete a project
    */
   deleteProject: async (req, res) => {
-    try {
-      // Remove project from database, if it exists
-      const project = await Project.findByIdAndRemove(req.params.id)
+    // Remove project from database, if it exists
+    const project = await Project.findByIdAndRemove(req.params.id)
 
-      // Return deleted project to client
-      res.send(project)
-    }
+    // If project does not exist, return 404 error to the client
+    if (!project) return res.status(404).send('"id" was not found')
 
-    catch (ex) {
-      // If project does not exist, return 404 error to the client
-      return res.status(404).send('"id" was not found')
-    }
+    log.info('Project removed.', _.pick(project, ['_doc', 'level', 'message', 'timestamp']))
+
+    // Return deleted project to client
+    res.send(project)
   }
 }

@@ -3,7 +3,7 @@ const auth = require('../middleware/auth')
 const admin = require('../middleware/admin')
 const handlers = require('../handlers/articles')
 
-router.get('/', handlers.getArticle)
+router.get('/', handlers.getArticles)
 router.post('/', [auth, admin], handlers.createArticle)
 
 router.get('/:id', handlers.getArticle)
