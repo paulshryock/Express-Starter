@@ -39,13 +39,16 @@ module.exports = {
         _id: req.params.id
       })
 
+      // If agent does not exist, 404 error
+      if (!agent) res.status(404).send('"id" was not found')
+
       // Return agent to the client
       res.send(agent)
     }
 
     catch (ex) {
-      // If agent does not exist, 404 error
-      return res.status(404).send('"id" was not found')
+      // If there's an exception, debug it
+      debug(ex)
     }
   },
 

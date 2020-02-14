@@ -93,13 +93,16 @@ module.exports = {
         _id: req.params.id
       })
 
+      // If user does not exist, 404 error
+      if (!user) res.status(404).send('"id" was not found')
+
       // Return user to the client
       res.send(user)
     }
 
     catch (ex) {
-      // If user does not exist, 404 error
-      return res.status(404).send('"id" was not found')
+      // If there's an exception, debug it
+      debug(ex)
     }
   },
 

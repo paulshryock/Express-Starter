@@ -40,13 +40,16 @@ module.exports = {
         _id: req.params.id
       })
 
+      // If testimonial does not exist, 404 error
+      if (!testimonial) res.status(404).send('"id" was not found')
+
       // Return testimonial to the client
       res.send(testimonial)
     }
 
     catch (ex) {
-      // If testimonial does not exist, 404 error
-      return res.status(404).send('"id" was not found')
+      // If there's an exception, debug it
+      debug(ex)
     }
   },
 

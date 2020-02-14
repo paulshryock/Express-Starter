@@ -40,13 +40,16 @@ module.exports = {
         _id: req.params.id
       })
 
+      // If project does not exist, 404 error
+      if (!project) res.status(404).send('"id" was not found')
+
       // Return project to the client
       res.send(project)
     }
 
     catch (ex) {
-      // If project does not exist, 404 error
-      return res.status(404).send('"id" was not found')
+      // If there's an exception, debug it
+      debug(ex)
     }
   },
 
