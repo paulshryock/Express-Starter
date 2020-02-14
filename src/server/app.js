@@ -12,6 +12,8 @@ const engine = new Liquid()
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const createError = require('http-errors')
+const error = require('./middleware/error')
+require('express-async-errors')
 const mongoose = require('mongoose')
 const logger = require('morgan')
 const debug = {
@@ -85,6 +87,12 @@ app.use('/api/auth', auth)
 app.use(function(req, res, next) {
   next(createError(404))
 })
+
+/**
+ * Error middleware
+ * TODO: Remove if unnecessary
+ */
+app.use(error)
 
 /**
  * Error handler
