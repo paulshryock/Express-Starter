@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node -r dotenv/config ./src/server/bin/www",
+    "start": "npm run build && node -r dotenv/config ./src/server/bin/www",
     "build": "npx eleventy",
     "serve": "nodemon -r dotenv/config ./src/server/bin/www"
   },
