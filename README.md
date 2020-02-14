@@ -2,7 +2,7 @@
 
 [![JWT Compatible][jwt-compatible-icon]][jwt]
 
-Fork this repository to start a new server-side API with Express and Mongoose.
+Fork this repository to start a new project with Mongoose, Express, Eleventy, and Node. Includes a CRUD server-side API with authentication and authorization, and JAMstack client website.
 
 This is an open source project which uses the [The Hippocratic License][license].
 
