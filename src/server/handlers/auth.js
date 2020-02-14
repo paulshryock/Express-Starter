@@ -41,7 +41,7 @@ module.exports = {
         })
         // Send the response
         // .send(token)
-        .send()
+        .send('Login successful.')
     }
 
     catch {
