@@ -38,7 +38,7 @@ const auth = require('./routes/auth')
  * Error if missing jwtPrivateKey
  */
 if(!config.get('jwtPrivateKey')) {
-  console.error('FATAL ERROR: jwtPrivateKey is not defined.')
+  log.error('FATAL ERROR: jwtPrivateKey is not defined.')
 }
 
 /**
@@ -49,6 +49,7 @@ mongoose.connect(config.db.host + '/' + config.db.name, { useNewUrlParser: true,
   .catch((err) => { debug.database('Could not connect to MongoDB...', err) })
 
 mongoose.connection.on('error', err => {
+  log.error('Database error...', err)
   debug.database('Database error...', err)
 })
 
