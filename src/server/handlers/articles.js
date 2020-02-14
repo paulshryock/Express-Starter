@@ -36,17 +36,20 @@ module.exports = {
   getArticle: async (req, res, next) => {
     try {
       // Get article
-      const article = await Article.find({
+      const article = await Article.findOne({
         _id: req.params.id
       })
+
+      // If article does not exist, 404 error
+      if (!article) res.status(404).send('"id" was not found')
 
       // Return article to the client
       res.send(article)
     }
 
     catch (ex) {
-      // If article does not exist, 404 error
-      return res.status(404).send('"id" was not found')
+      // If there's an exception, debug it
+      debug(ex)
     }
   },
 
