@@ -1,5 +1,13 @@
 {
   "version": 2,
+  "build": {
+    "env": {
+      "NODE_ENV": "@node_env",
+      "appname_dbHost": "@appname_dbhost",
+      "appname_dbName": "@appname_dbname",
+      "appname_jwtPrivateKey": "@appname_jwtprivatekey"
+    }
+  },
   "builds": [
     {
       "src": "package.json",
@@ -9,12 +17,6 @@
       }
     }
   ],
-  "env": {
-    "NODE_ENV": "@node_env",
-    "appname_dbHost": "@appname_dbhost",
-    "appname_dbName": "@appname_dbname",
-    "appname_jwtPrivateKey": "@appname_jwtprivatekey"
-  },
   "github": {
     "silent": true
   }

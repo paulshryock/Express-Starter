@@ -5,7 +5,8 @@
   "scripts": {
     "start": "npm run build && node -r dotenv/config ./src/server/bin/www",
     "build": "npx eleventy",
-    "serve": "nodemon -r dotenv/config ./src/server/bin/www"
+    "serve": "nodemon -r dotenv/config ./src/server/bin/www",
+    "now-build": "npm start"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.7",
