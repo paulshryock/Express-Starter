@@ -1,7 +1,10 @@
 {
   "db": {
-    "host": "appname_dbHost",
-    "name": "appname_dbName"
+    "username": "express_starter_db_username",
+    "password": "express_starter_db_password",
+    "host": "express_starter_db_host",
+    "port": "express_starter_db_port",
+    "database": "express_starter_db_database"
   },
-  "jwtPrivateKey": "appname_jwtPrivateKey"
+  "jwtPrivateKey": "express_starter_jwtPrivateKey"
 }

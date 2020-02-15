@@ -3,9 +3,12 @@
   "build": {
     "env": {
       "NODE_ENV": "@node_env",
-      "appname_dbHost": "@appname_dbhost",
-      "appname_dbName": "@appname_dbname",
-      "appname_jwtPrivateKey": "@appname_jwtprivatekey"
+      "express_starter_db_username": "@express_starter_db_username",
+      "express_starter_db_password": "@express_starter_db_password",
+      "express_starter_db_host": "@express_starter_db_host",
+      "express_starter_db_port": "@express_starter_db_port",
+      "express_starter_db_database": "@express_starter_db_database",
+      "express_starter_jwtPrivateKey": "@express_starter_jwtprivatekey"
     }
   },
   "builds": [
