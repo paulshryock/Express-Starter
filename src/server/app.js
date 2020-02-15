@@ -44,7 +44,10 @@ if(!config.get('jwtPrivateKey')) {
 /**
  * Connect to Database
  */
-mongoose.connect(config.db.host + '/' + config.db.name, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+
+const dbString = `mongodb://${config.db.host}/${config.db.database}`
+
+mongoose.connect(dbString, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => { debug.database('Connected to MongoDB...') })
   .catch((err) => { debug.database('Could not connect to MongoDB...', err) })
 
