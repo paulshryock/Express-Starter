@@ -66,7 +66,7 @@ app.set('view engine', 'liquid')
 /**
  * Use middleware
  */
-if (app.get('env') === 'development') {
+if (app.get('env') !== 'production') {
   app.use(httpLogger('dev')) // Log requests to the console
 }
 app.use(express.json()) // Return JSON
