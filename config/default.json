@@ -6,5 +6,16 @@
     "host": "",
     "name": ""
   },
-  "jwtPrivateKey": ""
+  "jwtPrivateKey": "",
+  "node": {
+    "environment": ""
+  },
+  "paths": {
+    "src": {
+      "client": "src/client"
+    },
+    "build": {
+      "client": "build/client"
+    }
+  }
 }

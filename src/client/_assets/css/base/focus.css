@@ -1,0 +1,3 @@
+:focus {
+  outline: $border-thin dashed $lighter-blue;
+}

@@ -15,6 +15,7 @@ const createError = require('http-errors')
 const error = require('./middleware/error')
 require('express-async-errors')
 const mongoose = require('mongoose')
+const favicon = require('serve-favicon')
 const httpLogger = require('morgan')
 const { log } = require('./modules/logger')
 const debug = {
@@ -50,7 +51,7 @@ app.use(helmet()) // Set HTTP headers
 /**
  * Serve favicon
  */
-app.use(favicon(path.join(__dirname, '../../build/client', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, '../../build/client/img/favicon', 'favicon.ico')))
 
 /**
  * Setup logging

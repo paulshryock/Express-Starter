@@ -5,16 +5,21 @@
   {% include meta/viewport %}
   {% include meta/ie %}
   {% include meta/page %}
+  {% include meta/robots %}
+  {% include meta/pwa %}
+  {% include meta/icons %}
+  {% include meta/colors %}
   {% include globals/styles %}
+  {% include globals/cms %}
 </head>
 <body class="site {% if contentType %}{{ contentType }} {{ contentType }}-{{ page.fileSlug }}{% endif %}">
   {% include components/skip-link %}
-  {% include components/header %}
+  {% include globals/site-header %}
   {% include components/navigation %}
   <main id="content" class="site-main">
     {{ content }}
   </main><!-- .site-main -->
-  {% include components/footer %}
+  {% include globals/site-footer %}
   {% include globals/scripts %}
 </body>
 </html>

@@ -1,11 +1,7 @@
+const config = require('config')
+
 const env = {
-  auth: [
-    {
-      username: 'username',
-      password: 'password'
-    }
-  ],
-  node_env: process.env.NODE_ENV
+  node_env: config.get('node.environment')
 }
 
 module.exports = env

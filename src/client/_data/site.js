@@ -1,6 +1,5 @@
 const site = {
-  title: 'Express and Eleventy',
-  shortName: 'ExpressEleventy',
+  title: 'Site title',
   description: 'Site description',
   year: new Date().getFullYear()
 }

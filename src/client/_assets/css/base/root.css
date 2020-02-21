@@ -1,0 +1,28 @@
+:root {
+	font-feature-settings: "kern", "liga", "clig", "calt", "onum", "pnum";
+	font-size: calc( 1 * 100% ); /* 1 * 16px = 16px base rem unit */
+	font-size-adjust: 0.516; /* Set x-height */
+
+	@supports (font-kerning: normal) and (font-variant-ligatures: common-ligatures contextual) and (font-variant-numeric: oldstyle-nums proportional-nums) {
+		font-kerning: normal;
+		font-variant-ligatures: common-ligatures contextual;
+		font-variant-numeric: oldstyle-nums proportional-nums;
+		font-feature-settings: normal;
+	}
+
+	@include mq-600 {
+		font-size: calc( 1.125 * 100% ); /* 1.125 * 16px = 18px base rem unit */
+	}
+
+	@include mq-900 {
+		font-size: calc( 1.25 * 100% ); /* 1.25 * 16px = 20px base rem unit */
+	}
+
+	@include mq-1200 {
+		font-size: calc( 1.375 * 100% ); /* 1.375 * 16px = 22px base rem unit */
+	}
+
+	@include mq-1800 {
+		font-size: calc( 1.5 * 100% ); /* 1.5 * 16px = 24px base rem unit */
+	}
+}

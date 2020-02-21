@@ -6,5 +6,8 @@
     "port": "express_starter_db_port",
     "database": "express_starter_db_database"
   },
-  "jwtPrivateKey": "express_starter_jwtPrivateKey"
+  "jwtPrivateKey": "express_starter_jwtPrivateKey",
+  "node": {
+    "environment": "NODE_ENV"
+  }
 }

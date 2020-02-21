@@ -2,7 +2,7 @@ const { log } = require('../modules/logger')
 const { User, validate } = require('../models/user')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
-
+const app = require('express')()
 const isProduction = app.get('env') === 'production'
 
 module.exports = {
@@ -54,7 +54,6 @@ module.exports = {
         secure: isProduction,
       })
       // Send the response
-      // .send(token)
       .send('Login successful.')
   }
 }
