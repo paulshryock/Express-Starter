@@ -8,7 +8,8 @@
       "express_starter_db_host": "@express_starter_db_host",
       "express_starter_db_port": "@express_starter_db_port",
       "express_starter_db_database": "@express_starter_db_database",
-      "express_starter_jwtPrivateKey": "@express_starter_jwtprivatekey"
+      "express_starter_jwtPrivateKey": "@express_starter_jwtprivatekey",
+      "express_starter_session_secret": "@express_starter_session_secret"
     }
   },
   "builds": [

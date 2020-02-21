@@ -3,6 +3,8 @@ const { User, validate } = require('../models/user')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
 
+const isProduction = app.get('env') === 'production'
+
 module.exports = {
   /**
    * Authenticate a user
@@ -43,10 +45,13 @@ module.exports = {
     res
       // Set a cookie
       .cookie('x-auth-token', token, {
+        httpOnly: isProduction,
         maxAge: 60 * 60 * 1000, // 1 hour
-        httpOnly: true,
-        secure: true,
-        sameSite: true
+        // maxAge: 24 * 60 * 60 * 1000, // 1 day
+        // maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+        // path: '/',
+        sameSite: isProduction,
+        secure: isProduction,
       })
       // Send the response
       // .send(token)
