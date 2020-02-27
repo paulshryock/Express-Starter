@@ -1,9 +1,14 @@
+const config = require('config')
+const SRC = config.get('paths.src.client')
+const BUILD = config.get('paths.build.client')
+
 module.exports = function (eleventyConfig) {
 
   // Add content collections
   const types = [
     { plural: 'agents', single: 'agent' },
     { plural: 'articles', single: 'article' },
+    { plural: 'pages', single: 'page' },
     { plural: 'projects', single: 'project' },
     { plural: 'testimonials', single: 'testimonial' },
     { plural: 'users', single: 'user' }
@@ -17,9 +22,9 @@ module.exports = function (eleventyConfig) {
     dir: {
       data: '_data',
       includes: '_includes',
-      input: 'src/client',
+      input: SRC,
       layouts: '_layouts',
-      output: 'build/client'
+      output: BUILD
     }
   }
 }

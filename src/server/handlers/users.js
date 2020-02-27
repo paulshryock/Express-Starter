@@ -63,10 +63,13 @@ module.exports = {
     res
       // Set a cookie
       .cookie('x-auth-token', token, {
-        maxAge: 60 * 60 * 1000, // 1 hour
         httpOnly: true,
-        secure: true,
-        sameSite: true
+        maxAge: 60 * 60 * 1000, // 1 hour
+        // maxAge: 24 * 60 * 60 * 1000, // 1 day
+        // maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+        // path: '/',
+        sameSite: true,
+        secure: true
       })
       // Set a header
       // .header('x-auth-token', token)

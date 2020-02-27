@@ -15,6 +15,7 @@ const createError = require('http-errors')
 const error = require('./middleware/error')
 require('express-async-errors')
 const mongoose = require('mongoose')
+const favicon = require('serve-favicon')
 const httpLogger = require('morgan')
 const { log } = require('./modules/logger')
 const debug = {
@@ -30,7 +31,6 @@ const index = require('./routes/index')
 const articles = require('./routes/articles')
 const projects = require('./routes/projects')
 const testimonials = require('./routes/testimonials')
-const agents = require('./routes/agents')
 const users = require('./routes/users')
 const auth = require('./routes/auth')
 
@@ -42,9 +42,26 @@ if(!config.get('jwtPrivateKey')) {
 }
 
 /**
+ * Setup HTTP headers
+ */
+app.disable('x-powered-by')
+app.use(helmet()) // Set HTTP headers
+
+/**
+ * Serve favicon
+ */
+app.use(favicon(path.join(__dirname, '../../build/client/img/favicon', 'favicon.ico')))
+
+/**
+ * Setup logging
+ */
+if (app.get('env') !== 'production') {
+  app.use(httpLogger('dev')) // Log requests to the console
+}
+
+/**
  * Connect to Database
  */
-
 const dbString = `mongodb://${config.db.host}/${config.db.database}`
 
 mongoose.connect(dbString, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -63,26 +80,22 @@ app.engine('liquid', engine.express())
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'liquid')
 
+
 /**
- * Use middleware
+ * Setup other middleware
  */
-if (app.get('env') === 'development') {
-  app.use(httpLogger('dev')) // Log requests to the console
-}
 app.use(express.json()) // Return JSON
 app.use(express.urlencoded({ extended: false })) // Allow query strings
 app.use(cookieParser()) // Parse cookies
 app.use(express.static(path.join(__dirname, '../../build/client'))) // Serve static content
-app.use(helmet()) // Set HTTP headers
 
 /**
  * Setup routes
  */
-app.use('/', index)
+app.use('/api', index)
 app.use('/api/articles', articles)
 app.use('/api/projects', projects)
 app.use('/api/testimonials', testimonials)
-app.use('/api/agents', agents)
 app.use('/api/users', users)
 app.use('/api/auth', auth)
 
