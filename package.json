@@ -12,12 +12,12 @@
   },
   "scripts": {
     "start": "npm run build && node -r dotenv/config ./src/server/bin/www",
-    "develop": "NODE_ENV='development' gulp develop",
+    "develop": "NODE_ENV='development' npx gulp develop",
     "serve": "npm run serve:client & npm run serve:server",
-    "serve:client": "NODE_ENV='development' gulp serve",
+    "serve:client": "NODE_ENV='development' npx gulp serve",
     "serve:server": "nodemon -r dotenv/config ./src/server/bin/www",
-    "build": "NODE_ENV='production' gulp",
-    "production": "NODE_ENV='production' gulp production"
+    "build": "NODE_ENV='production' npx gulp",
+    "production": "NODE_ENV='production' npx gulp production"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.10.0",
