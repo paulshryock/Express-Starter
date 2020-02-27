@@ -2,6 +2,11 @@
   "name": "express-starter",
   "version": "0.0.0",
   "private": true,
+  "author": {
+    "name": "Paul Shryock",
+    "email": "paul@pshry.com",
+    "url": "https://pshry.com/"
+  },
   "scripts": {
     "start": "npm run build && node -r dotenv/config ./src/server/bin/www",
     "develop": "NODE_ENV='development' gulp develop",
