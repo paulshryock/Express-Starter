@@ -3,8 +3,11 @@
     "title": "Express Starter"
   },
   "db": {
+    "username": "",
+    "password": "",
     "host": "",
-    "name": ""
+    "port": "",
+    "database": ""
   },
   "jwtPrivateKey": "",
   "node": {

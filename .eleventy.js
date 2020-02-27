@@ -1,6 +1,6 @@
 const config = require('config')
-const src = config.get('paths.src.client')
-const build = config.get('paths.build.client')
+const SRC = config.get('paths.src.client')
+const BUILD = config.get('paths.build.client')
 
 module.exports = function (eleventyConfig) {
 
@@ -22,9 +22,9 @@ module.exports = function (eleventyConfig) {
     dir: {
       data: '_data',
       includes: '_includes',
-      input: src,
+      input: SRC,
       layouts: '_layouts',
-      output: build
+      output: BUILD
     }
   }
 }
