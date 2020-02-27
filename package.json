@@ -7,6 +7,9 @@
     "email": "paul@pshry.com",
     "url": "https://pshry.com/"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "start": "npm run build && node -r dotenv/config ./src/server/bin/www",
     "develop": "NODE_ENV='development' gulp develop",
