@@ -10,7 +10,9 @@
   "scripts": {
     "start": "npm run build && node -r dotenv/config ./src/server/bin/www",
     "develop": "NODE_ENV='development' gulp develop",
-    "serve": "NODE_ENV='development' gulp serve & nodemon -r dotenv/config ./src/server/bin/www",
+    "serve": "npm run serve:client & npm run serve:server",
+    "serve:client": "NODE_ENV='development' gulp serve",
+    "serve:server": "nodemon -r dotenv/config ./src/server/bin/www",
     "build": "NODE_ENV='production' gulp",
     "production": "NODE_ENV='production' gulp production"
   },
