@@ -44,8 +44,8 @@ if(!config.get('jwtPrivateKey')) {
 /**
  * Setup HTTP headers
  */
-app.disable('x-powered-by')
 app.use(helmet()) // Set HTTP headers
+app.disable('x-powered-by')
 
 /**
  * Serve favicon
