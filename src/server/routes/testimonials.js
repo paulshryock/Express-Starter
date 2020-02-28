@@ -2,12 +2,23 @@ const router = require('express').Router()
 const auth = require('../middleware/auth')
 const admin = require('../middleware/admin')
 const handlers = require('../handlers/testimonials')
+const rateLimit = require('express-rate-limit')
 
-router.get('/', handlers.getTestimonials)
-router.post('/', [auth, admin], handlers.createTestimonial)
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 60 // 60 requests
+})
 
-router.get('/:id', handlers.getTestimonial)
-router.put('/:id', [auth, admin], handlers.updateTestimonial)
-router.delete('/:id', [auth, admin], handlers.deleteTestimonial)
+const strictLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 10 // 10 requests
+})
+
+router.get('/', limiter, handlers.getTestimonials)
+router.post('/', [auth, admin, strictLimiter], handlers.createTestimonial)
+
+router.get('/:id', limiter, handlers.getTestimonial)
+router.put('/:id', [auth, admin, strictLimiter], handlers.updateTestimonial)
+router.delete('/:id', [auth, admin, strictLimiter], handlers.deleteTestimonial)
 
 module.exports = router
