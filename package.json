@@ -11,7 +11,7 @@
     "node": "12.11.x"
   },
   "scripts": {
-    "start": "npm run build && npm run serve:heroku",
+    "start": "npm run build && npm run serve:server",
     "develop": "NODE_ENV='development' gulp develop",
     "serve": "npm run serve:client & npm run serve:server",
     "serve:client": "NODE_ENV='development' gulp serve",
