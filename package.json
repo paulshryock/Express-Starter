@@ -19,7 +19,7 @@
     "build": "NODE_ENV='production' npx gulp",
     "production": "NODE_ENV='production' npx gulp production"
   },
-  "devDependencies": {
+  "dependencies": {
     "@11ty/eleventy": "^0.10.0",
     "@babel/core": "^7.8.6",
     "@babel/preset-env": "^7.8.6",
@@ -52,9 +52,7 @@
     "stylelint-config-standard": "^20.0.0",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
-    "webpack-stream": "^5.2.1"
-  },
-  "dependencies": {
+    "webpack-stream": "^5.2.1",
     "@hapi/joi": "^17.1.0",
     "bcrypt": "^4.0.0",
     "compression": "^1.7.4",
