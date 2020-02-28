@@ -6,10 +6,12 @@
 const express = require('express')
 const app = express()
 const config = require('config')
+const compression = require('compression')
 const helmet = require('helmet')
 const { Liquid } = require('liquidjs')
 const engine = new Liquid()
 const path = require('path')
+const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const createError = require('http-errors')
 const error = require('./middleware/error')
@@ -23,6 +25,11 @@ const debug = {
   database: require('debug')('express-starter:database')
 }
 require('dotenv').config()
+
+const isProduction = app.get('env') === 'production'
+const origin = {
+  origin: isProduction ? config.get('domain') : '*',
+}
 
 /**
  * Import routes
@@ -44,6 +51,7 @@ if(!config.get('jwtPrivateKey')) {
 /**
  * Setup HTTP headers
  */
+app.use(compression()) // compress all responses
 app.use(helmet()) // Set HTTP headers
 app.disable('x-powered-by')
 
@@ -55,14 +63,14 @@ app.use(favicon(path.join(__dirname, '../../build/client/img/favicon', 'favicon.
 /**
  * Setup logging
  */
-if (app.get('env') !== 'production') {
+if (!isProduction) {
   app.use(httpLogger('dev')) // Log requests to the console
 }
 
 /**
  * Connect to Database
  */
-const dbString = `mongodb://${config.db.host}/${config.db.database}`
+const dbString = `mongodb://${config.get('db.host')}/${config.get('db.database')}`
 
 mongoose.connect(dbString, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => { debug.database('Connected to MongoDB...') })
@@ -88,6 +96,7 @@ app.use(express.json()) // Return JSON
 app.use(express.urlencoded({ extended: false })) // Allow query strings
 app.use(cookieParser()) // Parse cookies
 app.use(express.static(path.join(__dirname, '../../build/client'))) // Serve static content
+app.use(cors(origin))
 
 /**
  * Setup routes
