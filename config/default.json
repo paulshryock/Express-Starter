@@ -2,6 +2,7 @@
   "app": {
     "title": "Express Starter"
   },
+  "domain": "https://newprojectstarterkit.com",
   "db": {
     "username": "",
     "password": "",
