@@ -8,16 +8,19 @@
     "url": "https://pshry.com/"
   },
   "engines": {
-    "node": "12.x"
+    "node": "12.11.x"
   },
   "scripts": {
-    "start": "npm run build && node -r dotenv/config ./src/server/bin/www",
-    "develop": "NODE_ENV='development' npx gulp develop",
+    "start": "npm run build && npm run serve:heroku",
+    "develop": "NODE_ENV='development' gulp develop",
     "serve": "npm run serve:client & npm run serve:server",
-    "serve:client": "NODE_ENV='development' npx gulp serve",
-    "serve:server": "nodemon -r dotenv/config ./src/server/bin/www",
+    "serve:client": "NODE_ENV='development' gulp serve",
+    "serve:server": "node -r dotenv/config ./src/server/bin/www",
+    "serve:heroku": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 -r dotenv/config ./src/server/bin/www",
+    "watch": "npm run serve:client & npm run watch:server",
+    "watch:server": "nodemon -r dotenv/config ./src/server/bin/www",
     "build": "NODE_ENV='production' npx gulp",
-    "production": "NODE_ENV='production' npx gulp production"
+    "production": "NODE_ENV='production' gulp production"
   },
   "dependencies": {
     "@11ty/eleventy": "^0.10.0",
