@@ -10,7 +10,8 @@ const limiter = rateLimit({
 })
 
 router.get('/', [auth, admin, limiter], handlers.getUsers)
-router.post('/', [auth, admin, limiter], handlers.createUser)
+router.post('/', limiter, handlers.createUser)
+// router.post('/', [auth, admin, limiter], handlers.createUser)
 
 router.get('/me', [auth, limiter], handlers.getCurrentUser)
 router.put('/me', [auth, limiter], handlers.updateCurrentUser)
