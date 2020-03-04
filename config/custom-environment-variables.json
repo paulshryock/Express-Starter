@@ -1,5 +1,6 @@
 {
   "db": {
+    "protocol": "express_starter_db_protocol",
     "username": "express_starter_db_username",
     "password": "express_starter_db_password",
     "host": "express_starter_db_host",
