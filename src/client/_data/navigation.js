@@ -16,6 +16,10 @@ const navigation = [
     slug: 'testimonials'
   },
   {
+    title: 'Users',
+    slug: 'users'
+  },
+  {
     title: 'About',
     slug: 'about'
   },
