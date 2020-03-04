@@ -14,6 +14,26 @@ const Article = mongoose.model('Article', new mongoose.Schema({
 }))
 ```
 
+## Schema types (fields)
+
+A schema can have an arbitrary number of fields — each one represents a field in the documents stored in MongoDB. An example schema showing many of the common field types and how they are declared is shown below.
+
+```js
+var schema = new Schema(
+{
+  name: String,
+  binary: Buffer,
+  living: Boolean,
+  updated: { type: Date, default: Date.now() },
+  age: { type: Number, min: 18, max: 65, required: true },
+  mixed: Schema.Types.Mixed,
+  _someId: Schema.Types.ObjectId,
+  array: [],
+  ofString: [String], // You can also have an array of each of the other types too.
+  nested: { stuff: { type: String, lowercase: true, trim: true } }
+})
+```
+
 ## Mongoose SchemaType options
 
 - `lowercase`: Boolean
@@ -71,3 +91,4 @@ const Article = mongoose.model('Article', new mongoose.Schema({
   }
 }
 ```
+
