@@ -70,15 +70,15 @@ if (!isProduction) {
 /**
  * Connect to Database
  */
-const dbString = `mongodb://${config.get('db.host')}/${config.get('db.database')}`
+const dbString = `${config.get('db.protocol')}://${config.get('db.host')}${config.get('db.port')}/${config.get('db.database')}`
 
 mongoose.connect(dbString, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => { debug.database('Connected to MongoDB...') })
   .catch((err) => { debug.database('Could not connect to MongoDB...', err) })
 
 mongoose.connection.on('error', err => {
-  log.error('Database error...', err)
-  debug.database('Database error...', err)
+  log.error('Database error... ', err)
+  debug.database('Database error... ', err)
 })
 
 /**

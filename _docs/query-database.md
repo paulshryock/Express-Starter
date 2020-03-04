@@ -2,9 +2,20 @@
 
 ## Get all collection items
 
+The find() method gets all matching records, but often you just want to get one match.
+
 ```js
 const collection = await Model.find()
 ```
+
+## Get a single collection item
+
+- `findById()`: Finds the document with the specified id.
+- `findOne()`: Finds a single document that matches the specified criteria.
+- `findByIdAndUpdate()`: Finds a single document by id and updates it.
+- `findByIdAndRemove()`: Finds a single document by id and removes it.
+- `findOneAndUpdate()`: Finds a single document by criteria and updates it.
+- `findOneAndRemove()`: Finds a single document by criteria and either removes it.
 
 ## Refine query
 

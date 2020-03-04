@@ -14,6 +14,51 @@ const Article = mongoose.model('Article', new mongoose.Schema({
 }))
 ```
 
+## Create related models
+
+```js
+const Author = mongoose.model('Author', mongoose.Schema({
+  name    : String,
+  stories : [{ type: Schema.Types.ObjectId, ref: 'Story' }]
+}))
+
+const Story  = mongoose.model('Story', mongoose.Schema({
+  author : { type: Schema.Types.ObjectId, ref: 'Author' },
+  title    : String
+}))
+```
+
+### Give document a relation
+
+```js
+const bob = new Author({ name: 'Bob Smith' })
+
+bob.save(function (err) {
+  if (err) return handleError(err)
+
+  // Bob now exists, so lets create a story
+  const story = new Story({
+    title: "Bob goes sledding",
+    author: bob._id    // assign the _id from the our author Bob. This ID is created by default!
+  })
+
+  story.save(function (err) {
+    if (err) return handleError(err);
+    // Bob now has his story
+  })
+})
+
+// In order to get the author information in the story results we use `populate()`, as shown below.
+Story
+  .findOne({ title: 'Bob goes sledding' })
+  .populate('author') // This populates the author id with actual author information!
+  .exec(function (err, story) {
+    if (err) return handleError(err);
+    console.log('The author is %s', story.author.name)
+    // prints "The author is Bob Smith"
+})
+```
+
 ## Schema types (fields)
 
 > A schema can have an arbitrary number of fields — each one represents a field in the documents stored in MongoDB. An example schema showing many of the common field types and how they are declared is shown below.
