@@ -70,7 +70,14 @@ if (!isProduction) {
 /**
  * Connect to Database
  */
-const dbString = `${config.get('db.protocol')}://${config.get('db.host')}${config.get('db.port')}/${config.get('db.database')}`
+const protocol  = config.get('db.protocol')
+const username  = config.get('db.username')
+const password  = config.get('db.password')
+const host      = config.get('db.host')
+const port      = config.get('db.port')
+const database  = config.get('db.database')
+
+const dbString = protocol + '://' + username + ':' + password + '@' + host + port + '/' + database
 
 mongoose.connect(dbString, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => { debug.database('Connected to MongoDB...') })
