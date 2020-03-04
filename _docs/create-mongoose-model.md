@@ -1,4 +1,4 @@
-## Create a Mongoose model
+# Create a Mongoose model
 
 ```js
 const Article = mongoose.model('Article', new mongoose.Schema({
@@ -16,7 +16,8 @@ const Article = mongoose.model('Article', new mongoose.Schema({
 
 ## Schema types (fields)
 
-A schema can have an arbitrary number of fields — each one represents a field in the documents stored in MongoDB. An example schema showing many of the common field types and how they are declared is shown below.
+> A schema can have an arbitrary number of fields — each one represents a field in the documents stored in MongoDB. An example schema showing many of the common field types and how they are declared is shown below.
+> from [developer.mozilla.org][mozilla-express-mongoose]
 
 ```js
 var schema = new Schema(
@@ -33,6 +34,10 @@ var schema = new Schema(
   nested: { stuff: { type: String, lowercase: true, trim: true } }
 })
 ```
+
+- **`ObjectId`**: Represents specific instances of a model in the database. For example, a book might use this to represent its author object. This will actually contain the unique ID (`_id`) for the specified object. We can use the `populate()` method to pull in the associated information when needed.
+- **`Mixed`**: An arbitrary schema type.
+- **`[]`**: An array of items. You can perform JavaScript array operations on these models (push, pop, unshift, etc.). The examples above show an array of objects without a specified type and an array of `String` objects, but you can have an array of any type of object.
 
 ## Mongoose SchemaType options
 
@@ -92,3 +97,4 @@ var schema = new Schema(
 }
 ```
 
+[mozilla-express-mongoose]: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
