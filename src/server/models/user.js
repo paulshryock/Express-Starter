@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, trim: true, required: true, minLength: 5, maxLength: 255, unique: true, uniqueCaseInsensitive: true },
   password: { type: String, required: true , minLength: 12, maxLength: 1024 },
   role: { type: String, trim: true, required: true }
+  // TODO: Add role min/max lengths
 })
 
 userSchema.plugin(uniqueValidator)
@@ -27,6 +28,8 @@ userSchema.methods.generateAuthToken = function() {
  * Define User model
  */
 const User = mongoose.model('User', userSchema)
+
+// TODO: Finish validation based on model
 
 const validate = {
   /**
