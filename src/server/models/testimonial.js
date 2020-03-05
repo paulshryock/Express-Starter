@@ -9,9 +9,15 @@ const Testimonial = mongoose.model('Testimonial', new mongoose.Schema({
     first: { type: String, trim: true, required: true },
     last: { type: String, trim: true, required: true }
   },
+  // TODO: Add min/max lengths
+  // TODO: Add company?
+  // TODO: Add role?
   quote: { type: String, trim: true, required: true },
   date: { type: Date, default: Date.now }
+  // TODO: Add slug
 }))
+
+// TODO: Finish validation based on model
 
 const validate = {
   /**

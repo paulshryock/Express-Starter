@@ -1,6 +1,7 @@
 const articles = {
-  contentType: 'article',
-  layout: 'article',
+  contentType: 'page',
+  layout: 'page',
+  slug: 'articles2',
   permalink: './{{ slug }}/index.html'
 }
 

@@ -3,6 +3,8 @@
 /**
  * Import dependencies
  */
+require('newrelic')
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const config = require('config')
@@ -24,7 +26,6 @@ const debug = {
   startup: require('debug')('express-starter:startup'),
   database: require('debug')('express-starter:database')
 }
-require('dotenv').config()
 
 const isProduction = app.get('env') === 'production'
 const origin = {
