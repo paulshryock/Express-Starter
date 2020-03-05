@@ -5,10 +5,15 @@
     "password": "express_starter_db_password",
     "host": "express_starter_db_host",
     "port": "express_starter_db_port",
-    "database": "express_starter_db_database"
+    "database": "express_starter_db_database",
+    "string": "MONGODB_URI"
   },
   "jwtPrivateKey": "express_starter_jwtPrivateKey",
   "node": {
     "environment": "NODE_ENV"
+  },
+  "newRelic": {
+    "licenseKey": "NEW_RELIC_LICENSE_KEY",
+    "log": "NEW_RELIC_LOG"
   }
 }
