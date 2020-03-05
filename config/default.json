@@ -21,5 +21,22 @@
     "build": {
       "client": "build/client"
     }
+  },
+  "site": {
+    "url": ""
+  },
+  "user": {
+    "email": "",
+    "password": "",
+    "id": ""
+  },
+  "article": {
+    "id": ""
+  },
+  "project": {
+    "id": ""
+  },
+  "testimonial": {
+    "id": ""
   }
 }

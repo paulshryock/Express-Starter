@@ -15,5 +15,22 @@
   "newRelic": {
     "licenseKey": "NEW_RELIC_LICENSE_KEY",
     "log": "NEW_RELIC_LOG"
+  },
+  "site": {
+    "url": "NPSK_SITE_URL"
+  },
+  "user": {
+    "email": "NPSK_USER_EMAIL",
+    "password": "NPSK_USER_PASSWORD",
+    "id": "NPSK_USER_ID"
+  },
+  "article": {
+    "id": "NPSK_ARTICLE_ID"
+  },
+  "project": {
+    "id": "NPSK_PROJECT_ID"
+  },
+  "testimonial": {
+    "id": "NPSK_TESTIMONIAL_ID"
   }
 }

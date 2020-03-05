@@ -3,7 +3,6 @@
 /**
  * Import dependencies
  */
-require('newrelic')
 require('dotenv').config()
 const express = require('express')
 const app = express()
@@ -31,6 +30,8 @@ const isProduction = app.get('env') === 'production'
 const origin = {
   origin: isProduction ? config.get('domain') : '*',
 }
+
+if (isProduction) require('newrelic') // Application monitoring
 
 /**
  * Import routes
