@@ -1,8 +1,12 @@
 {
-  "app": {
-    "title": "Express Starter"
+  "node": {
+    "environment": ""
   },
-  "domain": "https://newprojectstarterkit.com",
+  "app": {
+    "title": "Express Starter",
+    "url": ""
+  },
+  "jwtPrivateKey": "",
   "db": {
     "username": "",
     "password": "",
@@ -10,9 +14,23 @@
     "port": "",
     "database": ""
   },
-  "jwtPrivateKey": "",
-  "node": {
-    "environment": ""
+  "newRelic": {
+    "licenseKey": "",
+    "log": ""
+  },
+  "user": {
+    "email": "",
+    "password": "",
+    "id": ""
+  },
+  "article": {
+    "id": ""
+  },
+  "project": {
+    "id": ""
+  },
+  "testimonial": {
+    "id": ""
   },
   "paths": {
     "src": {
