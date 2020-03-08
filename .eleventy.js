@@ -1,21 +1,39 @@
+require('dotenv').config()
 const config = require('config')
+const axios = require('axios')
 const SRC = config.get('paths.src.client')
 const BUILD = config.get('paths.build.client')
 
 module.exports = function (eleventyConfig) {
 
-  // Add content collections
-  const types = [
-    { plural: 'agents', single: 'agent' },
-    { plural: 'articles', single: 'article' },
-    { plural: 'pages', single: 'page' },
-    { plural: 'projects', single: 'project' },
-    { plural: 'testimonials', single: 'testimonial' },
-    { plural: 'users', single: 'user' }
-  ]
+  async function getCollection(collection) {
+    try {
+      const response = await axios.get(`${config.get('app.url')}/api/${collection}`);
+      console.log(response.data)
+      return response.data
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-  types.map(type => {
-    eleventyConfig.addCollection(type.plural, collection => collection.getAll().filter(post => post.data.contentType === type.single))
+  const collections = {
+    api: [
+      'articles',
+      'projects',
+      'testimonials',
+      // 'users'
+    ],
+    local: [
+      { plural: 'pages', single: 'page' }
+    ]
+  }
+
+  collections.api.map(type => {
+    eleventyConfig.addCollection(type, async collection => await getCollection(type))
+  })
+
+  collections.local.map(type => {
+    eleventyConfig.addCollection(type.plural, async collection => collection.getAll().filter(post => post.data.contentType === type.single))
   })
 
   return {
