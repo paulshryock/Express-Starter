@@ -28,7 +28,7 @@ const debug = {
 
 const isProduction = app.get('env') === 'production'
 const origin = {
-  origin: isProduction ? config.get('domain') : '*',
+  origin: isProduction ? config.get('app.url') : '*',
 }
 
 if (isProduction) require('newrelic') // Application monitoring
