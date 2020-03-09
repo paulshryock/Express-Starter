@@ -8,7 +8,7 @@ date: 2019-01-03T00:00:00-5
 <ul class="projects">
   {%- for post in collections.projects %}
   <li class="project">
-    <a href="{{ post.url }}">{{ post.data.title }}</a>
+    <a href="/portfolio/{{ post.slug }}">{{ post.title }}</a>
   </li><!-- .project -->
   {%- endfor %}
 </ul><!-- .projects -->

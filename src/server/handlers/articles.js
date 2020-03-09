@@ -32,7 +32,7 @@ module.exports = {
     if (error) return res.status(400).send(error.details[0].message)
 
     // Create article
-    let article = new Article(_.pick(req.body, ['title', 'author', 'status', 'tags', 'date']))
+    let article = new Article(_.pick(req.body, ['title', 'slug', 'content', 'author', 'status', 'tags', 'date']))
 
     // Add article to the database
     article = await article.save()
@@ -72,6 +72,8 @@ module.exports = {
     // Update article in database with request body keys if they exist
     const requestBody = {}
     if (req.body.title) requestBody.title = req.body.title
+    if (req.body.slug) requestBody.slug = req.body.slug
+    if (req.body.content) requestBody.content = req.body.content
     if (req.body.author) requestBody.author = req.body.author
     if (req.body.status) requestBody.status = req.body.status
     if (req.body.tags) requestBody.tags = req.body.tags

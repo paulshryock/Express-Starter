@@ -3,18 +3,19 @@ layout: global
 ---
 <article class="post">
   <header class="post__header">
-    <h2 class="post__title">{{ title }}</h2>
-    <p class="post__meta">Last updated: {{ page.date | date: "%m/%d/%Y" }}</p>
+    <h2 class="post__title">{{ article.title }}</h2>
+    <p class="post__meta">By {{ article.author }} | Last updated: {{ article.date | date: "%m/%d/%Y" }} | Status: {{ article.status }}</p>
   </header><!-- .post__header -->
   <div class="post__content">
-    {{ content }}
+    {{ article.content }}
   </div><!-- .post__content -->
 </article><!-- .post -->
 <aside>
   {% if collections.articles %}
+  <h3>More articles</h3>
   <ul class="posts">
     {% for post in collections.articles %}
-    <li class="post"><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+    <li class="post"><a href="/articles/{{ post.slug }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
   {% endif %}
