@@ -32,7 +32,7 @@ module.exports = {
     if (error) return res.status(400).send(error.details[0].message)
 
     // Create testimonial
-    let testimonial = new Testimonial(_.pick(req.body, ['name', 'quote', 'date']))
+    let testimonial = new Testimonial(_.pick(req.body, ['name', 'slug', 'quote', 'date']))
 
     // Add testimonial to the database
     testimonial = await testimonial.save()
@@ -79,6 +79,7 @@ module.exports = {
       if (req.body.name.first) requestBody.name.first = req.body.name.first
       if (req.body.name.last) requestBody.name.last = req.body.name.last
     }
+    if (req.body.slug) requestBody.slug = req.body.slug
     if (req.body.quote) requestBody.quote = req.body.quote
     if (req.body.date) requestBody.date = req.body.date
 

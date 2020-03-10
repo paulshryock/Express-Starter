@@ -10,11 +10,12 @@ const Testimonial = mongoose.model('Testimonial', new mongoose.Schema({
     last: { type: String, trim: true, required: true }
   },
   // TODO: Add min/max lengths
+  slug: { type: String, lowercase: true, required: true, trim: true, unique: true, uniqueCaseInsensitive: true },
+  // TODO: Add min/max lengths
   // TODO: Add company?
   // TODO: Add role?
   quote: { type: String, trim: true, required: true },
   date: { type: Date, default: Date.now }
-  // TODO: Add slug
 }))
 
 // TODO: Finish validation based on model
@@ -29,6 +30,10 @@ const validate = {
         first: Joi.string().trim().required(),
         last: Joi.string().trim().required()
       }),
+      slug: Joi.string()
+        .trim()
+        .lowercase()
+        .required(),
       quote: Joi.string().trim().required(),
       date: Joi.date()
     })
@@ -44,9 +49,12 @@ const validate = {
         first: Joi.string().trim(),
         last: Joi.string().trim()
       }),
+      slug: Joi.string()
+        .trim()
+        .lowercase(),
       quote: Joi.string().trim(),
       date: Joi.date()
-    }).or('name.first', 'name.last', 'quote', 'date')
+    }).or('name.first', 'name.last', 'slug', 'quote', 'date')
 
     return schema.validate(testimonial)
   }

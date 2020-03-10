@@ -8,7 +8,7 @@ date: 2019-01-04T00:00:00-5
 <ul class="testimonials">
   {%- for post in collections.testimonials %}
   <li class="testimonial">
-    <a href="{{ post.url }}">{{ post.data.title }}</a>
+    <a href="/testimonials/{{ post.slug }}">{{ post.name.first }} {{ post.name.last }}</a>
   </li><!-- .testimonial -->
   {%- endfor %}
 </ul><!-- .testimonials -->
