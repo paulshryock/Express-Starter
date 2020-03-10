@@ -19,7 +19,7 @@
     "serve:heroku": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 -r dotenv/config ./src/server/bin/www",
     "watch": "npm run serve:client & npm run watch:server",
     "watch:server": "nodemon -r dotenv/config ./src/server/bin/www",
-    "build": "dotenv npx gulp",
+    "build": "dotenv gulp",
     "production": "dotenv gulp production"
   },
   "browserslist": [
