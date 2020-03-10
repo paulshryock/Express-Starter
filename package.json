@@ -74,7 +74,6 @@
     "mongoose": "^5.9.3",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.9.1",
-    "newrelic": "^6.4.2",
     "nodemon": "^2.0.2",
     "pixrem": "^5.0.0",
     "postcss-easy-import": "^3.0.0",
