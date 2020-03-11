@@ -23,13 +23,24 @@ const SRC = config.get('paths.src.client')
 const BUILD = config.get('paths.build.client')
 
 const paths = {
-  liquid: {
-    src: `./${SRC}/**/*.liquid`
-  },
-  markdown: {
-    src: `./${SRC}/**/*.md`
-  },
   html: {
+    src: [
+      `./${SRC}/_data/**/*.*`, // Global data
+      `./${SRC}/_includes/**/*.*`, // Layout includes
+      `./${SRC}/_layouts/**/*.*`, // Layouts
+      `./${SRC}/**/*.11tydata.js`, // Template data
+      `./${SRC}/**/*.html`,
+      `./${SRC}/**/*.md`,
+      `./${SRC}/**/*.11ty.js`,
+      `./${SRC}/**/*.liquid`,
+      `./${SRC}/**/*.njk`,
+      `./${SRC}/**/*.hbs`,
+      `./${SRC}/**/*.mustache`,
+      `./${SRC}/**/*.ejs`,
+      `./${SRC}/**/*.haml`,
+      `./${SRC}/**/*.pug`,
+      `./${SRC}/**/*.jstl`
+    ],
     dest: `./${BUILD}`,
     output: `./${BUILD}/**/*.html`
   },
@@ -42,7 +53,6 @@ const paths = {
   js: {
     root: './*.js',
     src: `./${SRC}/_assets/js/**/*.js`,
-    data: `./${SRC}/_data/**/*.js`,
     entry: {
       all: `./${SRC}/_assets/js/*.js`,
       index: `./${SRC}/_assets/js/index.js`,
@@ -271,11 +281,7 @@ function serve (cb) {
     livereload: true
   })
 
-  gulp.watch([
-    paths.js.data,
-    paths.liquid.src,
-    paths.markdown.src
-  ], html)
+  gulp.watch(paths.html.src, html)
   gulp.watch([paths.css.all], css)
   gulp.watch([
     paths.js.src,
