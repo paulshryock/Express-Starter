@@ -16,6 +16,7 @@ async function getEndpoint(config) {
     })
     return config.auth ? response : response.data
   } catch (error) {
+    console.log(error)
     debug(error)
   }
 }
