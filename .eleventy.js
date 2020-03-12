@@ -58,12 +58,12 @@ const collections = {
 module.exports = function (eleventyConfig) {
 
   collections.api.map(type => {
-    const result = await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
+    const result = async () => await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
 
     if (!result) {
       console.error(`${type.plural} collection was not created!`)
     } else {
-      eleventyConfig.addCollection(type.plural, async collection => {
+      eleventyConfig.addCollection(type.plural, collection => {
         console.info(`${type.plural} collection was created!`)
         return result
       })
