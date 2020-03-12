@@ -53,7 +53,7 @@ const collections = {
   ]
 }
 
-module.exports = async function (eleventyConfig) {
+module.exports = function (eleventyConfig) {
 
   // await getToken()
 
