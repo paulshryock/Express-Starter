@@ -32,6 +32,7 @@ async function getToken () {
       }
     })
     const token = response.headers['set-cookie'][0].replace('x-auth-token=', '').replace(/; .*/, '')
+    console.log('Token successful!')
     return token
   } catch (error) {
     debug(error)
@@ -57,6 +58,7 @@ module.exports = function (eleventyConfig) {
   collections.api.map(type => {
     eleventyConfig.addCollection(type.plural, async collection => {
       const result = await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
+      console.log(type.plural, ': ', result)
       return result
     })
   })
