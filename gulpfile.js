@@ -26,7 +26,7 @@ const paths = {
   html: {
     src: [
       `./${SRC}/_data/**/*.*`, // Global data
-      `./${SRC}/_includes/**/*.*`, // Layout includes
+      `./${SRC}/_includes/**/*.*`, // Includes
       `./${SRC}/_layouts/**/*.*`, // Layouts
       `./${SRC}/**/*.11tydata.js`, // Template data
       `./${SRC}/**/*.html`,
@@ -51,8 +51,10 @@ const paths = {
     output: `./${BUILD}/css/bundle.css`
   },
   js: {
-    root: './*.js',
-    src: `./${SRC}/_assets/js/**/*.js`,
+    src: [
+      './*.js',
+      `./${SRC}/_assets/js/**/*.js`
+    ],
     entry: {
       all: `./${SRC}/_assets/js/*.js`,
       index: `./${SRC}/_assets/js/index.js`,
@@ -177,7 +179,7 @@ function js () {
     devtool: 'source-map'
   }
 
-  const lint = gulp.src([paths.js.src, paths.js.root])
+  const lint = gulp.src(paths.js.src)
     .pipe(standard(options))
     .pipe(standard.reporter('default'))
 
@@ -275,23 +277,24 @@ function assets () {
   return merged.isEmpty() ? null : merged
 }
 
-function serve (cb) {
-  connect.server({
-    root: paths.html.dest,
-    livereload: true
-  })
-
+function watch (cb) {
   gulp.watch(paths.html.src, html)
   gulp.watch([paths.css.all], css)
-  gulp.watch([
-    paths.js.src,
-    paths.js.root
-  ], js)
+  gulp.watch(paths.js.src, js)
   gulp.watch([
     paths.fonts.src,
     paths.images.src,
     paths.cms.src
   ], assets)
+
+  cb()
+}
+
+function serve (cb) {
+  connect.server({
+    root: paths.html.dest,
+    livereload: true
+  })
 
   cb()
 }
@@ -312,7 +315,8 @@ const build = gulp.series(
 )
 
 exports.develop = develop
-exports.serve = gulp.series(develop, serve)
+exports.watch = gulp.series(develop, watch)
+exports.serve = gulp.series(develop, watch, serve)
 exports.build = build
 exports.production = gulp.series(build, serve)
 exports.default = build

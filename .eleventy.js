@@ -16,7 +16,7 @@ async function getEndpoint(config) {
     })
     return config.auth ? response : response.data
   } catch (error) {
-    console.log(error)
+    console.error(error)
     debug(error)
   }
 }
@@ -33,13 +33,15 @@ async function getToken () {
       }
     })
     const token = response.headers['set-cookie'][0].replace('x-auth-token=', '').replace(/; .*/, '')
-    console.log('Token successful!')
+    console.info('Token received!')
     return token
   } catch (error) {
-    console.log(error)
-    debug(error)
+    console.error('Token missing: ', error)
+    // debug(error)
   }
 }
+
+getToken()
 
 const collections = {
   api: [
@@ -55,20 +57,14 @@ const collections = {
 
 module.exports = function (eleventyConfig) {
 
-  // await getToken()
+  collections.api.map(type => {
+    const result = async () => await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
 
-  // collections.api.map(type => {
-  //   const result = async () => await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
-
-  //   if (!result) {
-  //     console.error(`${type.plural} collection was not created!`)
-  //   } else {
-  //     eleventyConfig.addCollection(type.plural, collection => {
-  //       console.info(`${type.plural} collection was created!`)
-  //       return result
-  //     })
-  //   }
-  // })
+    eleventyConfig.addCollection(type.plural, async collection => {
+      console.info(type.plural + ' collection added: ', await result)
+      return await result
+    })
+  })
 
   collections.local.map(type => {
     eleventyConfig.addCollection(type.plural, collection => collection.getAll().filter(post => post.data.contentType === type.single))

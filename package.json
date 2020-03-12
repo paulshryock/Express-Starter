@@ -16,11 +16,12 @@
     "serve": "npm run serve:client & npm run serve:server",
     "serve:client": "dotenv gulp serve",
     "serve:server": "node -r dotenv/config ./src/server/bin/www",
-    "serve:heroku": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 -r dotenv/config ./src/server/bin/www",
-    "watch": "npm run serve:client & npm run watch:server",
+    "watch": "npm run watch:client & npm run watch:server",
+    "watch:client": "dotenv gulp watch",
     "watch:server": "nodemon -r dotenv/config ./src/server/bin/www",
     "build": "dotenv gulp",
-    "production": "dotenv gulp production"
+    "production": "dotenv gulp production",
+    "clear:cache": "heroku repo:purge_cache -a npsk-express-starter && git commit --allow-empty -m \"Purge cache\" && git push heroku master"
   },
   "browserslist": [
     "last 3 versions",
