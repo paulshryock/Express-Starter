@@ -16,7 +16,7 @@ async function getEndpoint(config) {
     })
     return config.auth ? response : response.data
   } catch (error) {
-    console.error(error)
+    console.error('Failed to reach endpoint: ', error)
     debug(error)
   }
 }
@@ -57,13 +57,19 @@ const collections = {
 
 module.exports = function (eleventyConfig) {
 
-  collections.api.map(type => {
-    const result = async () => await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
+  collections.api.map(async type => {
+    try {
+      const result = await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
 
-    eleventyConfig.addCollection(type.plural, async collection => {
-      console.info(type.plural + ' collection added: ', await result)
-      return await result
-    })
+      eleventyConfig.addCollection(type.plural, collection => {
+        console.info(type.plural + ' collection added: ', result)
+        return result
+      })
+    }
+    catch (error) {
+      console.error(type.plural + ' collection was not added: ', error)
+      // debug(error)
+    }
   })
 
   collections.local.map(type => {

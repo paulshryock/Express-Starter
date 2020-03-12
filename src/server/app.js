@@ -60,7 +60,7 @@ app.disable('x-powered-by')
 /**
  * Serve favicon
  */
-app.use(favicon(path.join(__dirname, '../../build/client/img/favicon', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, './public/img/favicon', 'favicon.ico')))
 
 /**
  * Setup logging

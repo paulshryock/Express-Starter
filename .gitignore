@@ -8,18 +8,18 @@ npm-debug.log
 package-lock.json
 
 # Log files
-_logs/
+/_logs/
 
 # Built files
-public/
-build/
-dist/
+/public/
+/build/
+/dist/
 
 # Temporary files
-_scratch/
-scratch/
-_temp/
-temp/
+/_scratch/
+/scratch/
+/_temp/
+/temp/
 
 # OS files
 .DS_Store
