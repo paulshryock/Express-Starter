@@ -41,8 +41,6 @@ async function getToken () {
   }
 }
 
-getToken()
-
 const collections = {
   api: [
     { plural: 'articles', single: 'article' },
@@ -55,20 +53,22 @@ const collections = {
   ]
 }
 
-module.exports = function (eleventyConfig) {
+module.exports = async function (eleventyConfig) {
 
-  collections.api.map(type => {
-    const result = async () => await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
+  // await getToken()
 
-    if (!result) {
-      console.error(`${type.plural} collection was not created!`)
-    } else {
-      eleventyConfig.addCollection(type.plural, collection => {
-        console.info(`${type.plural} collection was created!`)
-        return result
-      })
-    }
-  })
+  // collections.api.map(type => {
+  //   const result = async () => await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
+
+  //   if (!result) {
+  //     console.error(`${type.plural} collection was not created!`)
+  //   } else {
+  //     eleventyConfig.addCollection(type.plural, collection => {
+  //       console.info(`${type.plural} collection was created!`)
+  //       return result
+  //     })
+  //   }
+  // })
 
   collections.local.map(type => {
     eleventyConfig.addCollection(type.plural, collection => collection.getAll().filter(post => post.data.contentType === type.single))
