@@ -35,6 +35,7 @@ async function getToken () {
     console.log('Token successful!')
     return token
   } catch (error) {
+    console.log(error)
     debug(error)
   }
 }
