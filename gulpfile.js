@@ -41,8 +41,8 @@ const paths = {
       `./${SRC}/**/*.pug`,
       `./${SRC}/**/*.jstl`
     ],
-    dest: `./${BUILD}`,
-    output: `./${BUILD}/**/*.html`
+    dest: `./${BUILD}`, // Build directory
+    output: `./${BUILD}/**/*.html` // Built HTML files
   },
   css: {
     all: `./${SRC}/_assets/css/**/*.css`,

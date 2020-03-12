@@ -8,7 +8,9 @@ layout: global
     <p class="post__meta">{{ description}}</p>
     {% endif %}
   </header><!-- .post__header -->
+  {% if content %}
   <div class="post__content">
     {{ content }}
   </div><!-- .post__content -->
+  {% endif %}
 </article><!-- .post -->
