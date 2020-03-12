@@ -39,7 +39,7 @@ async function getToken () {
   }
 }
 
-const token = getToken()
+getToken()
 
 const collections = {
   api: [
