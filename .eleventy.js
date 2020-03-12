@@ -61,7 +61,7 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addCollection(type.plural, async collection => {
       const result = await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
       console.log(type.plural, ': ', result)
-      return result
+      return result ? result : null
     })
   })
 
