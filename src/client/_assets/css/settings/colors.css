@@ -1,4 +1,6 @@
 $black: hsl( 0, 0%, 0% );
+$white: hsl( 0, 0%, 100% );
+
 $darkest-gray: hsl( 0, 0%, 10% );
 $darker-gray: hsl( 0, 0%, 20% );
 $dark-gray: hsl( 0, 0%, 30% );
@@ -9,7 +11,6 @@ $light-medium-gray: hsl( 0, 0%, 60% );
 $light-gray: hsl( 0, 0%, 70% );
 $lighter-gray: hsl( 0, 0%, 80% );
 $lightest-gray: hsl( 0, 0%, 90% );
-$white: hsl( 0, 0%, 100% );
 
 $medium-blue: hsl( 240, 100%, 50% );
 $blue: $medium-blue;
