@@ -31,8 +31,6 @@ const origin = {
   origin: isProduction ? config.get('app.url') : '*',
 }
 
-if (isProduction) require('newrelic') // Application monitoring
-
 /**
  * Import routes
  */
