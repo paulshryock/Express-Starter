@@ -57,8 +57,7 @@ const paths = {
     ],
     entry: {
       all: `./${SRC}/_assets/js/*.js`,
-      index: `./${SRC}/_assets/js/index.js`,
-      cms: `./${SRC}/_assets/js/cms.js`
+      index: `./${SRC}/_assets/js/index.js`
     },
     dest: `./${BUILD}/js`,
     output: `./${BUILD}/js/**.js`
@@ -70,10 +69,6 @@ const paths = {
   images: {
     src: `./${SRC}/_assets/img/**/*`,
     dest: `./${BUILD}/img`
-  },
-  cms: {
-    src: `./${SRC}/cms/config.yml`,
-    dest: `./${BUILD}/cms`
   }
 }
 
@@ -163,8 +158,7 @@ function js () {
     // Webpack configuration
     mode: isProduction ? 'production' : 'development',
     entry: {
-      bundle: paths.js.entry.index,
-      cms: paths.js.entry.cms
+      bundle: paths.js.entry.index
     },
     output: {
       path: path.resolve(__dirname, 'build/js'),
@@ -277,11 +271,7 @@ function assets () {
     .pipe(gulp.dest(paths.images.dest))
     .pipe(connect.reload())
 
-  const cms = gulp.src(paths.cms.src)
-    .pipe(gulp.dest(paths.cms.dest))
-    .pipe(connect.reload())
-
-  const merged = merge(fonts, images, cms)
+  const merged = merge(fonts, images)
 
   return merged.isEmpty() ? null : merged
 }
@@ -290,11 +280,7 @@ function watch (cb) {
   gulp.watch(paths.html.src, html)
   gulp.watch([paths.css.all], css)
   gulp.watch(paths.js.src, js)
-  gulp.watch([
-    paths.fonts.src,
-    paths.images.src,
-    paths.cms.src
-  ], assets)
+  gulp.watch([paths.fonts.src, paths.images.src], assets)
 
   cb()
 }
