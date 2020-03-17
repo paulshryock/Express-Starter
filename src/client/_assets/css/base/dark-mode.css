@@ -1,4 +1,4 @@
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
   a {
 
     &:link,
@@ -24,4 +24,4 @@
   img {
     filter: grayscale(20%);
   }
-}
+}*/

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  {% include meta/utf %}
+  {% include meta/viewport %}
+  {% include meta/ie %}
+  {% include meta/page %}
+  {% include meta/robots %}
+  {% include meta/pwa %}
+  {% include meta/icons %}
+  {% include meta/colors %}
+  {% include globals/styles %}
+</head>
+<body class="site {% if contentType %}{{ contentType }} {{ contentType }}-{{ page.fileSlug }}{% endif %}">
+  {{ content }}
+</body>
+</html>
