@@ -94,6 +94,8 @@ async function html () {
 
   const html = gulp.src(paths.html.output)
     .pipe(beautify.html(options)) // Beautify
+    // TODO: validate HTML
+    // https://www.npmjs.com/package/html-validator
     .pipe(gulp.dest(paths.html.dest))
     .pipe(connect.reload())
 
@@ -106,10 +108,17 @@ function css () {
       extends: ['stylelint-config-standard'],
       rules: {
         'at-rule-no-unknown': [true, {
-          ignoreAtRules: ['include', 'mixin']
+          ignoreAtRules: [
+            'include',
+            'mixin'
+          ]
         }],
         'no-descending-specificity': null,
-        'selector-pseudo-class-no-unknown': null
+        'selector-pseudo-class-no-unknown': [true, {
+          ignorePseudoClasses: [
+            'readonly'
+          ]
+        }]
       }
     },
     fix: true,
