@@ -1,6 +1,7 @@
 label {
 	display: block;
 	font-size: 0.75em;
+  font-weight: 700;
 	text-transform: capitalize;
 
   + * {

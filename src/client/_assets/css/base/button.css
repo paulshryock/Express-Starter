@@ -26,7 +26,7 @@ button {
   }
 
   &[disabled] {
-    color: $medium-gray;
+    color: $gray;
     cursor: auto;
   }
 
@@ -36,20 +36,34 @@ button {
     border-style: none;
     padding: 0;
   }
+
+  img {
+    display: inline-block;
+  }
 }
 
 [type="button"] {
   border: none;
+  border-radius: 0.25em;
   padding: 0.5em 0.75rem 0.25em;
   text-transform: capitalize;
   transition: box-shadow $speed-fast ease;
   -webkit-appearance: button;
+
+  img {
+    display: inline-block;
+  }
 }
 
 [type="reset"],
 [type="submit"] {
+  border-radius: 0.25em;
   padding: 0.5em 0.75rem 0.25em;
   -webkit-appearance: button;
+
+  img {
+    display: inline-block;
+  }
 }
 
 /* Isolate this selector */

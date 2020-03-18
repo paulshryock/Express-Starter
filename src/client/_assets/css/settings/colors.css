@@ -6,7 +6,9 @@ $darker-gray: hsl( 0, 0%, 20% );
 $dark-gray: hsl( 0, 0%, 30% );
 $dark-medium-gray: hsl( 0, 0%, 40% );
 $medium-gray: hsl( 0, 0%, 50% );
-$gray: medium-gray;
+$medium-gray-alpha: hsla( 0, 0%, 50%, 50% );
+$gray: $medium-gray;
+$gray-alpha: $medium-gray-alpha;
 $light-medium-gray: hsl( 0, 0%, 60% );
 $light-gray: hsl( 0, 0%, 70% );
 $light-gray-alpha: hsla( 0, 0%, 70%, 50% );
@@ -28,4 +30,5 @@ $light-blue-alpha: hsla( 220, 100%, 70%, 50% );
 $lighter-blue: hsl( 220, 100%, 80% );
 $lightest-blue: hsl( 220, 100%, 90% );
 
+$green: green;
 $red: red;

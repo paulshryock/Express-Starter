@@ -8,13 +8,21 @@ input {
 	overflow: visible;
 
   &:placeholder {
-    color: $medium-gray;
+    color: $gray;
   }
 
   &:disabled,
   &:readonly {
-    color: $medium-gray;
+    color: $gray;
     cursor: not-allowed;
+  }
+
+  &.is-valid {
+    border-color: $green;
+  }
+
+  &.is-invalid {
+    border-color: $red;
   }
 }
 
@@ -30,22 +38,31 @@ select::-webkit-input-placeholder {
 [type="datetime-local"],
 [type="email"],
 [type="month"],
-[type="week"],
 [type="number"],
 [type="password"],
 [type="search"],
 [type="tel"],
 [type="text"],
 [type="time"],
-[type="url"] {
-	border: $border-thinner solid $light-medium-gray;
-	border-radius: 0.25em;
-	background: $lightest-gray;
-	padding: 0.25rem;
+[type="url"],
+[type="week"] {
+  background: $white;
+  border: $border-thinner solid $light-medium-gray;
+  border-radius: 0.25em;
+  padding: 0.25rem;
 }
 
-[type="checkbox"] {
+[type="checkbox"],
+[type="radio"] {
   padding: 0;
+
+  &.is-valid {
+    box-shadow: 0 0 0 1px $green;
+  }
+
+  &.is-invalid {
+    box-shadow: 0 0 0 1px $red;
+  }
 }
 
 /* TODO: Style color picker input: https://jsfiddle.net/9zhap7rb/3/ */
@@ -58,9 +75,7 @@ select::-webkit-input-placeholder {
   height: auto;
 }
 
-[type="radio"] {
-  padding: 0;
-}
+/* TODO: Style range input */
 
 [type="search"] {
   outline-offset: -2px;

@@ -1,32 +1,27 @@
 .button {
-	background: $dark-blue;
+	background: $dark-medium-blue;
 	border-radius: 0.25em;
-	/*box-shadow: 0 0.125rem 0 0 hsl( 240, 25%, 90% );*/
 	color: $white;
 	display: inline-block;
   line-height: 1.4;
   padding: 0.5em 0.75rem 0.25em;
 	text-decoration: none;
 	text-transform: capitalize;
-	/*transition: box-shadow 200ms ease;*/
 
 	&:link,
 	&:visited {
-		/*box-shadow: 0 0.125rem 0 0 hsl( 240, 25%, 90% );*/
 		color: $white;
 	}
 
 	&:hover,
 	&:focus {
-		background: $dark-medium-blue;
-		/*box-shadow: 0 0.125rem 0 0 hsl( 240, 25%, 80% );*/
+		background: $blue;
 		color: $white;
 	  padding: 0.5em 0.75rem 0.25em;
 	}
 
 	&:active {
-		background: $blue;
-		/*box-shadow: none;*/
+		background: $light-medium-blue;
 		color: $white;
 	  padding: 0.5em 0.75rem 0.25em;
 	}
@@ -73,4 +68,8 @@
 			cursor: auto;
 		}
 	}
+
+  img {
+    display: inline-block;
+  }
 }

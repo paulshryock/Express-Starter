@@ -12,18 +12,22 @@ layout: test
       <legend>Form legend</legend>
       <div>
         <label for="f1">Text input:</label>
-        <input type="text" id="f1" value="input text" required>
+        <input type="text" id="f1" required>
       </div>
       <div>
         <label for="pw">Password input:</label>
         <input type="password" id="pw" value="password">
       </div>
       <div>
-        <input type="radio" id="f2">
+        <label for="hidden">Hidden input:</label>
+        <input type="hidden" id="hidden" value="hidden">
+      </div>
+      <div>
+        <input type="radio" id="f2" required>
         <label for="f2">Radio input</label>
       </div>
       <div>
-        <input type="checkbox" id="f3">
+        <input type="checkbox" id="f3" required>
         <label for="f3">Checkbox input</label>
       </div>
       <div>
