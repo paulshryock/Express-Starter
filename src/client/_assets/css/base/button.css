@@ -1,6 +1,6 @@
 button {
   appearance: none;
-  background-color: $lightest-gray;
+  background: $lightest-gray;
 	border: none;
   border-radius: 0.25em;
 	cursor: pointer;
@@ -14,6 +14,11 @@ button {
   -webkit-appearance: button;
   transition: all $speed-fast ease;
 
+  &:hover,
+  &:focus {
+    background: $lighter-gray;
+  }
+
   &[disabled] {
     color: $light-gray;
     cursor: auto;
@@ -24,8 +29,6 @@ button {
     border-style: none;
     padding: 0;
   }
-
-  /* More focus styles in focus.css */
 }
 
 [type="button"] {
@@ -46,7 +49,6 @@ button {
 [type="reset"]:-moz-focusring,
 [type="submit"]:-moz-focusring {
   border-style: none;
-  /* More focus styles in focus.css */
   padding: 0;
 }
 

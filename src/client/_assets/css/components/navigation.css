@@ -23,6 +23,10 @@
 		position: absolute;
 		right: 0;
 		top: 0;
+		
+		@include mq-600 {
+			display: none;
+		}
 
 		&:hover .hamburger,
 		&:focus .hamburger {

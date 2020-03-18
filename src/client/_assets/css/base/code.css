@@ -1,5 +1,5 @@
 code {
 	color: $red;
-	font-family: monospace;
+	font-family: $font-stack-code;
 	font-size: 0.85rem;
 }
