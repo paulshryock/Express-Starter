@@ -1,39 +1,45 @@
 .button {
-	background: hsl( 240, 100%, 50% );
+	background: $dark-blue;
 	border-radius: 0.25em;
-	box-shadow: 0 0.125rem 0 0 hsl( 240, 25%, 90% );
-	color: hsl( 0, 0%, 100% );
+	/*box-shadow: 0 0.125rem 0 0 hsl( 240, 25%, 90% );*/
+	color: $white;
 	display: inline-block;
   line-height: 1.4;
-	padding: 0.25em 0.5em;
+  padding: 0.5em 0.75rem 0.25em;
 	text-decoration: none;
 	text-transform: capitalize;
-	transition: box-shadow 200ms ease;
+	/*transition: box-shadow 200ms ease;*/
 
 	&:link,
 	&:visited {
-		box-shadow: 0 0.125rem 0 0 hsl( 240, 25%, 90% );
-		color: hsl( 0, 0%, 100% );
+		/*box-shadow: 0 0.125rem 0 0 hsl( 240, 25%, 90% );*/
+		color: $white;
 	}
 
 	&:hover,
 	&:focus {
-		background: hsl( 220, 100%, 50% );
-		box-shadow: 0 0.125rem 0 0 hsl( 240, 25%, 80% );
-		color: hsl( 0, 0%, 100% );
+		background: $dark-medium-blue;
+		/*box-shadow: 0 0.125rem 0 0 hsl( 240, 25%, 80% );*/
+		color: $white;
+	  padding: 0.5em 0.75rem 0.25em;
 	}
 
 	&:active {
-		background: hsl( 220, 100%, 60% );
-		box-shadow: none;
-		color: hsl( 0, 0%, 100% );
+		background: $blue;
+		/*box-shadow: none;*/
+		color: $white;
 	}
 
 	&[disabled] {
-		background: hsl( 240, 50%, 80% );
+		background: $light-blue-desaturated;
 		box-shadow: none;
-		color: hsl( 0, 0%, 100% );
+		color: $white;
 		cursor: auto;
+
+		&:hover,
+		&:focus {
+			background: $light-blue-desaturated;
+		}
 	}
 
 	&__ghost {

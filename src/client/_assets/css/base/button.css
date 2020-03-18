@@ -6,7 +6,7 @@ button {
 	cursor: pointer;
   font-family: inherit;
   font-size: 100%;
-	line-height: 1;
+	line-height: 1.4;
   margin: 0;
 	overflow: visible;
 	padding: 0.5em 0.75rem 0.25em;
@@ -17,11 +17,17 @@ button {
   &:hover,
   &:focus {
     background: $lighter-gray;
+    padding: 0.5em 0.75rem 0.25em;
   }
 
   &[disabled] {
     color: $light-gray;
     cursor: auto;
+
+    &:hover,
+    &:focus {
+      background: $lightest-gray;
+    }
   }
 
   /* Isolate this selector */
