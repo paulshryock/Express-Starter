@@ -2,4 +2,12 @@
 	border-radius: 50%;
 	clip-path: circle( 50% );
 	max-width: 8rem;
+
+  &_small {
+    max-width: 4rem;
+  }
+
+  &_large {
+    max-width: 12rem;
+  }
 }

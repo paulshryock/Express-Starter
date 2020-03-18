@@ -2,14 +2,14 @@
 title: Test
 slug: test
 layout: test
----
+---<!-- 
 <section style="padding: 1rem;">
   <header>
     <h2>Base Elements</h2>
   </header>
   <ul class="elements">
     <li><a href="#">a</a></li>
-    <li><abbr>abbr</abbr></li>
+    <li><p><abbr title="JavaScript Object Notation">JSON</abbr> (<dfn title="JSON">JavaScript Object Notation</dfn>) is a lightweight data-interchange format.</p></li>
     <li><acronym>acronym</acronym></li>
     <li><audio>audio</audio></li>
     <li><b>b</b></li>
@@ -95,5 +95,15 @@ layout: test
     <li><sub>sub</sub></li>
     <li><sup>sup</sup></li>
     <li><var>var</var></li>
+  </ul>
+</section> -->
+<section style="padding: 1rem;">
+  <header>
+    <h2>Components</h2>
+  </header>
+  <ul class="components">
+    <li><img class="avatar" src="https://source.unsplash.com/random/500x500" alt=""></li>
+    <li><img class="avatar avatar_small" src="https://source.unsplash.com/random/500x500" alt=""></li>
+    <li><img class="avatar avatar_large" src="https://source.unsplash.com/random/500x500" alt=""></li>
   </ul>
 </section>

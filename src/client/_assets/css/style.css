@@ -13,5 +13,5 @@
 @import './generic/*.css';
 @import './base/*.css';
 /*@import './objects/*.css';*/
-/*@import './components/*.css';*/
+@import './components/*.css';
 /*@import './trumps/*.css';*/
