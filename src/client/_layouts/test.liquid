@@ -12,13 +12,6 @@
   {% include globals/styles %}
 </head>
 <body class="site {% if contentType %}{{ contentType }} {{ contentType }}-{{ page.fileSlug }}{% endif %}">
-  {% include components/skip-link %}
-  {% include globals/site-header %}
-  {% include components/navigation %}
-  <main id="content" class="site-main">
-    {{ content }}
-  </main><!-- .site-main -->
-  {% include globals/site-footer %}
-  {% include globals/scripts %}
+  {{ content }}
 </body>
 </html>

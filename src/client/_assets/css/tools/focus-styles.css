@@ -1,0 +1,4 @@
+@mixin focus-styles() {
+  outline: none;
+  box-shadow: 0 $border-thinner $border-medium 0 $blue, 0 $border-thinner $border-thin 0 $blue-alpha;
+}

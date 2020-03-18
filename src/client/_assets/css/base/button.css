@@ -1,17 +1,23 @@
 button {
   appearance: none;
-  background-color: transparent;
+  background: $lightest-gray;
 	border: none;
+  border-radius: 0.25em;
 	cursor: pointer;
   font-family: inherit;
   font-size: 100%;
 	line-height: 1;
   margin: 0;
 	overflow: visible;
-	padding: 0.25rem;
+	padding: 0.5em 0.75rem 0.25em;
 	text-transform: capitalize;
   -webkit-appearance: button;
   transition: all $speed-fast ease;
+
+  &:hover,
+  &:focus {
+    background: $lighter-gray;
+  }
 
   &[disabled] {
     color: $light-gray;
@@ -23,18 +29,11 @@ button {
     border-style: none;
     padding: 0;
   }
-
-  /* Isolate this selector */
-  &:-moz-focusring {
-    outline: $border-thinner dotted ButtonText;
-  }
-
 }
 
 [type="button"] {
   border: none;
-  border-radius: 0.25em;
-  padding: 0.25rem;
+  padding: 0.5em 0.75rem 0.25em;
   text-transform: capitalize;
   transition: box-shadow $speed-fast ease;
   -webkit-appearance: button;
@@ -42,7 +41,6 @@ button {
 
 [type="reset"],
 [type="submit"] {
-  border-radius: 0.25em;
   -webkit-appearance: button;
 }
 
@@ -51,7 +49,6 @@ button {
 [type="reset"]:-moz-focusring,
 [type="submit"]:-moz-focusring {
   border-style: none;
-  outline: $border-thinner dotted ButtonText;
   padding: 0;
 }
 

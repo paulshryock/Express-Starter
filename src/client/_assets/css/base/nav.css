@@ -11,12 +11,25 @@ nav {
 	}
 
 	li {
-		display: inline-block;
+		display: block;
 		font-size: 1rem;
+
+		@include mq-600 {
+			display: inline-block;
+		}
+
+		+ li {
+			margin-top: $space;
+
+			@include mq-600 {
+				margin-left: $space;
+				margin-top: 0;
+			}
+		}
 	}
 
 	a {
-		padding: 0.5rem;
+		display: block;
 		text-decoration: none;
 
 		&:link,
@@ -31,12 +44,6 @@ nav {
 
 		&:focus {
 			outline-offset: -0.125em;
-		}
-	}
-
-	button {
-		@include mq-600 {
-			display: none;
 		}
 	}
 }

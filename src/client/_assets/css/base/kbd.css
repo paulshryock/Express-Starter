@@ -1,16 +1,8 @@
 kbd {
-	background: $white;
 	border-radius: 0.25em;
-	box-shadow: 0 0.0625rem 0.0625rem 0.0625rem $lighter-gray;
+  box-shadow: 0 $border-thinner $border-medium 0 $light-gray, 0 $border-thinner $border-thin 0 $light-gray-alpha;
 	display: inline-block;
 	font-family: $font-stack-code;
 	font-size: 0.85rem;
-	margin: 0 0.125rem;
-	padding: 0 0.25rem;
-	transition: box-shadow $speed-fast ease;
-
-	&:hover,
-	&:focus {
-		box-shadow: 0 0.0625rem 0.0625rem 0.0625rem $medium-gray;
-	}
+	padding: 0.25em 0.25rem 0;
 }

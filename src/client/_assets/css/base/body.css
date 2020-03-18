@@ -6,9 +6,4 @@ body {
   overflow-y: auto;
   /* Hide persistent scrollbar in IE (10/11) and Edge */
   -ms-overflow-style: -ms-autohiding-scrollbar;
-
-  @media (prefers-color-scheme: dark) {
-    background: $darkest-gray;
-    color: $white;
-  }
 }
