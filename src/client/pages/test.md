@@ -41,5 +41,11 @@ layout: test
         details
       </details>
     </li>
+    <li>
+      <em>em</em>
+    </li>
+    <li>
+      <embed>embed</embed>
+    </li>
   </ul>
 </section>

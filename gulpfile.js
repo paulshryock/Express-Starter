@@ -111,6 +111,7 @@ function css () {
         'no-descending-specificity': null,
         'selector-pseudo-class-no-unknown': [true, {
           ignorePseudoClasses: [
+            'focusring',
             'readonly'
           ]
         }]

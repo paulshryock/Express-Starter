@@ -25,11 +25,7 @@ button {
     padding: 0;
   }
 
-  /* Isolate this selector */
-  &:-moz-focusring {
-    outline: $border-thinner dotted $lighter-blue;
-  }
-
+  /* More focus styles in focus.css */
 }
 
 [type="button"] {
@@ -50,7 +46,7 @@ button {
 [type="reset"]:-moz-focusring,
 [type="submit"]:-moz-focusring {
   border-style: none;
-  outline: $border-thinner dotted $lighter-blue;
+  /* More focus styles in focus.css */
   padding: 0;
 }
 
