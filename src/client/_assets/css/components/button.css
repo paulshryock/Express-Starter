@@ -28,6 +28,7 @@
 		background: $blue;
 		/*box-shadow: none;*/
 		color: $white;
+	  padding: 0.5em 0.75rem 0.25em;
 	}
 
 	&[disabled] {

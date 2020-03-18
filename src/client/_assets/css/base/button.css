@@ -1,6 +1,6 @@
 button {
   appearance: none;
-  background: $lightest-gray;
+  background: $light-gray;
 	border: none;
   border-radius: 0.25em;
 	cursor: pointer;
@@ -20,18 +20,19 @@ button {
     padding: 0.5em 0.75rem 0.25em;
   }
 
-  &[disabled] {
-    color: $light-gray;
-    cursor: auto;
+  &:active {
+    background: $lightest-gray;
+    padding: 0.5em 0.75rem 0.25em;
+  }
 
-    &:hover,
-    &:focus {
-      background: $lightest-gray;
-    }
+  &[disabled] {
+    color: $medium-gray;
+    cursor: auto;
   }
 
   /* Isolate this selector */
   &::-moz-focus-inner {
+    border: none;
     border-style: none;
     padding: 0;
   }
@@ -47,6 +48,7 @@ button {
 
 [type="reset"],
 [type="submit"] {
+  padding: 0.5em 0.75rem 0.25em;
   -webkit-appearance: button;
 }
 
