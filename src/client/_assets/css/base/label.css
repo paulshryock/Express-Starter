@@ -7,7 +7,10 @@ label {
   	margin-top: 0.25rem;
   }
 
-  [type="radio"] + & {
-  	padding-left: 0.25em;
+  [type="radio"] + &,
+  [type="checkbox"] + & {
+    display: inline-block;
+    font-size: 1em;
+  	margin-left: 0.25em;
   }
 }
