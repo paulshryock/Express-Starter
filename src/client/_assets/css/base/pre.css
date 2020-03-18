@@ -1,6 +1,6 @@
 pre {
 	font-family: $font-stack-code;
-	font-size: 1rem;
+	font-size: 0.85em;
   tab-size: 2;
 
 	/* Browser specific (not valid) styles to make preformatted text wrap */
@@ -17,6 +17,6 @@ pre {
 		display: block;
 		line-height: 1.2;
 	  margin: 0;
-		padding: $space;
+		/*padding: $space;*/
 	}
 }
