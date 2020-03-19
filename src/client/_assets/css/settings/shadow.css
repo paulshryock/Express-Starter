@@ -4,5 +4,6 @@ $shadow-focus:
 
 $shadow-button-focus:
   0 0 0 $border-thinnest $white,
+  0 0 0 $border-thinner $blue,
   0 $border-thinner $border-medium 0 $dark-medium-gray,
   0 $border-thinner $border-thin 0 $gray-alpha;
