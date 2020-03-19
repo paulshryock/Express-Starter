@@ -26,7 +26,7 @@
 	&:hover,
 	&:focus {
 		background: $blue;
-		outline: 2px dashed $light-medium-blue;
+    box-shadow: $shadow-button-focus;
 	  padding: 0.5em 0.75em 0.25em;
 	}
 
