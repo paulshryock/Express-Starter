@@ -3,7 +3,7 @@ title: Test
 slug: test
 layout: test
 ---
-<section style="padding: 1rem;">
+<!-- <section style="padding: 1rem;">
   <header>
     <h2>Form</h2>
   </header>
@@ -55,7 +55,7 @@ layout: test
       </div>
     </fieldset>
   </form>
-</section>
+</section> -->
 <!--<section style="padding: 1rem;">
   <header>
     <h2>Base Elements</h2>
@@ -67,11 +67,11 @@ layout: test
     <li><audio>audio</audio></li>
     <li><b>b</b></li>
     <li><big>big</big></li>
-    <li><button>Button</button></li>
-    <li><button type="button">Type Button</button></li>
-    <li><button type="submit">Type Submit</button></li>
-    <li><button type="reset">Type Reset</button></li>
-    <li><button disabled>Disabled</button></li>
+    <li style="margin-bottom: 1em;"><button>button</button></li>
+    <li style="margin-bottom: 1em;"><button type="button">button type="button"</button></li>
+    <li style="margin-bottom: 1em;"><button type="submit">button type="submit"</button></li>
+    <li style="margin-bottom: 1em;"><button type="reset">button type="reset"</button></li>
+    <li style="margin-bottom: 1em;"><button disabled>button disabled</button></li>
     <li><caption>caption</caption></li>
     <li><code>code</code></li>
     <li><details>
@@ -154,12 +154,12 @@ layout: test
     <li><var>var</var></li>
   </ul>
 </section>-->
-<!--<section style="padding: 1rem;">
+<section style="padding: 1rem;">
   <header>
     <h2>Components</h2>
   </header>
   <ul class="components">
-    <li><img class="avatar" src="https://source.unsplash.com/random/500x500" alt=""></li>
+    <!--<li><img class="avatar" src="https://source.unsplash.com/random/500x500" alt=""></li>
     <li><img class="avatar avatar_small" src="https://source.unsplash.com/random/500x500" alt=""></li>
     <li><img class="avatar avatar_large" src="https://source.unsplash.com/random/500x500" alt=""></li>
     <li>
@@ -171,11 +171,22 @@ layout: test
         </ul>
       </nav>
     </li>
-    <li><a class="button" href="#">Hyperlink button</a></li>
-    <li><button class="button">Button</button></li>
-    <li><button class="button" type="button">Type Button</button></li>
-    <li><button class="button" type="submit">Type Submit</button></li>
-    <li><button class="button" type="reset">Type Reset</button></li>
-    <li><button class="button" disabled>Disabled</button></li>
+    <li style="margin-bottom: 1em;"><a class="button" href="#">a class="button"</a></li>-->
+    <li style="margin-bottom: 1em;">
+      <button class="button button_highlight">button</button>
+      <button class="button button_highlight" disabled>disabled</button>
+    </li>
+    <li style="margin-bottom: 1em;">
+      <button class="button">button</button>
+      <button class="button" disabled>disabled</button>
+    </li>
+    <li style="margin-bottom: 1em;">
+      <button class="button button_ghost">button</button>
+      <button class="button button_ghost" disabled>disabled</button>
+    </li>
+    <!--<li style="margin-bottom: 1em;"><button class="button" type="button">button class="button" type="button"</button></li>
+    <li style="margin-bottom: 1em;"><button class="button" type="submit">button class="button" type="submit"</button></li>
+    <li style="margin-bottom: 1em;"><button class="button" type="reset">button class="button" type="reset"</button></li>
+    <li style="margin-bottom: 1em;"><button class="button" disabled>button class="button" disabled</button></li>-->
   </ul>
-</section>-->
+</section>
