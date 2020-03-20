@@ -159,10 +159,10 @@ layout: test
     <h2>Components</h2>
   </header>
   <ul class="components">
-    <!--<li><img class="avatar" src="https://source.unsplash.com/random/500x500" alt=""></li>
-    <li><img class="avatar avatar_small" src="https://source.unsplash.com/random/500x500" alt=""></li>
-    <li><img class="avatar avatar_large" src="https://source.unsplash.com/random/500x500" alt=""></li>
-    <li>
+    <!-- <li><img class="avatar" src="https://source.unsplash.com/random/500x500" alt=""></li> -->
+    <!-- <li><img class="avatar avatar_small" src="https://source.unsplash.com/random/500x500" alt=""></li> -->
+    <!-- <li><img class="avatar avatar_large" src="https://source.unsplash.com/random/500x500" alt=""></li> -->
+    <!-- <li>
       <nav>
         <ul class="breadcrumb">
           <li><a href="#">Lorum ipsum dolor sit amet</a></li>
@@ -170,9 +170,9 @@ layout: test
           <li><a href="#" aria-current="page">This breadcrumb navigation item is pretty long</a></li>
         </ul>
       </nav>
-    </li>
-    <li style="margin-bottom: 1em;"><a class="button" href="#">a class="button"</a></li>-->
-    <li style="margin-bottom: 1em;">
+    </li> -->
+    <!-- <li style="margin-bottom: 1em;"><a class="button" href="#">a class="button"</a></li> -->
+    <!-- <li style="margin-bottom: 1em;">
       <button class="button button_highlight">button</button>
       <button class="button button_highlight" disabled>disabled</button>
     </li>
@@ -184,9 +184,23 @@ layout: test
       <button class="button button_ghost">button</button>
       <button class="button button_ghost" disabled>disabled</button>
     </li>
-    <!--<li style="margin-bottom: 1em;"><button class="button" type="button">button class="button" type="button"</button></li>
+    <li style="margin-bottom: 1em;"><button class="button" type="button">button class="button" type="button"</button></li>
     <li style="margin-bottom: 1em;"><button class="button" type="submit">button class="button" type="submit"</button></li>
     <li style="margin-bottom: 1em;"><button class="button" type="reset">button class="button" type="reset"</button></li>
-    <li style="margin-bottom: 1em;"><button class="button" disabled>button class="button" disabled</button></li>-->
+    <li style="margin-bottom: 1em;"><button class="button" disabled>button class="button" disabled</button></li> -->
+    <li>
+      <div class="card">
+        <header class="card__header">
+          <p>Header</p>
+        </header>
+        <div class="card__body">
+          <p>Card</p>
+          <p>Card</p>
+        </div>
+        <footer class="card__footer">
+          <p>Footer</p>
+        </footer>
+      </div>
+    </li>
   </ul>
 </section>
