@@ -1,0 +1,9 @@
+.constrain {
+  margin-left: auto;
+  margin-right: auto;
+	max-width: 65ch;
+
+  &.pad {
+    max-width: calc( 65ch + calc( 2 * $space ) );
+  }
+}

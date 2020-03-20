@@ -3,7 +3,7 @@ title: Test
 slug: test
 layout: test
 ---
-<!-- <section style="padding: 1rem;">
+<!-- <section>
   <header>
     <h2>Form</h2>
   </header>
@@ -56,7 +56,7 @@ layout: test
     </fieldset>
   </form>
 </section> -->
-<!--<section style="padding: 1rem;">
+<!--<section>
   <header>
     <h2>Base Elements</h2>
   </header>
@@ -154,8 +154,8 @@ layout: test
     <li><var>var</var></li>
   </ul>
 </section>-->
-<section style="padding: 1rem;">
-  <header>
+<section>
+  <header class="pad">
     <h2>Components</h2>
   </header>
   <ul class="components">
@@ -187,7 +187,7 @@ layout: test
     <li style="margin-bottom: 1em;"><button class="button" type="button">button class="button" type="button"</button></li>
     <li style="margin-bottom: 1em;"><button class="button" type="submit">button class="button" type="submit"</button></li>
     <li style="margin-bottom: 1em;"><button class="button" type="reset">button class="button" type="reset"</button></li>
-    <li style="margin-bottom: 1em;"><button class="button" disabled>button class="button" disabled</button></li> -->
+    <li style="margin-bottom: 1em;"><button class="button" disabled>button class="button" disabled</button></li>
     <li>
       <ul class="cards">
         <li class="card">
@@ -195,7 +195,7 @@ layout: test
             <img src="https://source.unsplash.com/random/1200x1200" alt="Placeholder" width="1200" height="1200">
           </header>
           <p>Lorem ipsum dolor sit amet</p>
-        </li><!-- .card -->
+        </li>
         <li class="card">
           <header class="card__header">
             <p>Lorem ipsum dolor sit amet</p>
@@ -207,7 +207,7 @@ layout: test
           <footer class="card__footer">
             <p>Aliquam tincidunt mauris</p>
           </footer>
-        </li><!-- .card -->
+        </li>
         <li class="card">
           <header class="card__header">
             <p>Lorem ipsum dolor sit amet</p>
@@ -216,8 +216,57 @@ layout: test
             <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.</p>
             <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</p>
           </div>
-        </li><!-- .card -->
-      </ul><!-- .cards -->
+        </li>
+      </ul>
     </li>
+    <li>
+      <div class="pad" style="background: navy; color: white;">
+        Full width, padded: <code>.pad</code>
+      </div>
+    </li>
+    <li>
+      <div class="constrain" style="background: navy; color: white;">
+        Constrained: <code>.constrain</code>
+      </div>
+    </li>
+    <li>
+      <div class="constrain pad" style="background: navy; color: white;">
+        Constrained, padded: <code>.pad.constrain</code>
+      </div>
+    </li>
+    <li style="background: navy; color: white;" class="pad">
+      <div class="constrain">
+        Full width, padded, constrained: <code>.pad > .constrain</code>
+      </div>
+    </li>
+    <li style="background: navy; color: white;" class="constrain">
+      <div class="pad">
+        Constrained, padded: <code>.constrain > .pad</code>
+      </div>
+    </li>
+    <li>
+      <div class="constrain" style="background: gray;">
+        Constrained
+        <div class="full-width pad" style="background: navy; color: white;">
+          Full width
+          <div class="constrain">
+            Constrained inside full width, inside constrained (inside full width)
+          </div>
+        </div>
+        Still constrained
+      </div>
+    </li> -->
+    <!-- <li>
+      <article class="constrain pad">
+        <header>
+          <h2>Lorem ipsum dolor sit amet</h2>
+        </header>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.</p>
+        <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</p>
+        <p>Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</p>
+        <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
+        <p>Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.</p>
+      </article>
+    </li> -->
   </ul>
 </section>
