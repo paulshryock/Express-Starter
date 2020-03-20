@@ -27,6 +27,7 @@ navigation.addNavButton = function () {
   hamburger1.classList.add('hamburger', 'hamburger__1')
   hamburger2.classList.add('hamburger', 'hamburger__2')
   hamburger3.classList.add('hamburger', 'hamburger__3')
+  button.classList.add('navigation__toggle')
   button.appendChild(span)
   button.appendChild(hamburger1)
   button.appendChild(hamburger2)
@@ -81,7 +82,7 @@ navigation.showNavMenu = function () {
   * Sets mobile navigation menu toggle button text
   */
 navigation.setNavButtonText = function (text) {
-  const button = document.querySelector('.navigation button span')
+  const button = document.querySelector('.navigation__toggle span')
 
   if (button) {
     button.textContent = text
@@ -113,7 +114,7 @@ navigation.toggleNavElementsStates = function () {
 navigation.toggleNavElements = function (mediaQuery) {
 
   if (mediaQuery.matches) { // Tablet and up
-    const button = document.querySelector('.navigation button')
+    const button = document.querySelector('.navigation__toggle')
     if (button) {
       button.removeEventListener('click', navigation.toggleNavElementsStates, false)
     }
@@ -122,7 +123,7 @@ navigation.toggleNavElements = function (mediaQuery) {
   } else { // Mobile
     navigation.addNavButton()
     navigation.hideNavMenu()
-    const button = document.querySelector('.navigation button')
+    const button = document.querySelector('.navigation__toggle')
     if (button) {
       button.addEventListener('click', navigation.toggleNavElementsStates, false)
     }

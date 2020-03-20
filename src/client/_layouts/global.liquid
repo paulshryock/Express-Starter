@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html class="no-js">
-<head>
-  {% include meta/utf %}
-  {% include meta/viewport %}
-  {% include meta/ie %}
-  {% include meta/page %}
-  {% include meta/robots %}
-  {% include meta/pwa %}
-  {% include meta/icons %}
-  {% include meta/colors %}
-  {% include globals/styles %}
-</head>
-<body class="site {% if contentType %}{{ contentType }} {{ contentType }}-{{ page.fileSlug }}{% endif %}">
+---
+layout: globals
+---
   {% include components/skip-link %}
   {% include globals/site-header %}
   {% include components/navigation %}
@@ -20,5 +9,3 @@
   </main><!-- .site-main -->
   {% include globals/site-footer %}
   {% include globals/scripts %}
-</body>
-</html>
