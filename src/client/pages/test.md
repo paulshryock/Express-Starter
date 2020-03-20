@@ -189,18 +189,35 @@ layout: test
     <li style="margin-bottom: 1em;"><button class="button" type="reset">button class="button" type="reset"</button></li>
     <li style="margin-bottom: 1em;"><button class="button" disabled>button class="button" disabled</button></li> -->
     <li>
-      <div class="card">
-        <header class="card__header">
-          <p>Header</p>
-        </header>
-        <div class="card__body">
-          <p>Card</p>
-          <p>Card</p>
-        </div>
-        <footer class="card__footer">
-          <p>Footer</p>
-        </footer>
-      </div>
+      <ul class="cards">
+        <li class="card">
+          <header class="card__image">
+            <img src="https://source.unsplash.com/random/1200x1200" alt="Placeholder" width="1200" height="1200">
+          </header>
+          <p>Lorem ipsum dolor sit amet</p>
+        </li><!-- .card -->
+        <li class="card">
+          <header class="card__header">
+            <p>Lorem ipsum dolor sit amet</p>
+          </header>
+          <div class="card__body">
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.</p>
+            <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</p>
+          </div>
+          <footer class="card__footer">
+            <p>Aliquam tincidunt mauris</p>
+          </footer>
+        </li><!-- .card -->
+        <li class="card">
+          <header class="card__header">
+            <p>Lorem ipsum dolor sit amet</p>
+          </header>
+          <div class="card__body">
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.</p>
+            <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</p>
+          </div>
+        </li><!-- .card -->
+      </ul><!-- .cards -->
     </li>
   </ul>
 </section>
