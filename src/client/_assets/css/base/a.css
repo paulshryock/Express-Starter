@@ -1,6 +1,9 @@
 a {
   background-color: transparent;
-	transition: all $speed-fast ease;
+	transition: color $speed-fast ease,
+    background $speed-fast ease,
+    background-color $speed-fast ease,
+    text-decoration-color $speed-fast ease;
 
   &:link,
   &:visited {

@@ -1,0 +1,9 @@
+{% include components/skip-link %}
+{%- if slug == '.' %}{%- assign el = 'h1' %}
+{%- else %}{%- assign el = 'p' %}{%- endif %}
+<header role="banner" class="masthead pad">
+  <div class="constrain">
+    <{{ el }} class="masthead__title"><a href="/">{{ site.title }}</a></{{ el }}>
+    {% include components/navigation %}
+  </div>
+</header>

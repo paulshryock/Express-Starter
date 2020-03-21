@@ -9,9 +9,10 @@
   {% include meta/pwa %}
   {% include meta/icons %}
   {% include meta/colors %}
-  {% include globals/styles %}
+  {% include meta/styles %}
 </head>
 <body class="site {% if contentType %}{{ contentType }} {{ contentType }}-{{ page.fileSlug }}{% endif %}">
   {{ content }}
+  {% include meta/scripts %}
 </body>
 </html>

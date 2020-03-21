@@ -1,63 +1,63 @@
 ---
-layout: base
+layout: constrain-pad
 ---
-<article class="post">
-  <header class="post__header">
-    <h2 class="post__title">{{ title }}</h2>
+<article>
+  <header>
+    <h2>{{ title }}</h2>
     {% if description %}
-    <p class="post__meta">{{ description}}</p>
+    <p>{{ description}}</p>
     {% endif %}
-  </header><!-- .post__header -->
+  </header>
   {% if content %}
-  <div class="post__content">
+  <div>
     {{ content }}
-  </div><!-- .post__content -->
+  </div>
   {% endif %}
-</article><!-- .post -->
+</article>
 
-{%- if collections.articles %}
-<section class="more-content">
+{%- if collections.articles.size > 0 %}
+<section class="pad-top-2 border-top margin-top-2">
   {%- for post in collections.pages %}
   {%- if post.data.slug == 'articles' %}
   <h3>{{ post.data.title }}</h3>
-  <p class="post__meta">{{ post.data.description }}</p>
+  <p>{{ post.data.description }}</p>
   {%- endif %}
   {%- endfor %}
-  <ul class="posts">
+  <ul>
     {%- for article in collections.articles %}
-    <li class="post"><a href="/articles/{{ article.slug }}">{{ article.title }}</a></li>
+    <li><a href="/articles/{{ article.slug }}">{{ article.title }}</a></li>
     {%- endfor %}
   </ul>
 </section>
 {%- endif %}
 
-{%- if collections.projects %}
-<section class="more-content">
+{%- if collections.projects.size > 0 %}
+<section class="pad-top-2 border-top margin-top-2">
   {%- for post in collections.pages %}
   {%- if post.data.slug == 'portfolio' %}
   <h3>{{ post.data.title }}</h3>
-  <p class="post__meta">{{ post.data.description }}</p>
+  <p>{{ post.data.description }}</p>
   {%- endif %}
   {%- endfor %}
-  <ul class="posts">
+  <ul>
     {%- for project in collections.projects %}
-    <li class="post"><a href="/portfolio/{{ project.slug }}">{{ project.title }}</a></li>
+    <li><a href="/portfolio/{{ project.slug }}">{{ project.title }}</a></li>
     {%- endfor %}
   </ul>
 </section>
 {%- endif %}
 
-{%- if collections.testimonials %}
-<section class="more-content">
+{%- if collections.testimonials.size > 0 %}
+<section class="pad-top-2 border-top margin-top-2">
   {%- for post in collections.pages %}
   {%- if post.data.slug == 'testimonials' %}
   <h3>{{ post.data.title }}</h3>
-  <p class="post__meta">{{ post.data.description }}</p>
+  <p>{{ post.data.description }}</p>
   {%- endif %}
   {%- endfor %}
-  <ul class="posts">
+  <ul>
     {%- for testimonial in collections.testimonials %}
-    <li class="post"><a href="/testimonials/{{ testimonial.slug }}">{{ testimonial.name.first }} {{ testimonial.name.last }}</a></li>
+    <li><a href="/testimonials/{{ testimonial.slug }}">{{ testimonial.name.first }} {{ testimonial.name.last }}</a></li>
     {%- endfor %}
   </ul>
 </section>

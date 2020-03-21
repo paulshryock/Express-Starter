@@ -1,24 +1,14 @@
 ---
-layout: base
+layout: constrain-pad
 ---
-<article class="post">
-  <header class="post__header">
-    <h2 class="post__title">{{ article.title }}</h2>
-    <p class="post__meta">By {{ article.author }} | Last updated: {{ article.date | date: "%m/%d/%Y" }} | Status: {{ article.status }}</p>
-  </header><!-- .post__header -->
+<article>
+  <header>
+    <h2>{{ article.title }}</h2>
+    <p>By {{ article.author }} | Last updated: {{ article.date | date: "%m/%d/%Y" }} | Status: {{ article.status }}</p>
+  </header>
   {% if article.content %}
-  <div class="post__content">
+  <div>
     {{ article.content }}
-  </div><!-- .post__content -->
+  </div>
   {% endif %}
-</article><!-- .post -->
-{% if collections.articles[0] %}
-<aside>
-  <h3>More articles</h3>
-  <ul class="posts">
-    {% for post in collections.articles %}
-    <li class="post"><a href="/articles/{{ post.slug }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
-</aside>
-{% endif %}
+</article>
