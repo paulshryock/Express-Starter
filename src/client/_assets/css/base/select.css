@@ -4,4 +4,12 @@ select {
   font-size: 100%;
   margin: 0;
   text-transform: none;
+
+  &.is-valid {
+    border-color: $green;
+  }
+
+  &.is-invalid {
+    border-color: $red;
+  }
 }

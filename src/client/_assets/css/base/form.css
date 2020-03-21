@@ -1,15 +1,43 @@
 form {
-	margin: 2em 0;
 
-  div {
-  	margin: 0 0 $space;
+  > div + div {
+  	margin-top: $space;
   }
 
-  div + div {
-  	margin: $space 0;
+  [aria-invalid] {
+    border: 1px solid $red;
+    box-shadow: none;
   }
-}
 
-[aria-invalid] {
-	border-color: red;
+  :invalid:focus {
+    border: 1px solid $red;
+  }
+
+  [type="checkbox"]:invalid:focus,
+  [type="radio"]:invalid:focus {
+    box-shadow: 0 0 0 1px $red;
+  }
+
+  /* Isolate this selector */
+  :not(output):-moz-ui-invalid {
+    border: 1px solid $red;
+    box-shadow: none;
+
+    &:focus {
+      @include focus-styles();
+    }
+
+    &:-moz-focusring {
+      @include focus-styles();
+    }
+
+    &:focusring {
+      @include focus-styles();
+    }
+  }
+
+  [type="checkbox"]:not(output):-moz-ui-invalid,
+  [type="radio"]:not(output):-moz-ui-invalid {
+    box-shadow: 0 0 0 1px $red;
+  }
 }

@@ -4,20 +4,7 @@
 	  padding: 0;
 	}
 
-	a {
-		display: block;
-	}
-
-	li {
-		display: block;
-
-		@mixin mq-600 {
-			display: inline-block;
-		}
-
-	}
-
-	button {
+	&__toggle {
 		display: inline-block;
 		padding: 0.75rem 1rem;
 		position: absolute;

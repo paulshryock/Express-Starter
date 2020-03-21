@@ -1,26 +1,16 @@
 ---
-layout: global
+layout: constrain-pad
 ---
-<article class="post">
-  <header class="post__header">
-    <h2 class="post__title">{{ testimonial.title }}</h2>
-    <p class="post__meta">Last updated: {{ testimonial.date | date: "%m/%d/%Y" }}</p>
-  </header><!-- .post__header -->
-  {% if testimonial.content %}
-  <div class="post__content">
-    <blockquote class="blockquote">
-      {{ testimonial.content }}
+<article>
+  <header>
+    <h2>{{ testimonial.name.first }} {{ testimonial.name.last }}</h2>
+    <p>Last updated: {{ testimonial.date | date: "%m/%d/%Y" }}</p>
+  </header>
+  {% if testimonial.quote %}
+  <div>
+    <blockquote>
+      {{ testimonial.quote }}
     </blockquote>
-  </div><!-- .post__content -->
+  </div>
   {% endif %}
-</article><!-- .post -->
-{% if collections.testimonials[0] %}
-<aside>
-  <h3>More testimonials</h3>
-  <ul class="posts">
-    {% for post in collections.testimonials %}
-    <li class="post"><a href="/testimonials/{{ post.slug }}">{{ post.name.first }} {{ post.name.last }}</a></li>
-    {% endfor %}
-  </ul>
-</aside>
-{% endif %}
+</article>

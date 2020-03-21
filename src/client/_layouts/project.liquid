@@ -1,24 +1,14 @@
 ---
-layout: global
+layout: constrain-pad
 ---
-<article class="post">
-  <header class="post__header">
-    <h2 class="post__title">{{ project.title }}</h2>
-    <p class="post__meta">Last updated: {{ project.date | date: "%m/%d/%Y" }}</p>
-  </header><!-- .post__header -->
+<article>
+  <header>
+    <h2>{{ project.title }}</h2>
+    <p>Last updated: {{ project.date | date: "%m/%d/%Y" }}</p>
+  </header>
   {% if project.content %}
-  <div class="post__content">
+  <div>
     {{ project.content }}
-  </div><!-- .post__content -->
+  </div>
   {% endif %}
-</article><!-- .post -->
-{% if collections.projects[0] %}
-<aside>
-  <h3>More projects</h3>
-  <ul class="posts">
-    {% for post in collections.projects %}
-    <li class="post"><a href="/portfolio/{{ post.slug }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
-</aside>
-{% endif %}
+</article>

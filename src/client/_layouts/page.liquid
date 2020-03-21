@@ -1,16 +1,16 @@
 ---
-layout: global
+layout: constrain-pad
 ---
-<article class="post">
-  <header class="post__header">
-    <h2 class="post__title">{{ title }}</h2>
+<article>
+  <header>
+    <h2>{{ title }}</h2>
     {% if description %}
-    <p class="post__meta">{{ description}}</p>
+    <p>{{ description}}</p>
     {% endif %}
-  </header><!-- .post__header -->
+  </header>
   {% if content %}
-  <div class="post__content">
+  <div>
     {{ content }}
-  </div><!-- .post__content -->
+  </div>
   {% endif %}
-</article><!-- .post -->
+</article>

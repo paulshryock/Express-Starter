@@ -1,0 +1,9 @@
+.masthead {
+
+  &__title {
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 1em;
+  }
+}

@@ -1,18 +1,23 @@
 a {
   background-color: transparent;
-	transition: color $speed-fast ease;
+	transition: color $speed-fast ease,
+    background $speed-fast ease,
+    background-color $speed-fast ease,
+    text-decoration-color $speed-fast ease;
 
   &:link,
   &:visited {
-  	color: $medium-blue;
+    color: inherit;
   }
 
   &:hover,
   &:focus {
-  	color: $light-medium-blue;
+  	color: $blue;
+    text-decoration-color: $lighter-blue;
   }
 
   &:active {
-  	color: $light-blue;
+  	color: $light-medium-blue;
+    text-decoration-color: $lightest-blue;
   }
 }
