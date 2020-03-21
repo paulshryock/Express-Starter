@@ -1,7 +1,7 @@
 ---
 title: Test
 slug: test
-layout: test
+layout: scaffold
 ---
 <!-- <section>
   <header>
