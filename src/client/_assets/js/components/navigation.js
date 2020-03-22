@@ -18,20 +18,10 @@ navigation.addNavButton = function () {
   const menu = document.querySelector('.navigation ul')
   const button = document.createElement('button')
   const span = document.createElement('span')
-  const hamburger1 = span.cloneNode()
-  const hamburger2 = span.cloneNode()
-  const hamburger3 = span.cloneNode()
 
   span.textContent = 'Menu'
-  span.classList.add('screen-reader-text')
-  hamburger1.classList.add('hamburger', 'hamburger__1')
-  hamburger2.classList.add('hamburger', 'hamburger__2')
-  hamburger3.classList.add('hamburger', 'hamburger__3')
   button.classList.add('navigation__toggle')
   button.appendChild(span)
-  button.appendChild(hamburger1)
-  button.appendChild(hamburger2)
-  button.appendChild(hamburger3)
   button.setAttribute('aria-expanded', 'false')
   nav.setAttribute('aria-expanded', 'false')
 

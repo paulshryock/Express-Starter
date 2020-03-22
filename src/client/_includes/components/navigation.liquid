@@ -1,6 +1,6 @@
   {%- if navigation %}
   <nav role="navigation" class="navigation">
-    <ul>
+    <ul class="navigation__list">
       {%- for item in navigation %}
       {%- if item.slug == page.slug %}
       {% assign isActive = "class='is-active'" %}

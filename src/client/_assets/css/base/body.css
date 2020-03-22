@@ -1,6 +1,6 @@
 body {
   background: $white;
-  color: $black;
+  color: $darkest-gray;
   font: 400 1rem/1.5 $font-stack-primary;
   margin: 0;
   overflow-y: auto;

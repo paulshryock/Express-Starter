@@ -1,4 +1,0 @@
-@mixin focus-styles() {
-  outline: none;
-  box-shadow: $shadow-focus;
-}

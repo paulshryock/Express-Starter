@@ -4,6 +4,12 @@
   }
 }
 
+@mixin mq-max-600() {
+  @media screen and (max-width: 37.5rem) { /* Smaller than Tablet Portrait / 37.5rem / 600px */
+    @content;
+  }
+}
+
 @mixin mq-900() {
   @media screen and (min-width: 56.25rem) { /* Tablet Landscape / 56.25rem / 900px */
     @content;
