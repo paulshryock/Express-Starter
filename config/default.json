@@ -14,10 +14,6 @@
     "port": "",
     "database": ""
   },
-  "newRelic": {
-    "licenseKey": "",
-    "log": ""
-  },
   "user": {
     "email": "",
     "password": "",

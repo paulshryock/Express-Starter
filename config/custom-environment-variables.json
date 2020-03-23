@@ -15,10 +15,6 @@
     "database": "NPSK_DB_DATABASE",
     "string": "MONGODB_URI"
   },
-  "newRelic": {
-    "licenseKey": "NEW_RELIC_LICENSE_KEY",
-    "log": "NEW_RELIC_LOG"
-  },
   "user": {
     "email": "NPSK_USER_EMAIL",
     "password": "NPSK_USER_PASSWORD",
