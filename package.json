@@ -11,12 +11,12 @@
     "node": "12.11.x"
   },
   "scripts": {
-    "start": "npm run build && npm run serve:server",
+    "start": "npm run serve:server & npm run build",
     "develop": "dotenv gulp develop",
     "serve": "npm run serve:client & npm run serve:server",
     "serve:client": "dotenv gulp serve",
     "serve:server": "node -r dotenv/config ./src/server/bin/www",
-    "watch": "npm run watch:client & npm run watch:server",
+    "watch": "npm run watch:server & npm run watch:client",
     "watch:client": "dotenv gulp watch",
     "watch:server": "nodemon -r dotenv/config ./src/server/bin/www",
     "build": "dotenv gulp build",
