@@ -1,5 +1,6 @@
 p {
 	/* TODO (paulshryock): Test autoprefixer results before removing prefixes */
+	/* Is any of this still good? */
 	-webkit-hyphens: auto;
 	-webkit-hyphenate-limit-before: 3;
 	-webkit-hyphenate-limit-after: 3;
@@ -25,8 +26,6 @@ p {
 	hyphenate-limit-lines: 2;
 	hyphenate-limit-last: always;   
 	hyphenate-limit-zone: 8%;
-
-	word-break: break-all;
 
 	margin: 0 0 0.7em;
 }

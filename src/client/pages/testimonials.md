@@ -1,7 +1,7 @@
 ---
 title: 'Testimonials'
 slug: testimonials
-description: Check out our testimonials
+description: Check out our testimonials.
 date: 2019-01-04T00:00:00-5
 ---
 {%- if collections.testimonials %}

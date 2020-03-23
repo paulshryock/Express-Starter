@@ -371,6 +371,7 @@ and another</pre>
 			I am <i>the i tag</i> example<br>
 			I am <ins>the ins tag</ins> example<br>
 			I am <kbd>the kbd tag</kbd> example<br>
+			I am <mark>the mark tag</mark> example<br>
 			I am <q>the q tag</q> example<br>
 			I am <samp>the samp tag</samp> example<br>
 			I am <small>the small tag</small> example<br>

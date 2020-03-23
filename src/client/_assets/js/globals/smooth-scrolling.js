@@ -1,23 +1,24 @@
 /**
-  * Adds anchor link smooth scrolling
+  * Adds hash link smooth scrolling
   *
   */
-function addAnchorLinkSmoothScrolling () {
+function addHashLinkSmoothScrolling () {
   const links = [].slice.call(document.querySelectorAll('a[href^="#"]'))
 
   links.map(link => {
     link.addEventListener('click', (e) => {
-      const link = this.getAttribute('href')
-      const anchor = document.querySelector(link)
-
       e.preventDefault()
-      anchor.scrollIntoView({ behavior: 'smooth' })
+
+      const hash = link.getAttribute('href')
+      const target = document.querySelector(hash)
+
+      target.scrollIntoView({ behavior: 'smooth' })
     }, false)
   })
 }
 
 /**
-  * Add anchor link smooth scrolling
+  * Add hash link smooth scrolling
   *
   */
-addAnchorLinkSmoothScrolling()
+addHashLinkSmoothScrolling()

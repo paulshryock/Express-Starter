@@ -15,10 +15,7 @@ and this project adheres to [Semantic Versioning](semver).
 ### Security
 -->
 
-## 1.0.0 - 2019-XX-XX - Initial release
-
-### Added
-- Install Express and Express Generator
+## 1.0.0 - 2020-XX-XX - Initial release
 
 [changelog]: https://keepachangelog.com/en/1.0.0/
 [semver]: https://semver.org/spec/v2.0.0.html

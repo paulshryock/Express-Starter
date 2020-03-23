@@ -22,18 +22,6 @@ form {
   :not(output):-moz-ui-invalid {
     border: 1px solid $red;
     box-shadow: none;
-
-    &:focus {
-      @include focus-styles();
-    }
-
-    &:-moz-focusring {
-      @include focus-styles();
-    }
-
-    &:focusring {
-      @include focus-styles();
-    }
   }
 
   [type="checkbox"]:not(output):-moz-ui-invalid,

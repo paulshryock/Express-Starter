@@ -1,7 +1,7 @@
 ---
 title: 'Articles'
 slug: articles
-description: Check out our articles
+description: Check out our articles.
 date: 2019-01-02T00:00:00-5
 ---
 {%- if collections.articles %}
