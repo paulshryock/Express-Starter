@@ -7,6 +7,26 @@ const BUILD = config.get('paths.build.client')
 
 const url = config.get('app.url')
 
+function handleError(error) {
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    console.log('Server response error.')
+    debug(error.response.data)
+  } else if (error.request) {
+    // The request was made but no response was received
+    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+    // http.ClientRequest in node.js
+    console.log('No server response received.')
+    debug(error.request)
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    console.log('Client request error: ', error.message)
+    debug(error.message)
+  }
+  if (error.config) console.log(error.config)
+}
+
 async function getEndpoint(config) {
   try {
     const response = await axios({
@@ -16,8 +36,7 @@ async function getEndpoint(config) {
     })
     return config.auth ? response : response.data
   } catch (error) {
-    console.error('Failed to reach endpoint: ', error)
-    debug(error)
+    handleError(error)
   }
 }
 
@@ -33,11 +52,11 @@ async function getToken () {
       }
     })
     const token = response.headers['set-cookie'][0].replace('x-auth-token=', '').replace(/; .*/, '')
-    console.info('Token received!')
+    console.info('Token was received!')
     return token
   } catch (error) {
-    console.error('Token missing: ', error)
-    // debug(error)
+    console.info('Token was not received!')
+    handleError(error)
   }
 }
 
@@ -57,12 +76,17 @@ const collections = {
 
 module.exports = function (eleventyConfig) {
 
+  // TODO: Refactor all API code out of Eleventy config
+
+  // TODO: Refactor to use simultaneous requests
+  // https://blog.logrocket.com/axios-or-fetch-api/
+
   collections.api.map(async type => {
     try {
       const result = await getEndpoint({ method: 'get', url: url + '/api/' + type.plural })
 
       eleventyConfig.addCollection(type.plural, collection => {
-        console.info(type.plural + ' collection added: ', result)
+        console.info(type.plural + ' collection added.')
         return result
       })
     }
@@ -73,7 +97,10 @@ module.exports = function (eleventyConfig) {
   })
 
   collections.local.map(type => {
-    eleventyConfig.addCollection(type.plural, collection => collection.getAll().filter(post => post.data.contentType === type.single))
+    eleventyConfig.addCollection(type.plural, collection => {
+      console.info(type.plural + ' collection added.')
+      return collection.getAll().filter(post => post.data.contentType === type.single)
+    })
   })
 
   return {
