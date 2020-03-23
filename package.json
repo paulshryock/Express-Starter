@@ -11,7 +11,7 @@
     "node": "12.11.x"
   },
   "scripts": {
-    "start": "npm run serve:server & npm run build",
+    "start": "npm run serve:server",
     "develop": "dotenv gulp develop",
     "serve": "npm run serve:client & npm run serve:server",
     "serve:client": "dotenv gulp serve",
