@@ -103,6 +103,9 @@ module.exports = function (eleventyConfig) {
     })
   })
 
+  // Deep merge
+  eleventyConfig.setDataDeepMerge(true)
+
   return {
     dir: {
       data: '_data',

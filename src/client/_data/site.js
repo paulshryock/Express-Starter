@@ -1,7 +1,9 @@
 const site = {
   title: 'Site title',
   description: 'Site description',
-  year: new Date().getFullYear()
+  lang: 'en-US',
+  year: new Date().getFullYear(),
+  timestamp: new Date()
 }
 
 site.copyright = `&copy; ${site.year} ${site.title}. All rights reserved.`
