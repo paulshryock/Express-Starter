@@ -1,143 +1,88 @@
-/**
-  * The main navigation object
-  */
-const navigation = {}
+// IIFE
+(function () {
 
-/**
-  * Initializes the main navigation object
-  */
-navigation.init = function () {
-  navigation.addMobileNavigation()
-}
+function toggleNavButton (add) {
+  const nav = document.querySelector('[data-toggle="true"].navigation')
+  const navList = nav.querySelector('.navigation__list')
 
-/**
-  * Adds mobile navigation menu toggle button
-  */
-navigation.addNavButton = function () {
-  const nav = document.querySelector('.navigation')
-  const menu = document.querySelector('.navigation ul')
-  const button = document.createElement('button')
-  const span = document.createElement('span')
+  if (add) {
+    const navButton = document.createElement('button')
+    navButton.textContent = 'Menu'
+    navButton.classList.add('navigation__toggle')
+    navButton.setAttribute('aria-expanded', 'false')
 
-  span.textContent = 'Menu'
-  button.classList.add('navigation__toggle')
-  button.appendChild(span)
-  button.setAttribute('aria-expanded', 'false')
-  nav.setAttribute('aria-expanded', 'false')
-
-  nav.insertBefore(button, menu)
-}
-
-/**
-  * Removes mobile navigation menu toggle button
-  */
-navigation.removeNavButton = function () {
-  const nav = document.querySelector('.navigation')
-  const button = nav.querySelector('button')
-
-  if (button) {
-    nav.removeChild(button)
-  }
-}
-
-/**
-  * Hides mobile navigation menu
-  */
-navigation.hideNavMenu = function () {
-  const nav = document.querySelector('.navigation')
-  const menu = nav.querySelector('ul')
-
-  menu.setAttribute('hidden', '')
-  menu.classList.remove('is-active')
-  nav.setAttribute('aria-expanded', 'false')
-
-  navigation.setNavButtonText('Menu')
-}
-
-/**
-  * Shows mobile navigation menu
-  */
-navigation.showNavMenu = function () {
-  const nav = document.querySelector('.navigation')
-  const menu = nav.querySelector('ul')
-
-  menu.removeAttribute('hidden')
-  menu.classList.add('is-active')
-  nav.setAttribute('aria-expanded', 'true')
-
-  navigation.setNavButtonText('Close')
-}
-
-/**
-  * Sets mobile navigation menu toggle button text
-  */
-navigation.setNavButtonText = function (text) {
-  const button = document.querySelector('.navigation__toggle span')
-
-  if (button) {
-    button.textContent = text
-  }
-}
-
-/**
-  * Toggles navigation button and menu elements' states
-  */
-navigation.toggleNavElementsStates = function () {
-  const menu = document.querySelector('.navigation ul')
-  const links = menu.querySelectorAll('a')
-
-  if (menu.classList.contains('is-active')) {
-    this.setAttribute('aria-expanded', 'false')
-    navigation.hideNavMenu()
+    nav.setAttribute('aria-expanded', 'false')
+    nav.insertBefore(navButton, navList)
+    return navButton
   } else {
+    const navButton = nav.querySelector('.navigation__toggle')
+    if (navButton) {
+      nav.removeChild(navButton)
+    }
+    return navButton
+  }
+}
+
+function toggleNavList (show) {
+  const nav = document.querySelector('[data-toggle="true"].navigation')
+  const navButton = nav.querySelector('.navigation__toggle')
+  const navList = nav.querySelector('.navigation__list')
+
+  if (show) {
+    nav.setAttribute('aria-expanded', 'true')
+    if (navButton) navButton.textContent = 'Close'
+    navList.removeAttribute('hidden')
+    navList.classList.add('is-active')
+  } else {
+    nav.setAttribute('aria-expanded', 'false')
+    if (navButton) navButton.textContent = 'Menu'
+    navList.setAttribute('hidden', '')
+    navList.classList.remove('is-active')
+  }
+
+  return navList
+}
+
+function toggleNavState () {
+  const nav = document.querySelector('[data-toggle="true"].navigation')
+  const navList = nav.querySelector('.navigation__list')
+
+  if (navList.classList.contains('is-active')) {
+    this.setAttribute('aria-expanded', 'false')
+    toggleNavList(false)
+  } else {
+    const links = navList.querySelectorAll('a')
     this.setAttribute('aria-expanded', 'true')
-    navigation.showNavMenu()
+    toggleNavList(true)
     links[0].focus()
   }
+
+  return nav
 }
 
-/**
-  * Toggles navigation button and menu elements
-  *
-  * param {string} mediaQuery
-  */
-navigation.toggleNavElements = function (mediaQuery) {
+function toggleNavElements (mediaQuery) {
+  const nav = document.querySelector('[data-toggle="true"].navigation')
 
   if (mediaQuery.matches) { // Tablet and up
-    const button = document.querySelector('.navigation__toggle')
-    if (button) {
-      button.removeEventListener('click', navigation.toggleNavElementsStates, false)
-    }
-    navigation.removeNavButton()
-    navigation.showNavMenu()
+    const navButton = nav.querySelector('.navigation__toggle')
+    if (navButton) navButton.removeEventListener('click', toggleNavState, false)
+    toggleNavButton(false)
+    toggleNavList(true)
   } else { // Mobile
-    navigation.addNavButton()
-    navigation.hideNavMenu()
-    const button = document.querySelector('.navigation__toggle')
-    if (button) {
-      button.addEventListener('click', navigation.toggleNavElementsStates, false)
-    }
+    toggleNavButton(true)
+    toggleNavList(false)
+    const navButton = nav.querySelector('.navigation__toggle')
+    if (navButton) navButton.addEventListener('click', toggleNavState, false)
   }
+
+  return nav
 }
 
-/**
-  * The media query for non-mobile navigation
-  */
-navigation.mediaQuery = '37.5rem'
+// Add mobile navigation
+const mediaQuery = window.matchMedia('(min-width: 37.5rem)')
+toggleNavElements(mediaQuery)
 
-/**
-  * Adds mobile navigation
-  */
-navigation.addMobileNavigation = function () {
-  const mediaQuery = window.matchMedia(`(min-width: ${navigation.mediaQuery})`)
+// Add listener on state change
+mediaQuery.addListener(toggleNavElements)
 
-  // Call listener function at run time
-  navigation.toggleNavElements(mediaQuery)
-  // Attach listener function on state changes
-  mediaQuery.addListener(navigation.toggleNavElements)
-}
-
-/**
-  * Initialize the main navigation object
-  */
-navigation.init()
+})()

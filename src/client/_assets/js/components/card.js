@@ -1,3 +1,6 @@
+// IIFE
+(function () {
+
 /**
   * Requires minimum click time to trigger card link click
   */
@@ -29,3 +32,5 @@ function requireCardClickTime () {
   * Require minimum click time to trigger card link click
   */
 requireCardClickTime()
+
+})()

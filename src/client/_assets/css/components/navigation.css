@@ -1,4 +1,5 @@
-.navigation {
+/* Toggle navigation on mobile */
+[data-toggle="true"].navigation {
 
 	.js & {
 
@@ -29,7 +30,7 @@
 		  padding: 0;
 		}
 
-		&__toggle {
+		.navigation__toggle {
 			border-radius: 0;
 			position: absolute;
 			right: $space;
@@ -40,7 +41,7 @@
 			}
 		}
 
-		&__list {
+		.navigation__list {
 			opacity: 0;
 			max-height: 0;
 			overflow: hidden;

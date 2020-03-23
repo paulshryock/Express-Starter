@@ -1,3 +1,6 @@
+// IIFE
+(function () {
+
 /**
   * Adds pagination link labels
   */
@@ -22,3 +25,5 @@ function addPaginationLinkLabels () {
   * Add pagination link labels
   */
 addPaginationLinkLabels()
+
+})()
