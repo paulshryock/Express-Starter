@@ -1,9 +1,19 @@
+/* TODO: Test and debug this component */
+
+$viewport-width: 100vw;
+$constrain-width: 100%;
+$half-constrain-width: calc(100% / 2);
+$unconstrain-width: calc(100vw - 100%);
+$window-width: calc(100% + (100vw - 100%));
+$half-window-width: calc((100% + (100vw - 100%)) / 2);
+$negative-half-window-width: calc(((100% + (100vw - 100%)) / 2) * -1 );
+
 .full-width {
-  left: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  max-width: 100vw;
+  left: $half-constrain-width;
+  margin-left: $negative-half-window-width;
+  margin-right: $negative-half-window-width;
+  max-width: $window-width;
   position: relative;
-  right: 50%;
-  width: 100vw;
+  right: $half-constrain-width;
+  width: $window-width;
 }

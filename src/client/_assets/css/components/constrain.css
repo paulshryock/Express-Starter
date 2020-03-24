@@ -3,7 +3,13 @@
   margin-right: auto;
 	max-width: 65ch;
 
-  &.pad {
-    max-width: calc( 65ch + calc( 2 * $space ) );
+  &.pad,
+  &.pad-x {
+    max-width: calc(65ch + (2 * $space));
+  }
+
+  &.pad-left:not(.pad-right),
+  &.pad-right:not(.pad-left) {
+    max-width: calc(65ch + $space);
   }
 }
