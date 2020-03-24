@@ -1,6 +1,6 @@
 require('dotenv').config()
 const config = require('config')
-const debug = require('debug')('express-starter:build')
+const debug = require('debug')('npsk:eleventy')
 const SRC = config.get('paths.src.client')
 const BUILD = config.get('paths.build.client')
 const api = require('./modules/api.js')
@@ -30,7 +30,12 @@ const collections = [
 ]
 
 // Get API token
-if (api) api.login()
+if (api) {
+  // IIFE
+  (async function () {
+    await api.login()
+  })()
+}
 
 module.exports = function (eleventyConfig) {
 
@@ -45,7 +50,7 @@ module.exports = function (eleventyConfig) {
           debug(type.plural + ' collection was added!')
           return response
         }
-          debug(type.plural + ' collection was not added!')
+        debug(type.plural + ' collection was not added!')
         return []
       }
       // Add local collections
