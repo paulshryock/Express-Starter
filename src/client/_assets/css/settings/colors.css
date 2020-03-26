@@ -36,3 +36,23 @@ $pattern-diagonal: $pattern-diagonal-blue-alpha-30;
 $green: green;
 $red: red;
 $yellow: yellow;
+
+/**
+ * TODO: Maybe split colors into H, S, and L values for manipulation.
+ *
+
+html {
+  --H: 100;
+  --S: 100%;
+  --L: 50%;
+}
+
+.el {
+  background: hsl(
+    calc(var(--H) + 20),
+    calc(var(--S) - 10%),
+    calc(var(--L) + 30%)
+  )
+}
+
+*/

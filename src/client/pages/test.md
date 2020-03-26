@@ -247,7 +247,7 @@ layout: scaffold
     <li>
       <div class="constrain" style="background: gray;">
         Constrained
-        <div class="full-width pad" style="background: navy; color: white;">
+        <div class="full-bleed pad" style="background: navy; color: white;">
           Full width
           <div class="constrain">
             Constrained inside full width, inside constrained (inside full width)
