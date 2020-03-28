@@ -33,7 +33,7 @@
 		border-radius: 0;
 		position: absolute;
 		right: $space;
-		top: calc( 0.375 * $space );
+		top: calc( 0.625 * $space );
 		
 		@include mq-600 {
 			display: none;
