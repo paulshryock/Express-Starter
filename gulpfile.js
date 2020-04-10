@@ -123,12 +123,36 @@ function css () {
     ]
   }
 
+  const functions = {
+    /**
+     * Slightly lighten a color
+     * @access public
+     * @param {Color} $color - color to tint
+     * @param {Number} $percentage - percentage of `$color` in returned color
+     * @return {Color}
+     */
+    tint: (color, percentage) => {
+      return `mix(white, ${color}, ${percentage})`
+    },
+    /**
+     * Slightly darken a color
+     * @access public
+     * @param {Color} $color - color to shade
+     * @param {Number} $percentage - percentage of `$color` in returned color
+     * @return {Color}
+     */
+    shade: (color, percentage) => {
+      return `mix(black, ${color}, ${percentage})`
+    }
+  }
+
   const plugins = [
     require('postcss-easy-import'), // @import files
     require('precss'), // Transpile Sass-like syntax
     require('postcss-preset-env'), // Polyfill modern CSS
     require('autoprefixer'), // Add vendor prefixes
-    require('pixrem')() // Add fallbacks for rem units
+    require('pixrem')(), // Add fallbacks for rem units
+    require('postcss-functions')(functions) // Add CSS functions
   ]
 
   const lint = gulp.src(paths.css.all)

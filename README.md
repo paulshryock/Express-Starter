@@ -42,6 +42,5 @@ If you'd like to contribute, please read the [Code of Conduct][code-of-conduct] 
 [node-download]: https://nodejs.org/en/download/
 [pkg]: package.json
 [docs]: _docs/
-[accessible-colors]: https://accessible-colors.com/
 [code-of-conduct]: CODE_OF_CONDUCT.md
 [contributing]: CONTRIBUTING.md
