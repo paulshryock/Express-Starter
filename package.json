@@ -11,9 +11,9 @@
     "node": "12.11.x"
   },
   "scripts": {
-    "start": "npm run serve:server & npm run build",
+    "start": "npm i --only=dev & npm run build",
     "develop": "dotenv gulp develop",
-    "serve": "npm run serve:client & npm run serve:server",
+    "serve": "npm run serve:server",
     "serve:client": "dotenv gulp serve",
     "serve:server": "node -r dotenv/config ./src/server/bin/www",
     "watch": "npm run watch:server & npm run watch:client",
