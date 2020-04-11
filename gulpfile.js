@@ -8,6 +8,7 @@ const htmlmin = require('gulp-htmlmin')
 const gulpStylelint = require('gulp-stylelint')
 const sourcemaps = require('gulp-sourcemaps')
 const postcss = require('gulp-postcss')
+const sass = require('gulp-sass')
 const standard = require('gulp-standard')
 const webpack = require('webpack-stream')
 const compiler = require('webpack')
@@ -125,7 +126,7 @@ function css () {
 
   const plugins = [
     require('postcss-easy-import'), // @import files
-    require('precss'), // Transpile Sass-like syntax
+    require('precss'), // Use Sass-like markup and staged CSS features in CSS
     require('postcss-preset-env'), // Polyfill modern CSS
     require('autoprefixer'), // Add vendor prefixes
     require('pixrem')() // Add fallbacks for rem units
@@ -136,6 +137,8 @@ function css () {
 
   const build = gulp.src(paths.css.src)
     .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError)) // Preprocess Sass
+    // TODO: Test and see if I need to rename .css files to .scss
     .pipe(postcss(plugins))
     .pipe(concat('bundle.css')) // Concatenate and rename
     .pipe(beautify.css({ indent_size: 2 })) // Beautify

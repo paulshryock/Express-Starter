@@ -1,19 +1,20 @@
 ---
-layout: constrain-pad
+layout: base
 ---
 <article>
+  {% if hero %}
   <header>
-    <h2>{{ title }}</h2>
-    {% if description %}
-    <p>{{ description}}</p>
-    {% endif %}
+    {% include components/hero %}
   </header>
+  {% endif %}
   {% if content %}
-  <div>
+  <div class="constrain pad-x pad-top">
     {{ content }}
   </div>
   {% endif %}
 </article>
+
+<div class="constrain pad-x">
 
 {%- if collections.articles.size > 0 %}
 <section class="pad-top-2 border-top margin-top-2">
@@ -62,3 +63,5 @@ layout: constrain-pad
   </ul>
 </section>
 {%- endif %}
+
+</div>

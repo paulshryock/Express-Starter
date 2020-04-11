@@ -1,6 +1,6 @@
 require('dotenv').config()
 const config = require('config')
-const debug = require('debug')('express-starter:build')
+const debug = require('debug')('npsk:api')
 const axios = require('axios')
 const url = config.get('app.url')
 

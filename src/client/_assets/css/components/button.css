@@ -59,7 +59,7 @@
     display: inline-block;
   }
 
-  &_knockout {
+  &_ko {
     background: $white;
     color: $darker-gray;
 
@@ -106,7 +106,7 @@
 	    background-color: $blue;
 		}
 
-    &.button_knockout {
+    &.button_ko {
       background: $light-medium-blue;
       color: $white;
 
@@ -176,7 +176,7 @@
 	    opacity: 0.5;
 		}
 
-    &.button_knockout {
+    &.button_ko {
       color: $white;
 
       &:link,
