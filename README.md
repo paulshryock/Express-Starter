@@ -1,6 +1,6 @@
 # Express Starter
 
-[![JWT Compatible][jwt-compatible-icon]][jwt]
+[![Netlify Status][netlify-deploy-status]][netlify-deploy] [![JWT Compatible][jwt-compatible-icon]][jwt]
 
 Fork this repository to start a new project with Mongoose, Express, Eleventy, and Node. Includes a CRUD server-side API with authentication and authorization, and JAMstack client website.
 
@@ -36,6 +36,8 @@ Then find and replace the author name (`Paul Shryock`) and package name (`Expres
 
 If you'd like to contribute, please read the [Code of Conduct][code-of-conduct] and [Contributing instructions][contributing], then fork the repository and use a feature branch. Pull requests are welcome.
 
+[netlify-deploy-status]: https://api.netlify.com/api/v1/badges/4a56c891-9260-44a1-a4b6-6e9522bc37a8/deploy-status
+[netlify-deploy]: https://app.netlify.com/sites/express-starter/deploys
 [jwt]: https://jwt.io/
 [jwt-compatible-icon]: http://jwt.io/img/badge-compatible.svg
 [license]: https://firstdonoharm.dev/
