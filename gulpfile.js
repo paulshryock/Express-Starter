@@ -137,7 +137,8 @@ function css () {
 
   const build = gulp.src(paths.css.src)
     .pipe(sourcemaps.init())
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass().on('error', sass.logError)) // Preprocess Sass
+    // TODO: Test and see if I need to rename .css files to .scss
     .pipe(postcss(plugins))
     .pipe(concat('bundle.css')) // Concatenate and rename
     .pipe(beautify.css({ indent_size: 2 })) // Beautify
