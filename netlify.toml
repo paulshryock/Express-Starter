@@ -3,6 +3,10 @@
   publish = "build/client/"
   command = "npm start"
 
+# ---------------
+# Redirects
+# ---------------
+
 [[redirects]]
   from = "/favicon.ico"
   to = "/img/favicon/favicon.ico"
@@ -10,3 +14,25 @@
 [[redirects]]
   from = "/*"
   to = "/404?search=:splat"
+
+# ---------------
+# Headers
+# ---------------
+
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/404/*"
+
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/offline/*"
+
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
