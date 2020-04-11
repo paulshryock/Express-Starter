@@ -1,0 +1,12 @@
+[build]
+  base = "/"
+  publish = "build/client/"
+  command = "npm run build"
+
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/img/favicon/favicon.ico"
+
+[[redirects]]
+  from = "/*"
+  to = "/404?search=:splat"
