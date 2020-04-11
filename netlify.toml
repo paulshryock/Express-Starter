@@ -24,6 +24,7 @@
 
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
 
 [[headers]]
   for = "/404/*"
