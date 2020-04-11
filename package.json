@@ -68,7 +68,6 @@
     "nodemon": "^2.0.3",
     "pixrem": "^5.0.0",
     "postcss-easy-import": "^3.0.0",
-    "postcss-functions": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "precss": "^4.0.0",
     "stylelint": "^13.3.1",

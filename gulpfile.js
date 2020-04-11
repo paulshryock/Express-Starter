@@ -8,6 +8,7 @@ const htmlmin = require('gulp-htmlmin')
 const gulpStylelint = require('gulp-stylelint')
 const sourcemaps = require('gulp-sourcemaps')
 const postcss = require('gulp-postcss')
+const sass = require('gulp-sass')
 const standard = require('gulp-standard')
 const webpack = require('webpack-stream')
 const compiler = require('webpack')
@@ -123,36 +124,12 @@ function css () {
     ]
   }
 
-  const functions = {
-    /**
-     * Slightly lighten a color
-     * @access public
-     * @param {Color} $color - color to tint
-     * @param {Number} $percentage - percentage of `$color` in returned color
-     * @return {Color}
-     */
-    tint: (color, percentage) => {
-      return `mix(white, ${color}, ${percentage})`
-    },
-    /**
-     * Slightly darken a color
-     * @access public
-     * @param {Color} $color - color to shade
-     * @param {Number} $percentage - percentage of `$color` in returned color
-     * @return {Color}
-     */
-    shade: (color, percentage) => {
-      return `mix(black, ${color}, ${percentage})`
-    }
-  }
-
   const plugins = [
     require('postcss-easy-import'), // @import files
-    require('precss'), // Transpile Sass-like syntax
+    require('precss'), // Use Sass-like markup and staged CSS features in CSS
     require('postcss-preset-env'), // Polyfill modern CSS
     require('autoprefixer'), // Add vendor prefixes
-    require('pixrem')(), // Add fallbacks for rem units
-    require('postcss-functions')(functions) // Add CSS functions
+    require('pixrem')() // Add fallbacks for rem units
   ]
 
   const lint = gulp.src(paths.css.all)
@@ -160,6 +137,7 @@ function css () {
 
   const build = gulp.src(paths.css.src)
     .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
     .pipe(postcss(plugins))
     .pipe(concat('bundle.css')) // Concatenate and rename
     .pipe(beautify.css({ indent_size: 2 })) // Beautify
