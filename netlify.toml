@@ -23,8 +23,9 @@
   for = "/*"
 
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    Content-Security-Policy = "script-src 'self' https://api.newprojectstarterkit.com https://npsk-express-starter.herokuapp.com"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Robots-Tag = "noindex, nofollow"
 
 [[headers]]
   for = "/404/*"
