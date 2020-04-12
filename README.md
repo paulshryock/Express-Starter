@@ -1,6 +1,8 @@
 # Express Starter
 
-[![Netlify Status][netlify-deploy-status]][netlify-deploy] [![JWT Compatible][jwt-compatible-icon]][jwt]
+[![Netlify Status][netlify-deploy-status]][netlify-deploy]
+
+[![JWT Compatible][jwt-compatible-icon]][jwt]
 
 Fork this repository to start a new project with Mongoose, Express, Eleventy, and Node. Includes a CRUD server-side API with authentication and authorization, and JAMstack client website.
 
