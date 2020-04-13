@@ -2,16 +2,16 @@
   * Settings: Global variables, config switches
   * Tools: Default mixins and functions
   * Generic: Ground-zero styles (Normalize.css, resets, box-sizing)
-  * Base: Unclassed HTML elements (type selectors)
+  * Elements: Unclassed HTML elements (type selectors)
   * Objects: Cosmetic-free design patterns
   * Components: Designed components, chunks of UI
-  * Trumps: Helpers and overrides
+  * Utilities: Helper classes with the ability to override anything
   */
 
 @import './settings/*.css';
 @import './tools/*.css';
 @import './generic/*.css';
-@import './base/*.css';
-/*@import './objects/*.css';*/
+@import './elements/*.css';
+@import './objects/*.css';
 @import './components/*.css';
-/*@import './trumps/*.css';*/
+@import './utilities/*.css';
