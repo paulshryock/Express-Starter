@@ -52,8 +52,81 @@ if(!config.get('jwtPrivateKey')) {
  * Setup HTTP headers
  */
 app.use(compression()) // compress all responses
-app.use(helmet()) // Set HTTP headers
-app.disable('x-powered-by')
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: [
+        "'self'"
+        ],
+      scriptSrc: [
+        "'self'",
+        'https://polyfill.io'
+      ],
+      upgradeInsecureRequests: true
+    }
+  },
+  featurePolicy: {
+    features: {
+      geolocation: ["'none'"],
+      midi: ["'none'"],
+      notifications: ["'none'"],
+      push: ["'none'"],
+      syncXhr: ["'self'"],
+      microphone: ["'none'"],
+      camera: ["'none'"],
+      magnetometer: ["'none'"],
+      gyroscope: ["'none'"],
+      speaker: ["'none'"],
+      vibrate: ["'none'"],
+      fullscreen: ["'none'"],
+      payment: ["'none'"]
+    }
+  },
+  frameguard: {
+    action: 'deny'
+  },
+  hsts: {
+    maxAge: 31536000, // 1 year
+    includeSubDomains: true,
+    preload: true
+  },
+  referrerPolicy: {
+    policy: 'strict-origin-when-cross-origin'
+  }
+})) // Set HTTP headers, along with sensible defaults
+
+// app.use(helmet.contentSecurityPolicy({
+//   directives: {
+//     defaultSrc: ["'self'"],
+//     scriptSrc: ["'self'", 'https://polyfill.io'],
+//     upgradeInsecureRequests: true
+//   }
+// })) // Set Content-Security-Policy
+// app.use(helmet.featurePolicy({
+//   features: {
+//     geolocation: ["'none'"],
+//     midi: ["'none'"],
+//     notifications: ["'none'"],
+//     push: ["'none'"],
+//     syncXhr: ["'self'"],
+//     microphone: ["'none'"],
+//     camera: ["'none'"],
+//     magnetometer: ["'none'"],
+//     gyroscope: ["'none'"],
+//     speaker: ["'none'"],
+//     vibrate: ["'none'"],
+//     fullscreen: ["'none'"],
+//     payment: ["'none'"]
+//   }
+// })) // Set Feature-Policy
+// app.use(helmet.frameguard({ action: 'deny' })) // Set X-Frame-Options
+// app.use(helmet.hsts({
+//   maxAge: 31536000, // 1 year
+//   includeSubDomains: true,
+//   preload: true
+// })) // Set Strict-Transport-Security
+// app.use(helmet.referrerPolicy({ policy: 'strict-origin-when-cross-origin' })) // Set Referrer-Policy
+
 
 /**
  * Serve favicon
