@@ -39,7 +39,10 @@
     Server = ""
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload" # 1 year
     X-Content-Security-Policy = "default-src 'self'; script-src 'self' https://api.newprojectstarterkit.com https://npsk-express-starter.herokuapp.com https://polyfill.io; connect-src 'self' https://api.newprojectstarterkit.com https://npsk-express-starter.herokuapp.com; form-action 'self' https://api.newprojectstarterkit.com https://npsk-express-starter.herokuapp.com" # IE fallback
+    X-WebKit-CSP = "default-src 'self'; script-src 'self' https://api.newprojectstarterkit.com https://npsk-express-starter.herokuapp.com https://polyfill.io; connect-src 'self' https://api.newprojectstarterkit.com https://npsk-express-starter.herokuapp.com; form-action 'self' https://api.newprojectstarterkit.com https://npsk-express-starter.herokuapp.com" # Webkit fallback
     X-Content-Type-Options = "nosniff"
+    X-DNS-Prefetch-Control = "off"
+    X-Download-Options = "noopen"
     X-Frame-Options = "DENY"
     X-Robots-Tag = "noindex, nofollow"
     X-Xss-Protection = "1; mode=block"
