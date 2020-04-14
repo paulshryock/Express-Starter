@@ -18,12 +18,11 @@
   status = 404
 
 [[redirects]]
-  from = "/api"
-  to = "https://npsk-express-starter.herokuapp.com/api"
+  from = "/api/*"
+  to = "https://npsk-express-starter.herokuapp.com/api/:splat"
   status = 200
   force = true
   headers = {X-From = "Netlify"}
-
 
 # ---------------
 # Headers
@@ -58,3 +57,9 @@
 
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/api/*"
+
+  [headers.values]
+    Strict-Transport-Security = "max-age=0" # Disable HSTS
