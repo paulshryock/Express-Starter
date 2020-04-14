@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const handlers = require('../handlers/index')
+const handlers = require('../handlers/api')
 const rateLimit = require('express-rate-limit')
 
 const limiter = rateLimit({
@@ -7,6 +7,6 @@ const limiter = rateLimit({
   max: 60 // 60 requests
 })
 
-router.get('/', limiter, handlers.redirectToApi)
+router.get('/', limiter, handlers.getApi)
 
 module.exports = router
