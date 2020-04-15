@@ -13,16 +13,16 @@
   status = 200
 
 [[redirects]]
-  from = "/*"
-  to = "/404?search=:splat"
-  status = 404
-
-[[redirects]]
   from = "/api/*"
   to = "https://npsk-express-starter.herokuapp.com/api/:splat"
   status = 200
   force = true
   headers = {X-From = "Netlify"}
+
+[[redirects]]
+  from = "/*"
+  to = "/404?search=:splat"
+  status = 404
 
 # ---------------
 # Headers
