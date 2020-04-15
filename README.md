@@ -4,7 +4,7 @@
 
 [![JWT Compatible][jwt-compatible-icon]][jwt]
 
-Fork this repository to start a new project with Mongoose, Express, Eleventy, and Node. Includes a CRUD server-side API with authentication and authorization, and JAMstack client website.
+This starter kit consists of an Express REST API with CRUD capabilities, powered by a Node server, connected to a MongoDB database by Mongoose, and hosted on Heroku. This powers a client-side JAMstack static website built with Eleventy, Gulp, and Webpack, hosted on Netlify, deployed to a CDN. The full stack has CI/CD setup on push to the master branch.
 
 This is an open source project which uses the [The Hippocratic License][license].
 
