@@ -1,6 +1,6 @@
 # Express Starter
 
-[![Netlify Status][netlify-deploy-status]][netlify-deploy]
+[![Netlify Status][netlify-deploy-status]][netlify-deploy] [![JavaScript Style Guide][standard-badge]][standard]
 
 [![JWT Compatible][jwt-compatible-icon]][jwt]
 
@@ -40,6 +40,8 @@ If you'd like to contribute, please read the [Code of Conduct][code-of-conduct] 
 
 [netlify-deploy-status]: https://api.netlify.com/api/v1/badges/4a56c891-9260-44a1-a4b6-6e9522bc37a8/deploy-status
 [netlify-deploy]: https://app.netlify.com/sites/express-starter/deploys
+[standard-badge]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
+[standard]: https://standardjs.com
 [jwt]: https://jwt.io/
 [jwt-compatible-icon]: http://jwt.io/img/badge-compatible.svg
 [license]: https://firstdonoharm.dev/
