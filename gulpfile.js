@@ -90,8 +90,14 @@ async function html () {
 
   const html = gulp.src(paths.html.output)
     .pipe(beautify.html(options)) // Beautify
+    //
+    // TODO: inline critical CSS
+    // https://github.com/addyosmani/critical
+    // https://github.com/addyosmani/critical-path-css-demo/blob/dca7ec42c6b9d7bb2d8425c4055aabc753c1a6ac/gulpfile.js#L100-L111
+    //
     // TODO: validate HTML
     // https://www.npmjs.com/package/html-validator
+    //
     .pipe(gulp.dest(paths.html.dest))
     .pipe(connect.reload())
 

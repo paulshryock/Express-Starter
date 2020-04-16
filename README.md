@@ -4,9 +4,13 @@
 
 [![JWT Compatible][jwt-compatible-icon]][jwt]
 
-Fork this repository to start a new project with Mongoose, Express, Eleventy, and Node. Includes a CRUD server-side API with authentication and authorization, and JAMstack client website.
+This starter kit consists of an Express REST API with CRUD capabilities, powered by a Node server, connected to a MongoDB database by Mongoose, and hosted on Heroku. This powers a client-side JAMstack static website built with Eleventy, Gulp, and Webpack, hosted on Netlify, deployed to a CDN. The full stack has CI/CD setup - deploy by merging a pull request into the master branch on GitHub.
+
+Sass is linted, transpiled into CSS, post-processed with PostCSS, beautified in development, and minified in production, with source maps. JavaScript is linted, transpiled with Babel, concatenated, and minified in production, with source maps.
 
 This is an open source project which uses the [The Hippocratic License][license].
+
+[NewProjectStarterKit.com][npsk]
 
 ## Quick Start
 
@@ -14,7 +18,7 @@ This is an open source project which uses the [The Hippocratic License][license]
 
 1. Node
   - Check if Node is installed: `node --version`
-  - If you see a version number, such as `v11.6.0`, proceed to [Get Started](#get-started)
+  - If you see a version number, such as `v12.11.1`, proceed to [Get Started](#get-started)
   - If Node isn't installed, [download][node-download] and install it, then proceed to [Get Started](#get-started)
 
 ### Get Started
@@ -44,6 +48,7 @@ If you'd like to contribute, please read the [Code of Conduct][code-of-conduct] 
 [standard]: https://standardjs.com
 [jwt]: https://jwt.io/
 [jwt-compatible-icon]: http://jwt.io/img/badge-compatible.svg
+[npsk]: https://newprojectstarterkit.com/
 [license]: https://firstdonoharm.dev/
 [node-download]: https://nodejs.org/en/download/
 [pkg]: package.json

@@ -3,7 +3,7 @@
     "environment": ""
   },
   "app": {
-    "title": "Express API - development",
+    "title": "NPSK REST API - development",
     "url": ""
   },
   "jwtPrivateKey": "",
