@@ -18,7 +18,7 @@ This is an open source project which uses the [The Hippocratic License][license]
 
 1. Node
   - Check if Node is installed: `node --version`
-  - If you see a version number, such as `v11.6.0`, proceed to [Get Started](#get-started)
+  - If you see a version number, such as `v12.11.1`, proceed to [Get Started](#get-started)
   - If Node isn't installed, [download][node-download] and install it, then proceed to [Get Started](#get-started)
 
 ### Get Started
